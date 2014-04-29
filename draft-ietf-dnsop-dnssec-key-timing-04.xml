@@ -280,7 +280,7 @@
           </list>
         </t>
 
-        <t>Of three methods, Double-Signature is conceptually the simplest
+        <t>Of the three methods, Double-Signature is conceptually the simplest
         - introduce the new key and new signatures, then approximately one
         TTL later remove the old key and old signatures.  Pre-Publication
         is more complex - introduce the new key, approximately one TTL
