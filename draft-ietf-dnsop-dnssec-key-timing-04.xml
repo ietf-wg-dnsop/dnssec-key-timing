@@ -255,8 +255,9 @@
             at least one signature to be validated.
             <vspace blankLines="1"/>
             Once the signing process is complete and
-            enough time has elapsed to allow all old information to
-            expire from caches, the old key and signatures can be
+            enough time has elapsed to make sure that all validators that
+            have the DNSKEY and signatures in cache, have both the old
+            and new information, the old key and signatures can be
             removed from the zone. As before, during this period any
             combination of DNSKEY RRset and RRSIG will allow
             validation of at least one signature.</t>
