@@ -727,7 +727,7 @@ Key N+1   |         |         |         |<-----------Lzsk------- - -
           its intended lifetime (Lzsk), the successor key (key N+1) is
           introduced into the zone and starts being used to sign RRsets:
           neither the current key nor the signatures created with it are
-          removed.  The successor is key is now active and the current
+          removed.  The successor key is now active and the current
           key is said to be retired. This time is the retire time of the
           key Tret(key); it is also the activation time of the successor key
           TactS(key). </t>
