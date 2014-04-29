@@ -510,7 +510,7 @@ Key N+1    |<-Ipub(key)->|          |<-----------Lzsk----- - -
 
           <t>Event 2: Key N's DNSKEY record is put into the zone,
           i.e., it is added to the DNSKEY RRset which is then re-signed
-          with the current key-signing key. The time at which this
+          with the current active key-signing keys. The time at which this
           occurs is the key's publication time Tpub(key), and the key is
           now said to be published.  Note that the key is not yet used
           to sign records. </t>
