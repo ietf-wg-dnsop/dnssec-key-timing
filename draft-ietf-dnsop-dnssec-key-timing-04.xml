@@ -411,11 +411,11 @@
             states. In the rest of this section, the term "key data" should
             be taken to mean "key or associated information".</t>
 
-            <t hangText="Ready">The new key data has been published for long
+            <t hangText="Ready">The new data has been published for long
             enough to guarantee that any previous versions of the DNSKEY RRset
             have expired from caches.</t>
 
-            <t hangText="Active">The key has started to be used to sign
+            <t hangText="Active">The key is published and has started to be used to sign
             RRsets. Note that when this state is entered, it may not be
             possible for validating resolvers to use the key for validation
             in all cases: the zone signing may not have
@@ -430,12 +430,12 @@
             using this key, it is being retained in the zone until they
             have expired.</t>
 
-            <t hangText="Dead">The key is published in the zone but
+            <t hangText="Dead">The key (or associated data) is published in the zone but
             there is no longer information anywhere that requires its
             presence.  Hence the key can be removed from the zone at
             any time.</t>
 
-            <t hangText="Removed">The key has been removed from the
+            <t hangText="Removed">The key (or associated data) has been removed from the
             zone.</t>
           </list>
         </t>
