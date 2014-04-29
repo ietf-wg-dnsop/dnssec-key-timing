@@ -528,7 +528,7 @@ Key N+1    |<-Ipub(key)->|          |<-----------Lzsk----- - -
           </t>
 
           <t>Here, Dprp is the propagation delay - the time taken
-          in the worst-case situation for a change introduced at
+          for a change introduced at
           the master to replicate to all
           slave servers - which depends on the depth of the
           master-slave hierarchy. TTL(key) is the time-to-live (TTL) for
