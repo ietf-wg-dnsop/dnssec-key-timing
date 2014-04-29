@@ -174,7 +174,7 @@
         <xref target="RFC6781"/>.  In contrast,
         this document focuses on the low-level timing detail of
         two classes of operations described there, the rollover
-        of key-signing keys, and the rollover of zone signing keys.</t>
+        of key-signing keys, and the rollover of zone-signing keys.</t>
 
 
       </section>
