@@ -704,7 +704,8 @@ Key N+1   |         |         |         |<-----------Lzsk------- - -
 
           <t>Event 2: Key N is added to the DNSKEY RRset and is
           then used to sign the zone; existing signatures in
-          the zone are not removed. This is the activation time
+          the zone are not removed. The key is said to be published.
+          This is also the activation time
           Tact(key), after which the key is said to be active.</t>
 
           <t>Event 3: At some time after that, all records in the zone are
