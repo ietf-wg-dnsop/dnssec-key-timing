@@ -622,8 +622,8 @@ Key N+1    |<-Ipub(key)->|          |<-----------Lzsk----- - -
           <t>Event 9: The retired key needs to be retained in the zone
           whilst any RRSIG records created using this key are still
           published in the zone or held in caches. (It is
-          possible that a validating resolver could have an unexpired RRSIG
-          record and an expired DNSKEY RRset in the cache when it is
+          possible that a validating resolver could have an old RRSIG
+          record in the cache, but the old DNSKEY RRset has expired when it is
           asked to provide both to a client. In this case the DNSKEY
           RRset would need to be looked up again.) This means that
           once the key is no longer used to sign records, it should be
