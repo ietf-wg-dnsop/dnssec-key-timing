@@ -660,7 +660,7 @@ Key N+1    |<-Ipub(key)->|          |<-----------Lzsk----- - -
           the removal time (Trem), given by:</t>
           <t>
             <list hangIndent="10" style="empty">
-              <t>Trem &gt;= Tdea</t>
+              <t>Trem(key) &gt;= Tdea(key)</t>
             </list>
           </t>
 
