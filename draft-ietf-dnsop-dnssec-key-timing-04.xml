@@ -553,6 +553,11 @@ Key N+1    |<-Ipub(key)->|          |<-----------Lzsk----- - -
           <t>Event 4: At some later time, the key starts being used to
           sign RRsets. This point is the activation time Tact(key) and after
           this, the key is said to be active.</t>
+          <t>
+            <list hangIndent="10" style="empty">
+              <t>Tact(key) &gt;= Trdy(key)</t>
+            </list>
+          </t>
 
           <t>Event 5: At some time after that, all records in the zone are
           signed with the new key and the key is said to be in operation.
