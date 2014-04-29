@@ -294,8 +294,8 @@
       <section title="KSK Rollovers">
 
         <t>For ZSKs, the issue for the validating resolver is to
-        ensure that it has access to the ZSK that corresponds to a
-        particular signature. In the KSK case, this can never be a
+        ensure that it has access to a particular signature that
+        corresponds to a ZSK. In the KSK case, this can never be a
         problem as the KSK is only used for one signature (that over
         the DNSKEY RRset) and both the key and the signature travel
         together. Instead, the issue is to ensure that the KSK is
