@@ -241,7 +241,7 @@
             created with the new key, there is an interval during
             which RRSIG records created with the old key expire from
             caches. After this, there will be no signatures
-            anywhere that were created using the old key, and it can
+            anywhere that were created using the old key, and it
             can be removed from the DNSKEY RRset. </t>
 
             <t>Double-Signature: also mentioned in <xref
