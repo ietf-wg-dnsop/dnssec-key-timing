@@ -174,7 +174,7 @@
         <xref target="RFC6781"/>.  In contrast,
         this document focuses on the low-level timing detail of
         two classes of operations described there, the rollover
-        of key-signing keys, and the rollover of zone signing keys.</t>
+        of key-signing keys, and the rollover of zone-signing keys.</t>
 
 
       </section>
@@ -241,7 +241,7 @@
             created with the new key, there is an interval during
             which RRSIG records created with the old key expire from
             caches. After this, there will be no signatures
-            anywhere that were created using the old key, and it can
+            anywhere that were created using the old key, and it
             can be removed from the DNSKEY RRset. </t>
 
             <t>Double-Signature: also mentioned in <xref
@@ -255,8 +255,9 @@
             at least one signature to be validated.
             <vspace blankLines="1"/>
             Once the signing process is complete and
-            enough time has elapsed to allow all old information to
-            expire from caches, the old key and signatures can be
+            enough time has elapsed to make sure that all validators that
+            have the DNSKEY and signatures in cache, have both the old
+            and new information, the old key and signatures can be
             removed from the zone. As before, during this period any
             combination of DNSKEY RRset and RRSIG will allow
             validation of at least one signature.</t>
@@ -279,7 +280,7 @@
           </list>
         </t>
 
-        <t>Of three methods, Double-Signature is conceptually the simplest
+        <t>Of the three methods, Double-Signature is conceptually the simplest
         - introduce the new key and new signatures, then approximately one
         TTL later remove the old key and old signatures.  Pre-Publication
         is more complex - introduce the new key, approximately one TTL
@@ -293,8 +294,8 @@
       <section title="KSK Rollovers">
 
         <t>For ZSKs, the issue for the validating resolver is to
-        ensure that it has access to the ZSK that corresponds to a
-        particular signature. In the KSK case, this can never be a
+        ensure that it has access to a particular signature that
+        corresponds to a ZSK. In the KSK case, this can never be a
         problem as the KSK is only used for one signature (that over
         the DNSKEY RRset) and both the key and the signature travel
         together. Instead, the issue is to ensure that the KSK is
@@ -410,11 +411,11 @@
             states. In the rest of this section, the term "key data" should
             be taken to mean "key or associated information".</t>
 
-            <t hangText="Ready">The new key data has been published for long
+            <t hangText="Ready">The new data has been published for long
             enough to guarantee that any previous versions of the DNSKEY RRset
             have expired from caches.</t>
 
-            <t hangText="Active">The key has started to be used to sign
+            <t hangText="Active">The key is published and has started to be used to sign
             RRsets. Note that when this state is entered, it may not be
             possible for validating resolvers to use the key for validation
             in all cases: the zone signing may not have
@@ -429,12 +430,12 @@
             using this key, it is being retained in the zone until they
             have expired.</t>
 
-            <t hangText="Dead">The key is published in the zone but
+            <t hangText="Dead">The key (or associated data) is published in the zone but
             there is no longer information anywhere that requires its
             presence.  Hence the key can be removed from the zone at
             any time.</t>
 
-            <t hangText="Removed">The key has been removed from the
+            <t hangText="Removed">The key (or associated data) has been removed from the
             zone.</t>
           </list>
         </t>
@@ -476,7 +477,7 @@
               <![CDATA[
          |1|       |2|           |3|      |4|      |5|
           |         |             |        |        |
-Key N     |         |<-Ipub(key)->|<------>|<---Lzsk--- - - -
+Key N     |         |<-Ipub(key)->|        |<---Lzsk--- - - -
           |         |             |        |        |
 Key N+1   |         |             |        |        |
           |         |             |        |        |
@@ -509,7 +510,7 @@ Key N+1    |<-Ipub(key)->|          |<-----------Lzsk----- - -
 
           <t>Event 2: Key N's DNSKEY record is put into the zone,
           i.e., it is added to the DNSKEY RRset which is then re-signed
-          with the current key-signing key. The time at which this
+          with the current active key-signing keys. The time at which this
           occurs is the key's publication time Tpub(key), and the key is
           now said to be published.  Note that the key is not yet used
           to sign records. </t>
@@ -527,10 +528,9 @@ Key N+1    |<-Ipub(key)->|          |<-----------Lzsk----- - -
           </t>
 
           <t>Here, Dprp is the propagation delay - the time taken
-          in the worst-case situation for a change introduced at
-          the master to replicate to all
-          slave servers - which depends on the depth of the
-          master-slave hierarchy. TTL(key) is the time-to-live (TTL) for
+          for a change introduced at
+          the master to replicate to all name servers.
+          TTL(key) is the time-to-live (TTL) for
           the DNSKEY records in the zone. The sum is therefore the
           maximum time taken for existing DNSKEY records to expire from
           caches, regardless of the
@@ -552,6 +552,11 @@ Key N+1    |<-Ipub(key)->|          |<-----------Lzsk----- - -
           <t>Event 4: At some later time, the key starts being used to
           sign RRsets. This point is the activation time Tact(key) and after
           this, the key is said to be active.</t>
+          <t>
+            <list hangIndent="10" style="empty">
+              <t>Tact(key) &gt;= Trdy(key)</t>
+            </list>
+          </t>
 
           <t>Event 5: At some time after that, all records in the zone are
           signed with the new key and the key is said to be in operation.
@@ -604,7 +609,7 @@ Key N+1    |<-Ipub(key)->|          |<-----------Lzsk----- - -
 
           <t>
             <list hangIndent="10" style="empty">
-              <t>Tret(key) = Tact(key) + Lzsk</t>
+              <t>Tret(key) &gt;= Tact(key) + Lzsk</t>
             </list>
           </t>
 
@@ -616,8 +621,8 @@ Key N+1    |<-Ipub(key)->|          |<-----------Lzsk----- - -
           <t>Event 9: The retired key needs to be retained in the zone
           whilst any RRSIG records created using this key are still
           published in the zone or held in caches. (It is
-          possible that a validating resolver could have an unexpired RRSIG
-          record and an expired DNSKEY RRset in the cache when it is
+          possible that a validating resolver could have an old RRSIG
+          record in the cache, but the old DNSKEY RRset has expired when it is
           asked to provide both to a client. In this case the DNSKEY
           RRset would need to be looked up again.) This means that
           once the key is no longer used to sign records, it should be
@@ -655,7 +660,7 @@ Key N+1    |<-Ipub(key)->|          |<-----------Lzsk----- - -
           the removal time (Trem), given by:</t>
           <t>
             <list hangIndent="10" style="empty">
-              <t>Trem &gt;= Tdea</t>
+              <t>Trem(key) &gt;= Tdea(key)</t>
             </list>
           </t>
 
@@ -699,7 +704,8 @@ Key N+1   |         |         |         |<-----------Lzsk------- - -
 
           <t>Event 2: Key N is added to the DNSKEY RRset and is
           then used to sign the zone; existing signatures in
-          the zone are not removed. This is the activation time
+          the zone are not removed. The key is said to be published.
+          This is also the activation time
           Tact(key), after which the key is said to be active.</t>
 
           <t>Event 3: At some time after that, all records in the zone are
@@ -721,7 +727,7 @@ Key N+1   |         |         |         |<-----------Lzsk------- - -
           its intended lifetime (Lzsk), the successor key (key N+1) is
           introduced into the zone and starts being used to sign RRsets:
           neither the current key nor the signatures created with it are
-          removed.  The successor is key is now active and the current
+          removed.  The successor key is now active and the current
           key is said to be retired. This time is the retire time of the
           key Tret(key); it is also the activation time of the successor key
           TactS(key). </t>
@@ -775,7 +781,7 @@ Key N+1   |         |         |         |<-----------Lzsk------- - -
 
           <t>
             <list hangIndent="10" style="empty">
-              <t>Trem(key &gt;= Tdea(key)</t>
+              <t>Trem(key) &gt;= Tdea(key)</t>
             </list>
           </t>
         </section>
