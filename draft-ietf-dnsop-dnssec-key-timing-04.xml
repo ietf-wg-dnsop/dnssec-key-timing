@@ -781,7 +781,7 @@ Key N+1   |         |         |         |<-----------Lzsk------- - -
 
           <t>
             <list hangIndent="10" style="empty">
-              <t>Trem(key &gt;= Tdea(key)</t>
+              <t>Trem(key) &gt;= Tdea(key)</t>
             </list>
           </t>
         </section>
