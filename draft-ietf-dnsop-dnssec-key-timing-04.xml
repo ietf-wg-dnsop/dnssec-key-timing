@@ -529,9 +529,8 @@ Key N+1    |<-Ipub(key)->|          |<-----------Lzsk----- - -
 
           <t>Here, Dprp is the propagation delay - the time taken
           for a change introduced at
-          the master to replicate to all
-          slave servers - which depends on the depth of the
-          master-slave hierarchy. TTL(key) is the time-to-live (TTL) for
+          the master to replicate to all name servers.
+          TTL(key) is the time-to-live (TTL) for
           the DNSKEY records in the zone. The sum is therefore the
           maximum time taken for existing DNSKEY records to expire from
           caches, regardless of the
