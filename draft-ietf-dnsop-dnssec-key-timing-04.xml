@@ -1095,8 +1095,8 @@ Key N+1  -Ipub(key)->|          |<--Dreg->|<------Lzsk----- - - - -
           </t>
 
           <t>This time is also the operation time of the successor ToprS(key),
-          the removal time of the DS record Trem(DS) and the publication time
-          of the successor DS record TpubS(DS).</t>
+          the removal time of the DS record Trem(ds) and the publication time
+          of the successor DS record TpubS(ds).</t>
 
            <t>Event 10: Key N must remain in the zone until any
           caches that contain a copy of the DS RRset have a copy containing
