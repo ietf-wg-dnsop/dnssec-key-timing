@@ -1206,7 +1206,7 @@ Key N+1 - -Dreg->|<-Ipub(ds)->|         |<----------Lksk------ - -
 
           <t>
             <list hangIndent="10" style="empty">
-              <t>Trdy(key) = Tpub(ds) + IpubP(ds)</t>
+              <t>Trdy(key) = Tpub(ds) + Ipub(ds)</t>
             </list>
           </t>
 
