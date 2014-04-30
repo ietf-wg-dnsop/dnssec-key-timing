@@ -1064,7 +1064,7 @@ Key N+1  -Ipub(key)->|          |<--Dreg->|<------Lzsk----- - - - -
           scheduled end of the KSK lifetime, the successor KSK is
           published in the zone. (As before, this means that the DNSKEY
           RRset is
-          signed by both the current and successor KSK.) This time is the
+          signed by all active KSKs.) This time is the
           publication time of the successor key, TpubS(key), given by:</t>
          <t>
             <list hangIndent="10" style="empty">
