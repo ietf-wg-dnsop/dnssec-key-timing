@@ -1012,7 +1012,7 @@ Key N+1  -Ipub(key)->|          |<--Dreg->|<------Lzsk----- - - - -
           in other words, that any prior cached information about the
           DNSKEY RRset has expired.</t>
 
-          <t>The interval is the publication interval (Ipub) and, for
+          <t>The interval is the publication interval (Ipub(key)) and, for
           the second or subsequent KSKs in the zone, is given by:</t>
           <t>
             <list hangIndent="10" style="empty">
