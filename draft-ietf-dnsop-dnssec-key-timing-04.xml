@@ -954,7 +954,7 @@ Key N+1 |  |        |   |  |         |<-IpubG->|  |        |   |
 
           <t>The timeline for a double-signature rollover is shown below.
           The diagram follows the convention described in
-          <xref target="zsk_prepublication"/></t>
+          <xref target="zsk_prepublication"/>.</t>
 
           <figure align="center" anchor="double_dnskey_ksk_rollover"
             title="Timeline for a Double-Signature KSK rollover.">
