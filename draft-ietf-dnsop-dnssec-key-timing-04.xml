@@ -954,7 +954,7 @@ Key N+1 |  |        |   |  |         |<-IpubG->|  |        |   |
 
           <t>The timeline for a double-signature rollover is shown below.
           The diagram follows the convention described in
-          <xref target="zsk_prepublication"/></t>
+          <xref target="zsk_prepublication"/>.</t>
 
           <figure align="center" anchor="double_dnskey_ksk_rollover"
             title="Timeline for a Double-Signature KSK rollover.">
@@ -1012,7 +1012,7 @@ Key N+1  -Ipub(key)->|          |<--Dreg->|<------Lzsk----- - - - -
           in other words, that any prior cached information about the
           DNSKEY RRset has expired.</t>
 
-          <t>The interval is the publication interval (Ipub) and, for
+          <t>The interval is the publication interval (Ipub(key)) and, for
           the second or subsequent KSKs in the zone, is given by:</t>
           <t>
             <list hangIndent="10" style="empty">
@@ -1064,7 +1064,7 @@ Key N+1  -Ipub(key)->|          |<--Dreg->|<------Lzsk----- - - - -
           scheduled end of the KSK lifetime, the successor KSK is
           published in the zone. (As before, this means that the DNSKEY
           RRset is
-          signed by both the current and successor KSK.) This time is the
+          signed by all active KSKs.) This time is the
           publication time of the successor key, TpubS(key), given by:</t>
          <t>
             <list hangIndent="10" style="empty">
@@ -1095,8 +1095,8 @@ Key N+1  -Ipub(key)->|          |<--Dreg->|<------Lzsk----- - - - -
           </t>
 
           <t>This time is also the operation time of the successor ToprS(key),
-          the removal time of the DS record Trem(DS) and the publication time
-          of the successor DS record TpubS(DS).</t>
+          the removal time of the DS record Trem(ds) and the publication time
+          of the successor DS record TpubS(ds).</t>
 
            <t>Event 10: Key N must remain in the zone until any
           caches that contain a copy of the DS RRset have a copy containing
@@ -1206,7 +1206,7 @@ Key N+1 - -Dreg->|<-Ipub(ds)->|         |<----------Lksk------ - -
 
           <t>
             <list hangIndent="10" style="empty">
-              <t>Trdy(key) = Tpub(ds) + IpubP(ds)</t>
+              <t>Trdy(key) = Tpub(ds) + Ipub(ds)</t>
             </list>
           </t>
 
