@@ -604,7 +604,7 @@ Key N+1    |<-Ipub(key)->|          |<-----------Lzsk----- - -
 
           <t>
             <list hangIndent="10" style="empty">
-              <t>Tret(key) &gt;= Tact(key) + Lzsk</t>
+              <t>Tret(key) = Tact(key) + Lzsk</t>
             </list>
           </t>
 
