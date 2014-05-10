@@ -282,13 +282,26 @@
 
         <t>Of the three methods, Double-Signature is conceptually the simplest
         - introduce the new key and new signatures, then approximately one
-        TTL later remove the old key and old signatures.  Pre-Publication
-        is more complex - introduce the new key, approximately one TTL
-        later sign the records, and approximately one TTL after that
-        remove the old key. Double-RRSIG is essentially the reverse of
-        Pre-Publication - introduce the new signatures, approximately one
-        TTL later change the key, and approximately one TTL after that
-        remove the old signatures.</t>
+        TTL later remove the old key and old signatures.  It is also the
+        fastest, but suffers from increasing the size of the zone and
+        the size of responses.</t>
+
+        <t>Pre-Publication is more complex - introduce the new key,
+        approximately one TTL later sign the records, and approximately
+        one TTL after that remove the old key. It does however keep the
+        zone and response sizes to a minimum.</t>
+ 
+        <t>Double-RRSIG is essentially
+        the reverse of Pre-Publication - introduce the new signatures,
+        approximately one TTL later change the key, and approximately
+        one TTL after that remove the old signatures. However, it
+        has the disadvantage of the Pre-Publication method in terms
+        of time taken to perform the rollover, the disadvantage of the
+        Double-Signature rollover in terms of zone and response sizes,
+        and none of the advantages of either. For these reasons, it
+        is unlikely to be used in any real-world situations, and so
+        will not be considered further in this document.</t>
+
       </section>
 
       <section title="KSK Rollovers">
@@ -374,9 +387,6 @@
           <c>Double-Signature</c>
           <c>Publish the DNSKEY and RRSIGs at same time. For a KSK,
           this happens before the DS is published.</c>
-          <c>Double-RRSIG</c>
-          <c>(not applicable)</c>
-          <c>Publish RRSIGs before the DNSKEY.</c>
           <c>(not applicable)</c>
           <c>Double-DS</c>
           <c>Publish DS before the DNSKEY.</c>
@@ -475,19 +485,19 @@
             <preamble/>
             <artwork align="center">
               <![CDATA[
-         |1|       |2|           |3|      |4|      |5|
-          |         |             |        |        |
-Key N     |         |<-Ipub(key)->|        |<---Lzsk--- - - -
-          |         |             |        |        |
-Key N+1   |         |             |        |        |
-          |         |             |        |        |
-      Tgen(key) Tpub(key)    Trdy(key) Tact(key) Topr(key)
+         |1|       |2|           |3|      |4|
+          |         |             |        |
+Key N     |         |<-Ipub(key)->|        |<---Lzsk--- - -
+          |         |             |        |
+Key N+1   |         |             |        |
+          |         |             |        |
+      Tgen(key) Tpub(key)    Trdy(key) Tact(key)
 
                         ---- Time ---->
 
 (continued ...)
 
-          |6|           |7|        |8|           |9|       |10|
+          |5|           |6|        |7|           |8|       |9|
            |             |          |             |         |
 Key N  - - --------Lzsk------------>|<-Iret(key)->|         |
            |             |          |             |         |
@@ -558,22 +568,7 @@ Key N+1    |<-Ipub(key)->|          |<-----------Lzsk----- - -
             </list>
           </t>
 
-          <t>Event 5: At some time after that, all records in the zone are
-          signed with the new key and the key is said to be in operation.
-          This time is the key's operation time Topr(key), given by:</t>
-          <t>
-            <list hangIndent="10" style="empty">
-              <t>Topr(key) = Tact(key) + Dsgn</t>
-            </list>
-          </t>
-          <t>... where Dsgn is the signing delay, the time taken to sign all
-          records in the zone. (It is possible for Dsgn to be zero, e.g. in
-          the case of external signing, where an updated zone and all its
-          signatures are loaded at the same time.  In this case, the activation
-          and operation times for the new key are the same, the time at which
-          the server starts serving the updated zone.)</t>
-
-          <t>Event 6: At some point  thought must be given to its successor
+          <t>Event 5: At some point thought must be given to its successor
           (key N+1). As with the introduction of the currently active key
           into the zone, the successor key will need to be published at least
           Ipub(key) before it is activated. Denoting the publication time of the
@@ -597,11 +592,11 @@ Key N+1    |<-Ipub(key)->|          |<-----------Lzsk----- - -
           inequality means that the event could occur at any point
           on the diagram to the left of where it is shown.)</t>
 
-          <t>Event 7: While key N is still active, its successor becomes
+          <t>Event 6: While key N is still active, its successor becomes
           ready. From this time onwards, key N+1 could be used to
           sign the zone.</t>
 
-          <t>Event 8: When key N has been in use for an interval equal to
+          <t>Event 7: When key N has been in use for an interval equal to
           the ZSK lifetime, it is retired (i.e., it will never again be
           used to generate new signatures) and key N+1 activated and used
           to sign the zone.  This is Tret(key), the retire time of key N,
@@ -609,7 +604,7 @@ Key N+1    |<-Ipub(key)->|          |<-----------Lzsk----- - -
 
           <t>
             <list hangIndent="10" style="empty">
-              <t>Tret(key) &gt;= Tact(key) + Lzsk</t>
+              <t>Tret(key) = Tact(key) + Lzsk</t>
             </list>
           </t>
 
@@ -618,7 +613,7 @@ Key N+1    |<-Ipub(key)->|          |<-----------Lzsk----- - -
           for longer than Lzsk; if so, the retirement actually occurs when
           the successor key is made active. </t>
 
-          <t>Event 9: The retired key needs to be retained in the zone
+          <t>Event 8: The retired key needs to be retained in the zone
           whilst any RRSIG records created using this key are still
           published in the zone or held in caches. (It is
           possible that a validating resolver could have an old RRSIG
@@ -635,12 +630,14 @@ Key N+1    |<-Ipub(key)->|          |<-----------Lzsk----- - -
             </list>
           </t>
 
-          <t>As noted above, Dsgn is the delay needed to ensure that all
-          existing RRsets have been re-signed with the new key, Dprp is
-          the propagation delay, required to
+          <t>Dsgn is the delay needed to ensure that all existing RRsets
+          have been re-signed with the new key. (It is possible for Dsgn
+          to be zero, e.g. in the case of a zone that was signed offline
+          being loaded and making all the new signatures available at
+          the same time.)  Dprp is the propagation delay, required to
           guarantee that the updated zone information has reached all
-          slave servers, and TTL(sig) is the maximum TTL of all the RRSIG
-          records in the zone created with the retiring key.</t>
+          slave servers, and TTL(sig) is the maximum TTL of all the
+          RRSIG records in the zone created with the retiring key.</t>
 
           <t>The time at which all RRSIG records created with this key
           have expired from resolver caches is Tdea(key), the dead time,
@@ -654,7 +651,7 @@ Key N+1    |<-Ipub(key)->|          |<-----------Lzsk----- - -
 
           <t>... at which point the key is said to be dead.</t>
 
-          <t>Event 10: At any time after the key becomes dead, it can
+          <t>Event 9: At any time after the key becomes dead, it can
           be removed from the zone's DNSKEY RRset, which must then
           be re-signed with the current key-signing key. This time is
           the removal time (Trem), given by:</t>
@@ -666,6 +663,7 @@ Key N+1    |<-Ipub(key)->|          |<-----------Lzsk----- - -
 
           <t>... at which time the key is said to be removed.</t>
         </section>
+
         <section title="Double-Signature Method" anchor="zsk_doublesignature">
           <t>In this rollover, a new key is introduced and used to sign the
           zone; the old key and signatures are retained.  Once all cached DNSKEY
@@ -681,16 +679,17 @@ Key N+1    |<-Ipub(key)->|          |<-----------Lzsk----- - -
             <preamble/>
             <artwork align="center">
               <![CDATA[
-         |1|       |2|       |3|       |4|           |5|       |6|
-          |         |         |         |             |         |
-Key N     |         |<-------Lzsk------>|<-Iret(key)->|         |
-          |         |         |         |             |         |
-Key N+1   |         |         |         |<-----------Lzsk------- - -
-          |         |         |         |             |         |
-      Tgen(key) Tact(key) Topr(key) Tret(key)    Tdea(key) Trem(key)
-                                    TactS(key)
+         |1|         |2|          |3|           |4|         |5|
+          |           |            |             |           |
+Key N     |           |<---Lzsk--->|<-Iret(key)->|           |
+          |           |            |             |           |
+Key N+1   |           |            |<-----------Lzsk--------- - -
+          |           |            |             |           |
+      Tgen(key)   Tpub(key)    Tret(key)    Tdea(key)   Trem(key)
+                  Tact(key)    TpubS(key)
+                               TactS(key)
 
-                     ---- Time ---->]]>
+                            ---- Time ---->]]>
             </artwork>
           </figure>
           <t>Event 1: Key N is generated at the generate time
@@ -702,35 +701,20 @@ Key N+1   |         |         |         |<-----------Lzsk------- - -
           event.  Keys that are available for use but not published
           are said to be generated.</t>
 
-          <t>Event 2: Key N is added to the DNSKEY RRset and is
-          then used to sign the zone; existing signatures in
-          the zone are not removed. The key is said to be published.
-          This is also the activation time
-          Tact(key), after which the key is said to be active.</t>
+          <t>Event 2: Key N is added to the DNSKEY RRset and is then
+          used to sign the zone; existing signatures in the zone are
+          not removed. The key is said to be published and this is the
+          publication time Tpub(key).  It is also the the key's activation
+          time Tact(key), after which the key is also said to be active.</t>
 
-          <t>Event 3: At some time after that, all records in the zone are
-          signed with the new key and the key is said to be in operation.
-          This is the key's operation time Topr(key), given by:</t>
-          <t>
-            <list hangIndent="10" style="empty">
-              <t>Topr(key) = Tact(key) + Dsgn</t>
-            </list>
-          </t>
-          <t>... where Dsgn is the signing delay, the time taken to sign all
-          records in the zone. (It is possible for Dsgn to be zero, e.g. in
-          the case of external signing, where an updated zone and all its
-          signatures are loaded at the same time.  In this case, the activation
-          and operation times for the new key are the same, the time at which
-          the server starts serving the updated zone.)</t>
-
-          <t>Event 4: After the current key (key N) has been in use for
+          <t>Event 3: After the current key (key N) has been in use for
           its intended lifetime (Lzsk), the successor key (key N+1) is
           introduced into the zone and starts being used to sign RRsets:
           neither the current key nor the signatures created with it are
           removed.  The successor key is now active and the current
           key is said to be retired. This time is the retire time of the
           key Tret(key); it is also the activation time of the successor key
-          TactS(key). </t>
+          TactS(key) (as well as its publication time TpubS(key)). </t>
 
           <t>
             <list hangIndent="10" style="empty">
@@ -738,7 +722,7 @@ Key N+1   |         |         |         |<-----------Lzsk------- - -
             </list>
           </t>
 
-          <t>Event 5: Before key N can be withdrawn from the zone, all
+          <t>Event 4: Before key N can be withdrawn from the zone, all
           RRsets that need to be signed must have been signed by the
           successor key (key N+1) and any old RRsets that do not
           include the new key or new RRSIGs must have expired from caches.
@@ -750,7 +734,7 @@ Key N+1   |         |         |         |<-----------Lzsk------- - -
 
           <t>
             <list hangIndent="10" style="empty">
-              <t>Iret(key) = Dsgn + Dprp + max(TTLkey, TTLsig)</t>
+              <t>Iret(key) = Dsgn + Dprp + max(TTL(key), TTL(sig))</t>
             </list>
           </t>
 
@@ -766,7 +750,13 @@ Key N+1   |         |         |         |<-----------Lzsk------- - -
           associated RRset <xref target="RFC4034"/>, the DNSKEY RRset
           only needs to be signed with the KSK.)</t>
 
-          <t>  At the end of this interval, key N is said to be
+          <t>During this interval, key N may still be required to sign
+          RRsets: it is possible for signatures to expire while caches
+          still contain the original DNSKEY RRset. In this case, it is
+          important that the signature RRset contains a valid signature
+          created from the original key. </t>
+
+          <t>  At the end of the interval, key N is said to be
           dead. This occurs at the dead time Tdea(key) so:</t>
 
           <t>
@@ -775,7 +765,7 @@ Key N+1   |         |         |         |<-----------Lzsk------- - -
             </list>
           </t>
 
-          <t>Event 6: At some later time key N and the signatures
+          <t>Event 5: At some later time key N and the signatures
           generated with it can be removed from the zone. This is
           the removal time Trem(key), given by:</t>
 
@@ -784,159 +774,6 @@ Key N+1   |         |         |         |<-----------Lzsk------- - -
               <t>Trem(key) &gt;= Tdea(key)</t>
             </list>
           </t>
-        </section>
-        <section title="Double-RRSIG Method">
-          <t>The double-RRSIG rollover is essentially the opposite of
-          the pre-publication method.  There, the new DNSKEY was
-          added, the RRSIGs replaced, and the old DNSKEY removed.  Here
-          the new RRSIGs are added, the DNSKEY is replaced and the
-          old RRSIGS are removed.</t>
-
-          <t>The timeline for a double-RRSIG rollover is shown below.
-          The diagram follows the convention described in
-          <xref target="zsk_prepublication"/></t>
-
-          <figure align="center" anchor="doublerrsig_zsk_rollover"
-            title="Timeline for a Double-Signature ZSK rollover.">
-            <preamble/>
-            <artwork align="center">
-              <![CDATA[
-       |1||2|      |3| |4||5|       |6|       |7||8|      |9| |10|
-        |  |        |   |  |         |         |  |        |   |
-Key N   |  |<-Dsgn->|   |  |<--------Lzsk-------->|<-Iret->|   |
-        |  |<---IpubG-->|  |         |         |  |        |   |
-        |  |        |   |  |         |         |  |        |   |
-Key N+1 |  |        |   |  |         |<-IpubG->|  |        |   |
-        |  |        |   |  |         |         |  |        |   |
-     Tgen Tpub        Trdy Tact    TpubS    TrdyS Tret   Tdea Trem
-
-                           ---- Time ---->]]>
-            </artwork>
-          </figure>
-          <t>Event 1: Key N is generated at the generate time
-          (Tgen). Although there is no reason why the key cannot be
-          generated immediately prior to its use,
-          (Event 2), some implementations may find it convenient to
-          create a pool of keys in one operation and draw from that
-          pool as required. For this reason, it is shown as a separate
-          event.  Keys that are available for use but not published
-          are said to be generated.</t>
-
-          <t>Event 2: Key N is used to sign the zone but existing
-          signatures are retained. Although the new ZSK is not
-          published in the zone at this point, for analogy with the
-          other ZSK rollover methods and because this is the first
-          time that key information is visible (albeit indirectly
-          through the created signatures) this time is called the
-          publication time (Tpub).</t>
-
-          <t>Event 3: After the signing interval, Dsgn, all RRsets
-          that need to be signed have been signed by the new key. (As
-          a result, all these RRsets are now signed twice, once by the
-          (still-absent) key N and once by its predecessor.</t>
-
-          <t>Event 4: There is now a delay while the old signature
-          information expires from caches. This interval is given by the
-          expression:</t>
-
-          <t>
-            <list hangIndent="10" style="empty">
-              <t>Dprp + TTLsig</t>
-            </list>
-          </t>
-
-          <t>As before, Dprp is the propagation delay and TTLsig is the
-          maximum TTL of all the RRSIG records in the zone created with
-          the ZSK.</t>
-
-          <t>Again in analogy with other key rollover methods, this is
-          defined as key N's ready time (Trdy) and the key is said to
-          be in the ready state. (Although the key is not in the zone,
-          it is ready to be used.) The interval between the
-          publication and ready times is the publication interval of
-          the signature, IpubG, i.e.,</t>
-
-          <t>
-            <list hangIndent="10" style="empty">
-              <t>Trdy = Tpub + IpubG</t>
-            </list>
-          </t>
-
-          <t>where</t>
-
-          <t>
-            <list hangIndent="10" style="empty">
-              <t>IpubG = Dsgn + Dprp + TTLsig</t>
-            </list>
-          </t>
-
-
-          <t>Event 5: At some later time the predecessor key is
-          removed and the key N added to the DNSKEY RRset. As all the
-          signed RRs have signatures created by the old and new keys, the
-          records can still be authenticated. This time is the activation
-          time (Tact) and the key is now said to be active.</t>
-
-          <t>Event 6: At some point thought must be
-          given to rolling the key. The first step is to publish
-          signatures created by the successor key (key N+1) early
-          enough for key N to be replaced after it has been
-          active for its scheduled lifetime. This occurs at TpubS (the
-          publication time of the successor), given by:</t>
-          <t>
-            <list hangIndent="10" style="empty">
-              <t>TpubS &lt;= Tact + Lzsk - IpubG</t>
-            </list>
-          </t>
-
-          <t>Event 7: The signatures have propagated
-          and the new key could be added to the zone. This time is the
-          ready time of the successor key (TrdyS).</t>
-
-          <t>
-            <list hangIndent="10" style="empty">
-              <t>TrdyS = TpubS + IpubG</t>
-            </list>
-          </t>
-          <t>... where IpubG is as defined above.</t>
-
-          <t>Event 8: At some later time key N is removed from the
-          zone's DNSKEY RRset and the successor key (key N+1) is added
-          to it.  This is the retire time of the key (Tret).</t>
-
-          <t>Event 9: The signatures must remain in the zone for long enough that
-            the new DNSKEY RRset has had enough time to propagate to all caches.
-            Once caches contain the new DNSKEY, the old signatures are no longer
-            of use and can be considered to be dead
-            as they cannot be validated by any key.  In analogy with other
-            rollover methods, the time at which this
-            occurs is the dead time (Tdea), given by:</t>
-
-          <t>
-            <list hangIndent="10" style="empty">
-              <t>Tdea = Tret + Iret</t>
-            </list>
-          </t>
-
-          <t>... where Iret is the retire interval, given by:</t>
-
-          <t>
-            <list hangIndent="10" style="empty">
-              <t>Iret = Dprp + TTLkey</t>
-            </list>
-          </t>
-          <t>Dprp is as defined earlier and TTLkey is the TTL of the DNSKEY RRset.</t>
-
-          <t>Event 10: At some later time the signatures can be removed
-          from the zone.  In analogy with other rollover methods, this time
-          is called the remove time (Trem) and is given by:</t>
-
-          <t>
-            <list hangIndent="10" style="empty">
-              <t>Trem &gt;= Tdea</t>
-            </list>
-          </t>
-
         </section>
       </section>
 
@@ -967,7 +804,7 @@ Key N     |         |<-Ipub(key)->|        |<-Dreg->|<----Lksk-- - -
           |         |             |        |        |          |
 Key N+1   |         |             |        |        |          |<- -
           |         |             |        |        |          |
-      Tgen(key) Tpub(key)    Trdy(key) Tsub(ds) Topr(key) TpubS(key)
+      Tgen(key) Tpub(key)    Trdy(key) Tsub(ds) Tact(key) TpubS(key)
                                                 Tpub(ds)
                         ---- Time ---->
 
@@ -980,9 +817,9 @@ Key N    - -----------Lksk--------------->|<-Iret(key)>|         |
 Key N+1  -Ipub(key)->|          |<--Dreg->|<------Lzsk----- - - - -
                      |          |         |            |         |
                 TrdyS(key) TsubS(ds) Tret(key)    Tdea(key) Trem(key)
-                                     ToprS(key)
                                      Trem(ds)
                                      TpubS(ds)
+                                     TactS(key)
 
                         ---- Time ---->]]>
             </artwork>
@@ -1038,15 +875,12 @@ Key N+1  -Ipub(key)->|          |<--Dreg->|<------Lzsk----- - - - -
           publication. This time is the submission time, Tsub(ds). </t>
 
           <t>Event 5: The DS record is published in the parent zone at
-          time Tpub(ds). As this is also the point at which all
-          information for authentication - both DNSKEY and DS record -
-          is available in the two zones, in analogy with other rollover
-          methods, it is also called the operation time of the key
-          Topr(key):</t>
+          time Tpub(ds). This is the publication time of the DS record
+          Tpub(ds), given by:</t>
 
           <t>
             <list hangIndent="10" style="empty">
-              <t>Topr(key) = Tsub(ds) + Dreg</t>
+              <t>Tpub(ds) = Tsub(ds) + Dreg</t>
             </list>
           </t>
 
@@ -1058,6 +892,9 @@ Key N+1  -Ipub(key)->|          |<--Dreg->|<------Lzsk----- - - - -
           record. In practice, Dreg will not be a fixed time: instead,
           the end of Dreg will be signalled by the appearance of the DS
           record in the parent zone.)</t>
+
+          <t>As the KSK can now be used to authenticate zones, the
+          time is also the activation time of the KSK Tact(key).</t>
 
           <t>Event 6: While key N is active, thought needs to be given
           to its successor (key N+1).  At some time before the
@@ -1094,7 +931,7 @@ Key N+1  -Ipub(key)->|          |<--Dreg->|<------Lzsk----- - - - -
             </list>
           </t>
 
-          <t>This time is also the operation time of the successor ToprS(key),
+          <t>This time is also the activation time of the successor TactS(key),
           the removal time of the DS record Trem(ds) and the publication time
           of the successor DS record TpubS(ds).</t>
 
@@ -1151,7 +988,7 @@ Key N     |         |<-Dreg->|<-Ipub(ds)->|        |<---------Lksk- -
           |         |        |            |        |           |
 Key N+1   |         |        |            |        |           |<-- -
           |         |        |            |        |           |
-      Tgen(key) Tsub(ds) Tpub(ds)     Trdy(key) Topr(key) TsubS(ds)
+      Tgen(key) Tsub(ds) Tpub(ds)     Trdy(key) Tact(key) TsubS(ds)
 
                         ---- Time ---->
 
@@ -1164,7 +1001,7 @@ Key N   - ------------Lksk------------->|<-Iret(key)->|         |
 Key N+1 - -Dreg->|<-Ipub(ds)->|         |<----------Lksk------ - -
                  |            |         |             |         |
             TpubS(ds)    TrdyS(key) Tret(key)     Tdea(key) Trem(key)
-                                    ToprS(key)
+                                    TactS(key)
 
                         ---- Time ---->]]>
             </artwork>
@@ -1235,8 +1072,8 @@ Key N+1 - -Dreg->|<-Ipub(ds)->|         |<----------Lksk------ - -
           predecessor key, or it has a copy of the updated RRset
           authenticated with the new key.</t>
 
-          <t>This time is key N's operation time Topr(key) and at this
-          point the key is said to be operational.</t>
+          <t>This time is key N's activation time Tact(key) and at this
+          point the key is said to be active.</t>
 
           <t>Event 6: At some point thought must be given to key
           replacement. The DS record for the successor key must be
@@ -1248,7 +1085,7 @@ Key N+1 - -Dreg->|<-Ipub(ds)->|         |<----------Lksk------ - -
 
           <t>
             <list hangIndent="10" style="empty">
-              <t>TsubS(ds) &lt;= Topr(key) + Lksk - Ipub(ds) - Dreg</t>
+              <t>TsubS(ds) &lt;= Tact(key) + Lksk - Ipub(ds) - Dreg</t>
             </list>
           </t>
           <t>... where Lksk is the lifetime of key N according to policy.</t>
@@ -1260,19 +1097,19 @@ Key N+1 - -Dreg->|<-Ipub(ds)->|         |<----------Lksk------ - -
           state, i.e., its DS record is now in caches that contain the parent
           DS RRset. This is the ready time of the successor key, TrdyS(key).</t>
 
-          <t>Event 9: When key N has been active for its
-          lifetime (Lksk), it is replaced in the DNSKEY
-          RRset by key N+1; the RRset is then signed
-          with the new key. This is the retire time Tret(key) of
-          key N, given by:</t>
+          <t>Event 9: When key N has been active for its lifetime (Lksk),
+          it is replaced in the DNSKEY RRset by key N+1; the RRset is
+          then signed with the new key. This is the retire time Tret(key)
+          of key N, given by:</t>
+
           <t>
             <list hangIndent="10" style="empty">
-              <t>Tret(key) = Topr(key) + Lksk</t>
+              <t>Tret(key) = Tact(key) + Lksk</t>
             </list>
           </t>
 
-          <t>This time is also the operational time of the successor key
-          TopsS(key)</t>
+          <t>This time is also the activation time of the successor key
+          TactS(key)</t>
 
           <t>Event 10: At some later time, all copies of the old DNSKEY
           RRset have expired from caches and the old DS record is no
@@ -1332,9 +1169,9 @@ Key N      |        |<-Ipub-->|<-------Lksk------->|         |
            |        |         |          |         |         |
 Key N+1    |        |         |          |<-Ipub-->|         |
            |        |         |          |         |         |
-      Tgen(key) Tpub(key) Topr(key) TpubS(key) Tret(key) Trem(key)
+      Tgen(key) Tpub(key) Tact(key) TpubS(key) Tret(key) Trem(key)
                 Tsub(ds)            TsubS(ds)  Tdea(key)
-                                               ToprS(key)
+                                               TactS(key)
 
                     ---- Time ---->]]>
             </artwork>
@@ -1365,12 +1202,12 @@ Key N+1    |        |         |          |<-Ipub-->|         |
           of the parent DS RRset will have a copy that includes the new DS
           record.</t>
 
-          <t>The time at which this occurs is called the operation time of
-          the new KSK Topr(key), given by:</t>
+          <t>The time at which this occurs is called the activation time of
+          the new KSK Tact(key), given by:</t>
 
           <t>
             <list hangIndent="10" style="empty">
-              <t>Topr(key) = Tpub(key) + Ipub</t>
+              <t>Tact(key) = Tpub(key) + Ipub</t>
             </list>
           </t>
 
@@ -1417,7 +1254,7 @@ Key N+1    |        |         |          |<-Ipub-->|         |
 
           <t>
             <list hangIndent="10" style="empty">
-              <t>TpubS(key) &lt;= Topr(key) + Lksk - Ipub</t>
+              <t>TpubS(key) &lt;= Tact(key) + Lksk - Ipub</t>
             </list>
           </t>
 
@@ -1428,13 +1265,13 @@ Key N+1    |        |         |          |<-Ipub-->|         |
           <t> Event 5: Key N+1's DNSKEY and DS records are in any
           caches that contain the child zone DNSKEY and/or the parent
           zone DS RR, and so the zone can be
-          validated with the new key.  This is the operation time of
+          validated with the new key.  This is the activation time of
           the successor key TactS(key) and by analogy with other rollover
           methods, it is also the retire time of the current key.</t>
 
           <t>
             <list hangIndent="10" style="empty">
-              <t>Tret(key) = Topr(key) + Lksk</t>
+              <t>Tret(key) = Tact(key) + Lksk</t>
             </list>
           </t>
 
@@ -1888,6 +1725,9 @@ Key N+1    |        |         |          |<-Ipub-->|         |
           <vspace/>
           * Add introductory paragraph to each rollover description summarising
             its essential features.
+          <vspace/>
+          * Remove detailed description of double-RRSIG ZSK rollover.  It is extremely
+            unlikely to be used in any practical situation.
           <vspace/>
           * When referring to times and delays, include in the symbol for each whether
             the time refers to a DNSKEY, a DS record or a signature (Matthijs Mekking).
