@@ -404,48 +404,45 @@
       <section title="Rollover States">
         <t>During the rolling process, a rollover moves through different states.
         The defined states are:</t>
-        <t>TO BE COMPLETED</t>
         <t>
           <list style="hanging" hangIndent="12">
             <t hangText="Generated">The key has been created, but has
             not yet been used for anything.</t>
 
-            <t hangText="Published">The DNSKEY record - or information
-            associated with it - is published in the zone, but
-            predecessors of the key (or associated information) may be
-            held in caches.<vspace blankLines="1"/> The idea
-            of "associated information" is used in rollover methods
-            where RRSIG or DS records are published first and the
-            DNSKEY is changed in an atomic operation. It allows the
-            rollover still to be thought of as moving through a set of
-            states. In the rest of this section, the term "key data" should
-            be taken to mean "key or associated information".</t>
+            <t hangText="Published">The new DNSKEY and/or DS
+            record is published in the zone, but their predecessors are
+            held in caches.</t>
 
-            <t hangText="Ready">The new data has been published for long
-            enough to guarantee that any previous versions of the DNSKEY RRset
-            have expired from caches.</t>
+            <t hangText="Ready">The new DNSKEY and/or DS have been
+            published for long enough to guarantee that any previous
+            versions of them have expired from caches.</t>
 
-            <t hangText="Active">The key is published and has started to be used to sign
-            RRsets. Note that when this state is entered, it may not be
-            possible for validating resolvers to use the key for validation
-            in all cases: the zone signing may not have
-            finished, or the data might not have reached the resolver
-            because of propagation delays and/or caching issues. If
-            this is the case, the resolver will have to rely on the
-            key's predecessor instead. </t>
+            <t hangText="Active">The data is starting to be used for
+            validation.  In the case of a DNSKEY used as a ZSK, it means
+            that the key has been started to be used to sign RRsets.
+            In the case of the DS or DNSKEY used as a KSK, it means
+            that it is possible to use it to validate a DNSKEY RRset
+            as the DNSKEY or DS record is present in the relevant zone.
+            Note that when this state is entered, it may not be possible
+            for validating resolvers to use the data for validation
+            in all cases: the zone signing may not have finished, or
+            the data might not have reached the resolver because of
+            propagation delays and/or caching issues. If this is the
+            case, the resolver will have to rely on the predecessor data
+            instead. </t>
 
-            <t hangText="Retired">A successor key has become active and
-            this key is no longer being used to generate RRSIGs. However,
-            as there may still be RRSIGs in caches that were generated
-            using this key, it is being retained in the zone until they
-            have expired.</t>
+            <t hangText="Retired">A successor DNSKEY and/or DS has become
+            active.  The DNSKEY and/or DS record will be removed as soon
+            as it is safe to do so.  However, until this happens, the
+            resource records are still available for use in validation; in
+            some cases, a retired DNSKEY may also be used signing RRsets.</t>
 
-            <t hangText="Dead">The key (or associated data) is published in the zone but
-            there is no longer information anywhere that requires its
-            presence.  Hence the key can be removed from the zone at
-            any time.</t>
+            <t hangText="Dead">The DNSKEY and/or DS is present in
+            the zone but there is no longer information anywhere that
+            requires its presence for use in validation.  Hence it can
+            be removed from the zone at any time.</t>
 
-            <t hangText="Removed">The key (or associated data) has been removed from the
+            <t hangText="Removed">The DNSKEY and/or DS is removed from the
             zone.</t>
           </list>
         </t>
@@ -454,7 +451,7 @@
         target="trust_anchors"/>):</t>
         <t>
           <list style="hanging" hangIndent="12">
-            <t hangText="Revoked">The key is published for a period
+            <t hangText="Revoked">The DNSKEY is published for a period
             with the "revoke" bit set as a way of notifying validating
             resolvers that have configured it as an <xref
             target="RFC5011"/> trust anchor that
@@ -1731,6 +1728,9 @@ Key N+1    |        |         |          |<-Ipub-->|         |
           <vspace/>
           * When referring to times and delays, include in the symbol for each whether
             the time refers to a DNSKEY, a DS record or a signature (Matthijs Mekking).
+          <vspace/>
+          * Updated state description section to reflect the fact that the rollover is
+          in various states, not the key.
           </t>
 
           <t>
