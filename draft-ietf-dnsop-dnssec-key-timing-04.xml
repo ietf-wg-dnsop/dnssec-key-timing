@@ -74,7 +74,7 @@
           <country>Sweden</country>
         </postal>
         <phone>+46 8615 8573</phone>
-        <email>johani@autonomica.se</email>
+        <email>johani@netnod.se</email>
       </address>
     </author>
 
@@ -82,13 +82,15 @@
       <organization abbrev="Sinodun">Sinodun Internet Technologies Ltd</organization>
       <address>
         <postal>
-          <street>Stables 4 Suite 11, Howbery Park</street>
-          <city>Wallingford</city>
-          <code>OX10 8BA</code>
+          <street>Magdalen Centre</street>
+          <street>Oxford Science Park</street>
+          <street>Robert Robertson Avenue</street>
+          <city>Oxford</city>
+          <code>OX4 4GA</code>
           <region>Oxfordshire</region>
           <country>UK</country>
         </postal>
-        <phone>+44 1491 818120</phone>
+        <phone>+44 1865 784000</phone>
         <email>jad@sinodun.com</email>
       </address>
     </author>
