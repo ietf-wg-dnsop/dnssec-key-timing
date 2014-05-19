@@ -58,8 +58,8 @@
           <region>CA</region>
           <country>USA</country>
         </postal>
-        <phone>+1 650 423 1300</phone>
         <email>stephen@isc.org</email>
+        <uri>http://www.isc.org</uri>
       </address>
     </author>
 
@@ -73,8 +73,8 @@
           <region/>
           <country>Sweden</country>
         </postal>
-        <phone>+46 8615 8573</phone>
         <email>johani@netnod.se</email>
+        <uri>http://www.netnod.se</uri>
       </address>
     </author>
 
@@ -90,8 +90,22 @@
           <region>Oxfordshire</region>
           <country>UK</country>
         </postal>
-        <phone>+44 1865 784000</phone>
         <email>jad@sinodun.com</email>
+        <uri>http://www.sinodun.com</uri>
+      </address>
+    </author>
+
+    <author fullname="W. (Matthijs) Mekking" initials="M." surname="Mekking">
+      <organization abbrev="NlNetLabs">NLnet Labs</organization>
+      <address>
+        <postal>
+          <street>Science Park 400</street>
+          <city>Amsterdam</city>
+          <code>1098 XH</code>
+          <country>The Netherlands</country>
+        </postal>
+        <email>matthijs@nlnetlabs.nl</email>
+        <uri>http://www.nlnetlabs.nl</uri>
       </address>
     </author>
 
@@ -1733,6 +1747,8 @@ Key N+1    |        |         |          |<-Ipub-->|         |
           <vspace/>
           * Updated state description section to reflect the fact that the rollover is
           in various states, not the key.
+          <vspace/>
+          * Matthijs Mekking added as co-author.
           </t>
 
           <t>
