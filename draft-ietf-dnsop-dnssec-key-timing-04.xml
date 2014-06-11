@@ -357,15 +357,13 @@
         <t>Like the ZSK case, there are three methods for rolling a KSK:</t>
         <t>
           <list style="symbols">
-            <t>Double-Signature: also known as Double-DNSKEY, the new
+            <t>Double-KSK: the new
             KSK is added to the DNSKEY RRset which is then signed with
             both the old and new key. After waiting for the old RRset
             to expire from caches, the DS record in the parent zone is
             changed. After waiting a further interval for this change
             to be reflected in caches, the old key is removed from the
-            RRset. (The name "Double-Signature" is used because, like
-            the ZSK method of the same name, the new key is introduced
-            and immediately used for signing.) </t>
+            RRset.</t>
 
             <t>Double-DS: the new DS record is published. After
             waiting for this change to propagate into caches, the KSK
@@ -382,7 +380,7 @@
           </list>
         </t>
 
-        <t>In essence, "Double-Signature" means that the new KSK is
+        <t>In essence, "Double-KSK" means that the new KSK is
         introduced first and used to sign the DNSKEY RRset. The DS
         record is changed, and finally the old KSK removed. With
         "Double-DS" it is the other way around. Finally, Double-RRset
@@ -794,7 +792,7 @@ Key N+1   |           |            |<-----------Lzsk--------- - -
       events in the lifetime of a key (referred to as "key N") and cover it
       replacement by its successor (key N+1).</t>
 
-        <section title="Double-Signature Method">
+        <section title="Double-KSK Method">
           <t>In this rollover, The new DNSKEY is added to the zone.  After an
           interval long enough to guarantee that any cached DNSKEY RRsets
           contain the new DNSKEY, the DS record in the parent zone is changed.
@@ -1741,8 +1739,11 @@ Key N+1    |        |         |          |<-Ipub-->|         |
           * Remove detailed description of double-RRSIG ZSK rollover.  It is extremely
             unlikely to be used in any practical situation.
           <vspace/>
-          * When referring to times and delays, include in the symbol for each whether
-            the time refers to a DNSKEY, a DS record or a signature (Matthijs Mekking).
+          * "Double-Signature" KSK rollover renamed to "Double-KSK" to avoid confusion
+          with the ZSK rollover of the same name.
+          <vspace/>
+          * When referring to times and delays, include in the symbol for each an
+            indication of whether the time refers to a DNSKEY, a DS record or a signature.
           <vspace/>
           * Updated state description section to reflect the fact that the rollover is
           in various states, not the key.
