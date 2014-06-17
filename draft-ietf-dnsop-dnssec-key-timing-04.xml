@@ -1518,7 +1518,7 @@ Key N+1    |        |         |          |<-Ipub-->|         |
 
     <section title="Acknowledgements">
       <t>The authors gratefully acknowledge help and contributions
-      from Roy Arends, Matthijs Mekking and Wouter Wijngaards.
+      from Roy Arends and Wouter Wijngaards.
       </t>
     </section>
 
@@ -1734,6 +1734,8 @@ Key N+1    |        |         |          |<-Ipub-->|         |
           in various states, not the key.
           <vspace/>
           * Matthijs Mekking added as co-author.
+          <vspace/>
+          * Changed Lzsk and Kzsk definitions: actual lifetime instead of intended lifetime.
           </t>
 
           <t>
