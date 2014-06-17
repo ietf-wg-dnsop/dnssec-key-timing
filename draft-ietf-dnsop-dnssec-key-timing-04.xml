@@ -183,7 +183,11 @@
         do so ("safe" in this context meaning that at no time during
         the rollover process does any part of the zone ever go
         bogus). In other words, although key management logic enforces
-        policy, it may not enforce it strictly. </t>
+        policy, it may not enforce it strictly.
+	In section <xref target="rollover_timelines"/>, the lifetime
+        of a key reflects the actual lifetime of a key, which may be
+        longer or shorter than the intended amount of time.
+	</t>
 
         <t>A high-level overview of key rollover can be found in
         <xref target="RFC6781"/>.  In contrast,
@@ -389,7 +393,7 @@
 
     </section>
 
-    <section title="Key Rollover Timelines">
+    <section title="Key Rollover Timelines" anchor="rollover_timelines">
       <section title="Rollover States">
         <t>During the rolling process, a rollover moves through different states.
         The defined states are:</t>
@@ -1640,13 +1644,15 @@ Key N+1    |        |         |          |<-Ipub-->|         |
           will see the new key at least twice.
           </t>
 
-          <t hangText="Lksk">Lifetime of a key-signing key. This is the intended amount of time for
+          <t hangText="Lksk">Lifetime of a key-signing key. This is the actual amount of time for
             which this particular KSK is regarded as the active KSK. Depending on when the key is
-            rolled-over, the actual lifetime may be longer or shorter than this.</t>
+            rolled-over, the actual lifetime may be longer or shorter than the intended key
+	    lifetime indicated by management policy.</t>
 
-          <t hangText="Lzsk">Lifetime of a zone-signing key. This is the intended amount of time for
+          <t hangText="Lzsk">Lifetime of a zone-signing key. This is the actual amount of time for
             which the ZSK is used to sign the zone. Depending on when the key is rolled-over, the
-            actual lifetime may be longer or shorter than this.</t>
+            actual lifetime may be longer or shorter than the intended key lifetime indicated by
+            management policy.</t>
 
           <t hangText="Tact">Activation time of the rollover; the time at which the key is regarded
             as the principal key for the zone.</t>
