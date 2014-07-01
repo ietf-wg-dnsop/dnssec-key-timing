@@ -475,26 +475,14 @@
             <preamble/>
             <artwork align="center">
               <![CDATA[
-         |1|       |2|           |3|      |4|
-          |         |             |        |
-Key N     |         |<-Ipub(key)->|        |<---Lzsk--- - -
-          |         |             |        |
-Key N+1   |         |             |        |
-          |         |             |        |
-      Tgen(key) Tpub(key)    Trdy(key) Tact(key)
-
-                        ---- Time ---->
-
-(continued ...)
-
-          |5|           |6|        |7|           |8|       |9|
-           |             |          |             |         |
-Key N  - - --------Lzsk------------>|<-Iret(key)->|         |
-           |             |          |             |         |
-Key N+1    |<-Ipub(key)->|          |<-----------Lzsk----- - -
-           |             |          |             |         |
-       TpubS(key)    TrdyS(key) Tret(key)     Tdea(key) Trem(key)
-                                TactS(key)
+         |0|       |1|      |2|  |3|  |4|      |5|  |6|      |7|  |8|
+          |         |        |    |    |        |    |        |    |
+Key N     |         |<-Ipub->|    |<---Lzsk--------->|<-Iret->|    |
+          |         |        |    |    |        |    |        |    |
+Key N+1   |         |        |    |    |<-Ipub->|    |<--Lzsk--- - - -
+          |         |        |    |    |        |    |             |
+Key N     gen       pub      rdy  act                ret      dea  rem
+Key N+1   gen                          pub      rdy  act
 
                         ---- Time ---->]]>
             </artwork>
