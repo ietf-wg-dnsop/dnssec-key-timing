@@ -956,20 +956,20 @@ Key N+1     Tgen                      Tpub     Trdy Tact
                |    |        |         |    |      |
       Key N+1  |    |        |         |    |<---->|<--Dreg+IpubP- - -
                |    |        |         |    |      |
-      Key N   Tgen Tsubds   Tact      Trdy Tpub   
+      Key N   Tgen Tsubds   Tpub      Trdy Tact   
       Key N+1 Tgen                                Tsubds
                               ---- Time ---->
 
        (continued ...)
 
-                               |6|   |7|      |8|    |9|
+                          |6|  |7|   |8|      |9|    |10|
                                 |     |        |      |
       Key N   - - -----Lksk---------->|<-Iret->|      |
-                                |     |        |      |
-      Key N+1 - - --Dreg+IpubP->|<--->|<------Lksk------ - -
-                                |     |        |      |
-      Key N                    Trdy   Tret    Tdea    Trem
-      Key N+1                  T
+                           |    |     |        |      |
+      Key N+1 - - --Dreg-->|<-IpubP->|<--->|<------Lksk------ - -
+                           |    |     |        |      |
+      Key N                           Tret    Tdea    Trem
+      Key N+1             Tpub Trdy   Tact
 
                               ---- Time ---->]]>
             </artwork>
@@ -986,21 +986,17 @@ Key N+1     Tgen                      Tpub     Trdy Tact
 
 
           <t>Event 1: The DS RR is submitted to the parent zone for publication.
-          This time is the submission time, Tsub(ds).</t>
+          This time is the submission time, Tsub.</t>
 
           <t>Event 2: After the registration delay, Dreg, the DS
           record is published in the parent zone. This is the
-          publication time Tpub, given by:</t>
+          publication time (Tpub) of key N, given by:</t>
 
           <t>
             <list hangIndent="10" style="empty">
-              <t>Tpub(ds) = Tsub(ds) + Dreg</t>
+              <t>Tpub(N) = Tsubds(N) + Dreg</t>
             </list>
           </t>
-
-          <t>In practice, Dreg will not be a fixed time: instead,
-          the end of Dreg will be signalled by the appearance of the DS
-          record in the parent zone.</t>
 
           <t>Event 3: At some later time, any cache that
           has a copy of the DS RRset will have a copy of
@@ -1011,21 +1007,21 @@ Key N+1     Tgen                      Tpub     Trdy Tact
 
           <t>
             <list hangIndent="10" style="empty">
-              <t>Trdy(key) = Tpub(ds) + Ipub(ds)</t>
+              <t>Trdy(N) = Tpub(N) + IpubP</t>
             </list>
           </t>
 
-          <t>Ipub(ds) is the publication interval of the DS record
+          <t>IpubP is the publication interval of the DS record
           and is given by the expression:</t>
 
           <t>
             <list hangIndent="10" style="empty">
-              <t>Ipub(ds) = DprpP + TTL(ds)</t>
+              <t>IpubP = DprpP + TTLds</t>
             </list>
           </t>
 
           <t>... where DprpP is the propagation delay for the parent
-          zone and TTL(ds) the TTL assigned to DS records in that
+          zone and TTLds the TTL assigned to DS records in that
           zone. </t>
 
           <t>Event 4: At some later time, the key rollover takes
@@ -1040,8 +1036,14 @@ Key N+1     Tgen                      Tpub     Trdy Tact
           predecessor key, or it has a copy of the updated RRset
           authenticated with the new key.</t>
 
-          <t>This time is key N's activation time Tact(key) and at this
-          point the key is said to be active.</t>
+          <t>This time is key N's activation time (Tact) and at this
+          point key N is said to be active:</t>
+
+          <t>
+            <list hangIndent="10" style="empty">
+              <t>Tact(N) &gt;= Trdy(N)</t>
+            </list>
+          </t>
 
           <t>Event 5: At some point thought must be given to key
           replacement. The DS record for the successor key must be
@@ -1049,35 +1051,35 @@ Key N+1     Tgen                      Tpub     Trdy Tact
           current key is withdrawn, any cache that contains the zone's
           DS records has data about the DS record
           of the successor key. The time at which this occurs is the
-          submission time of the successor TsubS(ds), given by:</t>
+          submission time of the successor key N+1, given by:</t>
 
           <t>
             <list hangIndent="10" style="empty">
-              <t>TsubS(ds) &lt;= Tact(key) + Lksk - Ipub(ds) - Dreg</t>
+              <t>Tsubds(N+1) &lt;= Tact(N) + Lksk - Ipub - Dreg</t>
             </list>
           </t>
           <t>... where Lksk is the lifetime of key N according to policy.</t>
 
           <t>Event 6. After an interval Dreg, the successor DS record is
-          published in the zone at time TpubS(ds).</t>
+          published in the zone at time Tpub.</t>
 
           <t> Event 7: The successor key (key N+1) enters the ready
           state, i.e., its DS record is now in caches that contain the parent
-          DS RRset. This is the ready time of the successor key, TrdyS(key).</t>
+          DS RRset. This is the ready time of the successor key N+1, Trdy.</t>
 
           <t>Event 8: When key N has been active for its lifetime (Lksk),
           it is replaced in the DNSKEY RRset by key N+1; the RRset is
-          then signed with the new key. This is the retire time Tret(key)
+          then signed with the new key. This is the retire time (Tret)
           of key N, given by:</t>
 
           <t>
             <list hangIndent="10" style="empty">
-              <t>Tret(key) = Tact(key) + Lksk</t>
+              <t>Tret(N) = Tact(N) + Lksk</t>
             </list>
           </t>
 
-          <t>This time is also the activation time of the successor key
-          TactS(key)</t>
+          <t>This is also the activation time of the successor key
+          N+1.</t>
 
           <t>Event 9: At some later time, all copies of the old DNSKEY
           RRset have expired from caches and the old DS record is no
@@ -1086,21 +1088,21 @@ Key N+1     Tgen                      Tpub     Trdy Tact
           given by: </t>
           <t>
             <list hangIndent="10" style="empty">
-              <t>Tdea(key) = Tret(key) + Iret(key)</t>
+              <t>Tdea(N) = Tret(N) + Iret</t>
             </list>
           </t>
 
-          <t> ... where Iret(key) is the retire interval of the
+          <t> ... where Iret is the retire interval of the
           key, given by:</t>
           <t>
             <list hangIndent="10" style="empty">
-              <t>Iret(key) = DprpC + TTL(key)</t>
+              <t>Iret = DprpC + TTLkey</t>
             </list>
           </t>
 
           <t>As before, this term includes DprpC, the time taken to propagate
           the RRset change through the master-slave hierarchy of the child
-          zone and TTL(key), the
+          zone and TTLkey, the
           time taken for the DNSKEY RRset to expire from caches.</t>
 
           <t>Event 10: At some later time, the DS record is removed
@@ -1109,7 +1111,7 @@ Key N+1     Tgen                      Tpub     Trdy Tact
           by:</t>
           <t>
             <list hangIndent="10" style="empty">
-              <t>Trem(key) &gt;= Tdea(key)</t>
+              <t>Trem(N) &gt;= Tdea(N)</t>
             </list>
           </t>
 
@@ -1131,17 +1133,16 @@ Key N+1     Tgen                      Tpub     Trdy Tact
             <preamble/>
             <artwork align="center">
               <![CDATA[
-          |1|      |2|       |3|        |4|       |5|       |6|
-           |        |         |          |         |         |
-Key N      |        |<-Ipub-->|<-------Lksk------->|         |
-           |        |         |          |         |         |
-Key N+1    |        |         |          |<-Ipub-->|         |
-           |        |         |          |         |         |
-      Tgen(key) Tpub(key) Tact(key) TpubS(key) Tret(key) Trem(key)
-                Tsub(ds)            TsubS(ds)  Tdea(key)
-                                               TactS(key)
+                     |0|  |1|      |2|     |3|      |4|      |5|
+                      |    |        |       |        |        |
+             Key N    |    |<-Ipub->|<-----Lksk----->|        |
+                      |    |        |       |        |        |
+             Key N+1  |    |        |       |<-Ipub->|        |
+                      |    |        |       |        |        |
+             Key N   Tgen  Tpub    Tact             Tret    Trem
+             Key N+1 Tgen                  Tpub     Tact
 
-                    ---- Time ---->]]>
+                                 ---- Time ---->]]>
             </artwork>
           </figure>
           <t>Event 1: Key N is generated at the generate time
