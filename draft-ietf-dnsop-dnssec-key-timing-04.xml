@@ -394,7 +394,7 @@
     </section>
 
     <section title="Key Rollover Timelines" anchor="rollover_timelines">
-      <section title="Rollover States">
+      <section title="Key States">
         <t>During the rolling process, a rollover moves through different states.
         The defined states are:</t>
         <t>
@@ -402,11 +402,11 @@
             <t hangText="Generated">The key has been created, but has
             not yet been used for anything.</t>
 
-            <t hangText="Published">The new DNSKEY and/or DS
+            <t hangText="Published">The new DNSKEY or DS
             record is published in the zone, but their predecessors are
             held in caches.</t>
 
-            <t hangText="Ready">The new DNSKEY and/or DS have been
+            <t hangText="Ready">The new DNSKEY or DS have been
             published for long enough to guarantee that any previous
             versions of them have expired from caches.</t>
 
@@ -424,18 +424,18 @@
             case, the resolver will have to rely on the predecessor data
             instead. </t>
 
-            <t hangText="Retired">A successor DNSKEY and/or DS has become
-            active.  The DNSKEY and/or DS record will be removed as soon
+            <t hangText="Retired">A successor DNSKEY or DS has become
+            active.  The DNSKEY or DS record will be removed as soon
             as it is safe to do so.  However, until this happens, the
             resource records are still available for use in validation; in
             some cases, a retired DNSKEY may also be used signing RRsets.</t>
 
-            <t hangText="Dead">The DNSKEY and/or DS is present in
+            <t hangText="Dead">The DNSKEY or DS is present in
             the zone but there is no longer information anywhere that
             requires its presence for use in validation.  Hence it can
             be removed from the zone at any time.</t>
 
-            <t hangText="Removed">The DNSKEY and/or DS is removed from the
+            <t hangText="Removed">The DNSKEY or DS is removed from the
             zone.</t>
           </list>
         </t>
