@@ -562,13 +562,9 @@ Key N+1     Tgen                      Tpub     Trdy Tact
           </t>
 
           <t>Here, Lzsk is the length of time for which a ZSK will be
-          used (the ZSK lifetime). It should be noted that unlike the
-          publication interval, Lzsk is not determined by timing
-          logic, but by key management policy. Lzsk will be set by the
-          operator according to their assessment of the risks posed by
-          continuing to use a key and the risks associated with key
-          rollover. However, operational considerations may mean a key
-          is active for slightly more or less than Lzsk. </t>
+          used (the ZSK lifetime). It should be noted that in the diagrams
+          the actual key lifetime is represented, this may differ slightly from
+          the intended lifetime set by key management policy.</t>
 
           <t>Event 5: While key N is still active, its successor becomes
           ready. From this time onwards, key N+1 could be used to
@@ -588,8 +584,7 @@ Key N+1     Tgen                      Tpub     Trdy Tact
 
           <t>It is also the activation time of the successor key N+1.
           Note that operational considerations may cause key N to remain in use
-          for longer than Lzsk; if so, the retirement actually occurs when
-          the successor key is made active. </t>
+          for longer than the lifetime set by the key management policy. </t>
 
           <t>Event 7: The retired key needs to be retained in the zone
           whilst any RRSIG records created using this key are still
@@ -684,7 +679,7 @@ Key N+1     Tgen                      Tpub     Trdy Tact
           activation time (Tact), after which the key is said to be active.</t>
 
           <t>Event 2: After the current key (key N) has been in use for
-          its intended lifetime (Lzsk), the successor key (key N+1) is
+          its actual lifetime (Lzsk), the successor key (key N+1) is
           introduced into the zone and starts being used to sign RRsets:
           neither the current key nor the signatures created with it are
           removed.  The successor key is now also active. </t>
@@ -880,7 +875,7 @@ Key N+1     Tgen                      Tpub     Trdy Tact
               <t>Tpub(N+1) &lt;= Tact(N) + Lksk - Dreg - Ipub</t>
             </list>
           </t>
-          <t>... where Lksk is the scheduled lifetime of the KSK.</t>
+          <t>... where Lksk is the actual lifetime of the KSK.</t>
 
 
           <t>Event 6: After an interval Ipub, key N+1
@@ -1058,7 +1053,7 @@ Key N+1     Tgen                      Tpub     Trdy Tact
               <t>Tsubds(N+1) &lt;= Tact(N) + Lksk - Ipub - Dreg</t>
             </list>
           </t>
-          <t>... where Lksk is the lifetime of key N according to policy.</t>
+          <t>... where Lksk is the actual lifetime of key N (which may differ slightly from the lifetime set in the key management policy.</t>
 
           <t>Event 6. After an interval Dreg, the successor DS record is
           published in the zone at time Tpub.</t>
@@ -1217,7 +1212,7 @@ Key N+1     Tgen                      Tpub     Trdy Tact
           replacement. The successor key (key N+1) must be introduced into the
           zone (and its DS record submitted to the parent) at a time
           such that it becomes active when the current key has been
-          active for its lifetime, Lksk.  This is the
+          active for its actual lifetime, Lksk.  This is the
           publication time (Tpub) of the successor key, and is given by:</t>
 
           <t>
@@ -1226,7 +1221,7 @@ Key N+1     Tgen                      Tpub     Trdy Tact
             </list>
           </t>
 
-          <t>... where Lksk is the lifetime of the KSK and Ipub is
+          <t>... where Lksk is the actual lifetime of the KSK and Ipub is
           as defined above.</t>
 
           <t> Event 4: Key N+1's DNSKEY and DS records are in any
