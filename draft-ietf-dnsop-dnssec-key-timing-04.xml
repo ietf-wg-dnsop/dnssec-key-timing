@@ -1517,7 +1517,7 @@ Key N+1     Tgen                      Tpub     Trdy Tact
 
       <t>
         <list hangIndent="10" style="empty">
-          <t>&lt;TYPE&gt;&lt;id&gt;&lt;INST&gt;(&lt;what&gt;)</t>
+          <t>&lt;TYPE&gt;&lt;id&gt;&lt;INST&gt;</t>
         </list>
       </t>
 
@@ -1563,19 +1563,8 @@ Key N+1     Tgen                      Tpub     Trdy Tact
         </list>
       </t>
 
-      <t>Finally, &lt;what&gt; (enclosed in parentheses) is a lowercase optional qualifier
-        identifying what piece of information the variable applies.  It may be one of:</t>
 
-      <t>
-        <list hangIndent="10" style="hanging">
-          <t hangText="ds">DS record</t>
-          <t hangText="key">DNSKEY record</t>
-          <t hangText="sig">RRSIG record</t>
-        </list>
-      </t>
-
-      <t>The list of variables used in the text given below.  The variable names omit the
-         "what" qualifier.</t>
+      <t>The list of variables used in the text given below.</t>
 
          <t>TO BE COMPLETED</t>
 
@@ -1629,11 +1618,6 @@ Key N+1     Tgen                      Tpub     Trdy Tact
           <t hangText="Tact">Activation time of the rollover; the time at which the key is regarded
             as the principal key for the zone.</t>
 
-          <t hangText="TactS">Activation time of the successor key.</t>
-
-          <t hangText="Tcmp">Completion time of the rollover; the time at which signing with the
-            new key has ceased.</t>
-
           <t hangText="Tdea">Dead time of a key. Applicable only to ZSKs, this is the time at which
             any record signatures held in validating resolver caches are guaranteed to be created
             with the successor key.</t>
@@ -1642,8 +1626,6 @@ Key N+1     Tgen                      Tpub     Trdy Tact
 
           <t hangText="Tpub">Publication time of a rollover. The time that information such as the
             DNSKEY or DS record appears in the zone for the first time.</t>
-
-          <t hangText="TpubS">Publication time of the successor.</t>
 
           <t hangText="Trem">Removal time of a rollover. The time at which information is removed from
             the zone.</t>
@@ -1657,14 +1639,10 @@ Key N+1     Tgen                      Tpub     Trdy Tact
             information from the parent zone cached, the cache must include information about the DS
             record corresponding to the key.) </t>
 
-          <t hangText="TrdyS">Ready time of successor information.</t>
-
-          <t hangText="Tsub">Submission time - the time at which the DS record of a KSK is submitted to
+          <t hangText="Tsubds">Submission time - the time at which the DS record of a KSK is submitted to
             the parent.</t>
 
-          <t hangText="TsubS">Submission time of the successor key.</t>
-
-          <t hangText="TTL">Time to live.</t>
+          <t hangText="TTLds">Time to live of a DS record (in the parent zone).</t>
 
           <t hangText="TTLkey">Time to live of a DNSKEY record. (By implication, this is also the
           time to live of the signatures on the DNSKEY RRset.)</t>
