@@ -395,20 +395,19 @@
 
     <section title="Key Rollover Timelines" anchor="rollover_timelines">
       <section title="Key States">
-        <t>During the rolling process, a rollover moves through different states.
+        <t>During the rolling process, keys move through different states.
         The defined states are:</t>
         <t>
           <list style="hanging" hangIndent="12">
             <t hangText="Generated">The key has been created, but has
             not yet been used for anything.</t>
 
-            <t hangText="Published">The new DNSKEY 
-            record is published in the zone, but their predecessors are
-            held in caches.</t>
+            <t hangText="Published">The DNSKEY 
+            record is published in the zone.</t>
 
             <t hangText="Ready">The new DNSKEY have been
             published for long enough to guarantee that any previous
-            versions of them have expired from caches.</t>
+            versions of the DNSKEY RRset have expired from caches.</t>
 
             <t hangText="Active">The data is starting to be used for
             validation.  In the case of a ZSK, it means
