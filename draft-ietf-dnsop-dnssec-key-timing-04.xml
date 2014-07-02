@@ -656,10 +656,10 @@ Key N+1     Tgen                      Tpub     Trdy Tact
             <artwork align="center">
               <![CDATA[
 
-                     |1|  |2|           |3|          |4|  |5|
+                     |0|  |1|           |2|          |3|  |4|
                       |    |             |            |    |
-             Key N    |    |<----Lzsk--->|<---Iret--->|    |
-                      |    |             |            |    |
+             Key N    |    |<----Lzsk---------------->|    |
+                      |    |             |<---Iret--->|    |
              Key N+1  |    |             |<-----Lzsk------- - -
                       |    |             |            |    |
 
@@ -669,49 +669,45 @@ Key N+1     Tgen                      Tpub     Trdy Tact
                                   ---- Time ---->]]>
             </artwork>
           </figure>
-          <t>Event 1: Key N is generated at the generate time
-          Tgen(key). Although there is no reason why the key cannot be
+          <t>Event 0: Key N and N+1 are generated at the generate time
+          (Tgen). Although there is no reason why the key cannot be
           generated immediately prior to its publication in the zone
-          (Event 2), some implementations may find it convenient to
+          (Event 1), some implementations may find it convenient to
           create a pool of keys in one operation and draw from that
           pool as required. For this reason, it is shown as a separate
           event.  Keys that are available for use but not published
           are said to be generated.</t>
 
-          <t>Event 2: Key N is added to the DNSKEY RRset and is then
+          <t>Event 1: Key N is added to the DNSKEY RRset and is then
           used to sign the zone; existing signatures in the zone are
-          not removed. The key is said to be published and this is the
-          publication time Tpub(key).  It is also the the key's activation
-          time Tact(key), after which the key is also said to be active.</t>
+          not removed. The key is published and active: this is key N's
+          activation time (Tact), after which the key is said to be active.</t>
 
-          <t>Event 3: After the current key (key N) has been in use for
+          <t>Event 2: After the current key (key N) has been in use for
           its intended lifetime (Lzsk), the successor key (key N+1) is
           introduced into the zone and starts being used to sign RRsets:
           neither the current key nor the signatures created with it are
-          removed.  The successor key is now active and the current
-          key is said to be retired. This time is the retire time of the
-          key Tret(key); it is also the activation time of the successor key
-          TactS(key) (as well as its publication time TpubS(key)). </t>
+          removed.  The successor key is now also active. </t>
 
           <t>
             <list hangIndent="10" style="empty">
-              <t>Tret(key) = Tact(key) + Lzsk</t>
+              <t>Tact(N+1) = Tact(N) + Lzsk - Iret</t>
             </list>
           </t>
 
-          <t>Event 4: Before key N can be withdrawn from the zone, all
+          <t>Event 3: Before key N can be withdrawn from the zone, all
           RRsets that need to be signed must have been signed by the
           successor key (key N+1) and any old RRsets that do not
           include the new key or new RRSIGs must have expired from caches.
           Note that the signatures are not replaced - each RRset is
           signed by both the old and new key.</t>
 
-          <t>This takes Iret(key), the retire interval, given by the
+          <t>This takes Iret, the retire interval, given by the
           expression:</t>
 
           <t>
             <list hangIndent="10" style="empty">
-              <t>Iret(key) = Dsgn + Dprp + max(TTL(key), TTL(sig))</t>
+              <t>Iret = Dsgn + Dprp + max(TTLkey, TTLsig)</t>
             </list>
           </t>
 
@@ -727,28 +723,22 @@ Key N+1     Tgen                      Tpub     Trdy Tact
           associated RRset <xref target="RFC4034"/>, the DNSKEY RRset
           only needs to be signed with the KSK.)</t>
 
-          <t>During this interval, key N may still be required to sign
-          RRsets: it is possible for signatures to expire while caches
-          still contain the original DNSKEY RRset. In this case, it is
-          important that the signature RRset contains a valid signature
-          created from the original key. </t>
-
-          <t>  At the end of the interval, key N is said to be
-          dead. This occurs at the dead time Tdea(key) so:</t>
+          <t>  At the end of this interval, key N is said to be
+          dead. This occurs at the dead time (Tdea) so:</t>
 
           <t>
             <list hangIndent="10" style="empty">
-              <t>Tdea(key) = Tret(key) + Iret(key)</t>
+              <t>Tdea(N) = Tact(N+1) + Iret</t>
             </list>
           </t>
 
-          <t>Event 5: At some later time key N and the signatures
+          <t>Event 4: At some later time key N and the signatures
           generated with it can be removed from the zone. This is
-          the removal time Trem(key), given by:</t>
+          the removal time (Trem), given by:</t>
 
           <t>
             <list hangIndent="10" style="empty">
-              <t>Trem(key) &gt;= Tdea(key)</t>
+              <t>Trem(N) &gt;= Tdea(N)</t>
             </list>
           </t>
         </section>
