@@ -402,10 +402,10 @@
             <t hangText="Generated">The key has been created, but has
             not yet been used for anything.</t>
 
-            <t hangText="Published">The DNSKEY 
+            <t hangText="Published">The DNSKEY and/or DS 
             record is published in the zone.</t>
 
-            <t hangText="Ready">The new DNSKEY have been
+            <t hangText="Ready">The DNSKEY and/or DS record have been
             published for long enough to guarantee that any previous
             versions of the DNSKEY RRset have expired from caches.</t>
 
@@ -432,12 +432,12 @@
             as it is safe to do so.  However, until this happens, the
             resource records may still available for use in validation.</t>
 
-            <t hangText="Dead">Associated resource records are present in
+            <t hangText="Dead">The DNSKEY and/or DS record are present in
             the zone but there is no longer information anywhere that
             requires its presence for use in validation.  Hence it can
             be removed from the zone at any time.</t>
 
-            <t hangText="Removed">Associated resource records are removed from the
+            <t hangText="Removed">The DNSKEY and/or DS record are removed from the
             zone.</t>
           </list>
         </t>
@@ -971,31 +971,7 @@ Key N+1     Tgen                      Tpub     Trdy Tact
       Key N                    Trdy   Tret    Tdea    Trem
       Key N+1                  T
 
-                              ---- Time ---->
-
-
-         |1|       |2|      |3|          |4|      |5|         |6|
-          |         |        |            |        |           |
-Key N     |         |<-Dreg->|<-Ipub(ds)->|        |<---------Lksk- -
-          |         |        |            |        |           |
-Key N+1   |         |        |            |        |           |<-- -
-          |         |        |            |        |           |
-      Tgen(key) Tsub(ds) Tpub(ds)     Trdy(key) Tact(key) TsubS(ds)
-
-                        ---- Time ---->
-
- (continued ...)
-
-                |7|          |8|       |9|           |10|      |11|
-                 |            |         |             |         |
-Key N   - ------------Lksk------------->|<-Iret(key)->|         |
-                 |            |         |             |         |
-Key N+1 - -Dreg->|<-Ipub(ds)->|         |<----------Lksk------ - -
-                 |            |         |             |         |
-            TpubS(ds)    TrdyS(key) Tret(key)     Tdea(key) Trem(key)
-                                    TactS(key)
-
-                        ---- Time ---->]]>
+                              ---- Time ---->]]>
             </artwork>
           </figure>
 
