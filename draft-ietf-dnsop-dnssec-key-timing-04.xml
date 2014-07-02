@@ -999,7 +999,7 @@ Key N+1 - -Dreg->|<-Ipub(ds)->|         |<----------Lksk------ - -
             </artwork>
           </figure>
 
-          <t>Event 1: Key N is generated at the generate time
+          <t>Event 0: Key N and N+1 are generated at the generate time
           Tgen(key). Although there is no reason why the key cannot be
           generated immediately prior to its use,
           some implementations may find it convenient to
@@ -1009,10 +1009,10 @@ Key N+1 - -Dreg->|<-Ipub(ds)->|         |<----------Lksk------ - -
           are said to be generated.</t>
 
 
-          <t>Event 2: The DS RR is submitted to the parent zone for publication.
+          <t>Event 1: The DS RR is submitted to the parent zone for publication.
           This time is the submission time, Tsub(ds).</t>
 
-          <t>Event 3: After the registration delay, Dreg, the DS
+          <t>Event 2: After the registration delay, Dreg, the DS
           record is published in the parent zone. This is the
           publication time Tpub, given by:</t>
 
@@ -1026,7 +1026,7 @@ Key N+1 - -Dreg->|<-Ipub(ds)->|         |<----------Lksk------ - -
           the end of Dreg will be signalled by the appearance of the DS
           record in the parent zone.</t>
 
-          <t>Event 4: At some later time, any cache that
+          <t>Event 3: At some later time, any cache that
           has a copy of the DS RRset will have a copy of
           the DS record for key N. At this point, key N, if introduced
           into the DNSKEY RRset, could be used to validate the
@@ -1052,7 +1052,7 @@ Key N+1 - -Dreg->|<-Ipub(ds)->|         |<----------Lksk------ - -
           zone and TTL(ds) the TTL assigned to DS records in that
           zone. </t>
 
-          <t>Event 5: At some later time, the key rollover takes
+          <t>Event 4: At some later time, the key rollover takes
           place and the new key (key N) is introduced into the
           DNSKEY RRset and used to sign that.</t>
 
@@ -1067,7 +1067,7 @@ Key N+1 - -Dreg->|<-Ipub(ds)->|         |<----------Lksk------ - -
           <t>This time is key N's activation time Tact(key) and at this
           point the key is said to be active.</t>
 
-          <t>Event 6: At some point thought must be given to key
+          <t>Event 5: At some point thought must be given to key
           replacement. The DS record for the successor key must be
           submitted to the parent zone at a time such that when the
           current key is withdrawn, any cache that contains the zone's
@@ -1082,14 +1082,14 @@ Key N+1 - -Dreg->|<-Ipub(ds)->|         |<----------Lksk------ - -
           </t>
           <t>... where Lksk is the lifetime of key N according to policy.</t>
 
-          <t>Event 7. After an interval Dreg, the successor DS record is
+          <t>Event 6. After an interval Dreg, the successor DS record is
           published in the zone at time TpubS(ds).</t>
 
-          <t> Event 8: The successor key (key N+1) enters the ready
+          <t> Event 7: The successor key (key N+1) enters the ready
           state, i.e., its DS record is now in caches that contain the parent
           DS RRset. This is the ready time of the successor key, TrdyS(key).</t>
 
-          <t>Event 9: When key N has been active for its lifetime (Lksk),
+          <t>Event 8: When key N has been active for its lifetime (Lksk),
           it is replaced in the DNSKEY RRset by key N+1; the RRset is
           then signed with the new key. This is the retire time Tret(key)
           of key N, given by:</t>
@@ -1103,7 +1103,7 @@ Key N+1 - -Dreg->|<-Ipub(ds)->|         |<----------Lksk------ - -
           <t>This time is also the activation time of the successor key
           TactS(key)</t>
 
-          <t>Event 10: At some later time, all copies of the old DNSKEY
+          <t>Event 9: At some later time, all copies of the old DNSKEY
           RRset have expired from caches and the old DS record is no
           longer needed. In analogy with other rollover methods, this is
           called the dead time, Tdea, and is
@@ -1127,7 +1127,7 @@ Key N+1 - -Dreg->|<-Ipub(ds)->|         |<----------Lksk------ - -
           zone and TTL(key), the
           time taken for the DNSKEY RRset to expire from caches.</t>
 
-          <t>Event 11: At some later time, the DS record is removed
+          <t>Event 10: At some later time, the DS record is removed
           from the parent zone. In analogy with other rollover methods,
           this is the removal time (Trem), given
           by:</t>
