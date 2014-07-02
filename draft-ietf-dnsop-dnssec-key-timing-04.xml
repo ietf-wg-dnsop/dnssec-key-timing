@@ -402,20 +402,20 @@
             <t hangText="Generated">The key has been created, but has
             not yet been used for anything.</t>
 
-            <t hangText="Published">The new DNSKEY or DS
+            <t hangText="Published">The new DNSKEY 
             record is published in the zone, but their predecessors are
             held in caches.</t>
 
-            <t hangText="Ready">The new DNSKEY or DS have been
+            <t hangText="Ready">The new DNSKEY have been
             published for long enough to guarantee that any previous
             versions of them have expired from caches.</t>
 
             <t hangText="Active">The data is starting to be used for
-            validation.  In the case of a DNSKEY used as a ZSK, it means
+            validation.  In the case of a ZSK, it means
             that the key has been started to be used to sign RRsets.
-            In the case of the DS or DNSKEY used as a KSK, it means
+            In the case of a KSK, it means
             that it is possible to use it to validate a DNSKEY RRset
-            as the DNSKEY or DS record is present in the relevant zone.
+            as the DNSKEY and DS record is present in the relevant zone.
             Note that when this state is entered, it may not be possible
             for validating resolvers to use the data for validation
             in all cases: the zone signing may not have finished, or
@@ -424,18 +424,21 @@
             case, the resolver will have to rely on the predecessor data
             instead. </t>
 
-            <t hangText="Retired">A successor DNSKEY or DS has become
-            active.  The DNSKEY or DS record will be removed as soon
+            <t hangText="Retired">The data is stopped to be used for 
+            validation. In the case of a ZSK, it means that the key has
+            been stopped to be used to sign RRsets. In the case of a KSK,
+            it means that it is no longer needed to validate a DNSKEY RRset
+            with the associated DNSKEY and DS record: the DNSKEY and DS record
+            will be removed as soon
             as it is safe to do so.  However, until this happens, the
-            resource records are still available for use in validation; in
-            some cases, a retired DNSKEY may also be used signing RRsets.</t>
+            resource records may still available for use in validation.</t>
 
-            <t hangText="Dead">The DNSKEY or DS is present in
+            <t hangText="Dead">Associated resource records are present in
             the zone but there is no longer information anywhere that
             requires its presence for use in validation.  Hence it can
             be removed from the zone at any time.</t>
 
-            <t hangText="Removed">The DNSKEY or DS is removed from the
+            <t hangText="Removed">Associated resource records are removed from the
             zone.</t>
           </list>
         </t>
