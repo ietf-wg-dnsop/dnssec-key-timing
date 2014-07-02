@@ -1145,24 +1145,23 @@ Key N+1     Tgen                      Tpub     Trdy Tact
                                  ---- Time ---->]]>
             </artwork>
           </figure>
-          <t>Event 1: Key N is generated at the generate time
-          Tgen(key). Although there is no reason why the key cannot be
+          <t>Event 0: Key N and N+1 are generated at the generate time
+          (Tgen). Although there is no reason why the key cannot be
           generated immediately prior to its publication in the zone
-          (Event 2), some implementations may find it convenient to
+          (Event 1), some implementations may find it convenient to
           create a pool of keys in one operation and draw from that
           pool as required. For this reason, it is shown as a separate
           event.  Keys that are available for use but not published
           are said to be generated.</t>
 
 
-          <t>Event 2: The key is added to and used for signing the
+          <t>Event 1: The key is added to and used for signing the
           DNSKEY RRset and is thereby published in the zone. At the
           same time the corresponding DS record is submitted to the
           parent zone for publication. This time is the publish time
-          for the key Tpub(key); it is also the submission time for
-          the DS record Tsub(ds).</t>
+          for key N (Tpub) and the key is said to be published.</t>
 
-          <t>Event 3: At some later time, the DS record is published
+          <t>Event 2: At some later time, the DS record is published
           in the parent zone and at some time after that, the updated
           information has reached all caches: any cache
           that holds a DNSKEY RRset from the child zone will
@@ -1172,11 +1171,11 @@ Key N+1     Tgen                      Tpub     Trdy Tact
           record.</t>
 
           <t>The time at which this occurs is called the activation time of
-          the new KSK Tact(key), given by:</t>
+          key N (Tact), given by:</t>
 
           <t>
             <list hangIndent="10" style="empty">
-              <t>Tact(key) = Tpub(key) + Ipub</t>
+              <t>Tact(N) = Tpub(N) + Ipub</t>
             </list>
           </t>
 
@@ -1185,78 +1184,72 @@ Key N+1     Tgen                      Tpub     Trdy Tact
 
           <t>
             <list hangIndent="10" style="empty">
-              <t>Ipub = max(Ipub(ds), Ipub(key)),</t>
+              <t>Ipub = max(IpubP, IpubC),</t>
             </list>
           </t>
 
 
-         <t>Ipub(ds) being the publication interval of the DS
-         recort in the parent zone and
-         Ipub(key) the publication interval of the DNSKEY in the child zone.
-         The DS record's publication interval is given by:</t>
+         <t>IpubP being the publication interval of the DS
+         record in the parent zone and
+         IpubC the publication interval of the DNSKEY in the child zone.
+         The parent zone's publication interval is given by:</t>
           <t>
             <list hangIndent="10" style="empty">
-              <t>Ipub(ds) = Dreg + DprpP + TTL(ds)</t>
+              <t>IpubP = Dreg + DprpP + TTLds</t>
             </list>
           </t>
         <t>where Dreg is the registration delay, the time taken for the DS
         record to be published in the parent zone. DprpP is the parent zone's
-        propagation delay and TTL(ds) is the TTL of the DS record in that zone.
+        propagation delay and TTLds is the TTL of the DS record in that zone.
         </t>
-        <t>The DNSKEY's publication interval is given by a similar equation:
+        <t>The child zone's publication interval is given by a similar equation:
         </t>
           <t>
             <list hangIndent="10" style="empty">
-              <t>Ipub(key) = DprpC + TTL(key)</t>
+              <t>IpubC = DprpC + TTLkey</t>
             </list>
           </t>
           <t>... where DprpC is the propagation delay in the child zone and
-          TTL(key) the TTL of a DNSKEY record.
+          TTLkey the TTL of a DNSKEY record.
           </t>
 
-          <t>Event 4: At some point we need to give thought to key
+          <t>Event 3: At some point we need to give thought to key
           replacement. The successor key (key N+1) must be introduced into the
           zone (and its DS record submitted to the parent) at a time
           such that it becomes active when the current key has been
-          active for its lifetime, Lksk.  This time is TpubS(key), the
-          publication time of the successor key, and is given by:</t>
+          active for its lifetime, Lksk.  This is the
+          publication time (Tpub) of the successor key, and is given by:</t>
 
           <t>
             <list hangIndent="10" style="empty">
-              <t>TpubS(key) &lt;= Tact(key) + Lksk - Ipub</t>
+              <t>Tpub(N+1) &lt;= Tact(N) + Lksk - Ipub</t>
             </list>
           </t>
 
           <t>... where Lksk is the lifetime of the KSK and Ipub is
-          as defined above.  The time is also the submission time of
-          the successor DS record, TsubS(ds).</t>
+          as defined above.</t>
 
-          <t> Event 5: Key N+1's DNSKEY and DS records are in any
+          <t> Event 4: Key N+1's DNSKEY and DS records are in any
           caches that contain the child zone DNSKEY and/or the parent
           zone DS RR, and so the zone can be
-          validated with the new key.  This is the activation time of
-          the successor key TactS(key) and by analogy with other rollover
-          methods, it is also the retire time of the current key.</t>
+          validated with the new key.  This is the activation time (Tact) of
+          the successor key N+1 and by analogy with other rollover
+          methods, it is also the dead time of key N:</t>
 
           <t>
             <list hangIndent="10" style="empty">
-              <t>Tret(key) = Tact(key) + Lksk</t>
+              <t>Tdea(N) = Tact(N) + Lksk</t>
             </list>
           </t>
 
-          <t>  Since
-          at this time the zone can be validated by the successor key, there
-          is no reason to keep the current key in the zone and the time
-          can also be regarded as the current key's dead time Tdea(key).</t>
-
-          <t>Event 6: At some later time, the key N's DS and DNSKEY
+          <t>Event 5: At some later time, the key N's DS and DNSKEY
           records are removed from their respective zones.  In
           analogy with other rollover methods,
-          this is the removal time Trem(key), given
+          this is the removal time (Trem), given
           by:</t>
           <t>
             <list hangIndent="10" style="empty">
-              <t>Trem(key) &gt;= Tdea(key)</t>
+              <t>Trem(N) &gt;= Tdea(N)</t>
             </list>
           </t>
 
