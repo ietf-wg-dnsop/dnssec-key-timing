@@ -655,17 +655,18 @@ Key N+1     Tgen                      Tpub     Trdy Tact
             <preamble/>
             <artwork align="center">
               <![CDATA[
-         |1|         |2|          |3|           |4|         |5|
-          |           |            |             |           |
-Key N     |           |<---Lzsk--->|<-Iret(key)->|           |
-          |           |            |             |           |
-Key N+1   |           |            |<-----------Lzsk--------- - -
-          |           |            |             |           |
-      Tgen(key)   Tpub(key)    Tret(key)    Tdea(key)   Trem(key)
-                  Tact(key)    TpubS(key)
-                               TactS(key)
 
-                            ---- Time ---->]]>
+                     |1|  |2|           |3|          |4|  |5|
+                      |    |             |            |    |
+             Key N    |    |<----Lzsk--->|<---Iret--->|    |
+                      |    |             |            |    |
+             Key N+1  |    |             |<-----Lzsk------- - -
+                      |    |             |            |    |
+
+             Key N   Tgen Tact                       Tdea  Trem
+             Key N+1 Tgen               Tact         
+
+                                  ---- Time ---->]]>
             </artwork>
           </figure>
           <t>Event 1: Key N is generated at the generate time
