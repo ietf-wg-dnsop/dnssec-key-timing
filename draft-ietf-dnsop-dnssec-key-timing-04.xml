@@ -1677,15 +1677,11 @@ Key N+1     Tgen                      Tpub     Trdy Tact
           * Removed section 2.3 (rollover summary) which just listed the order in which
           records are published.
           <vspace/>
-          * When referring to times and delays, include in the symbol for each an
-            indication of whether the time refers to a DNSKEY, a DS record or a signature.
-          <vspace/>
-          * Updated state description section to reflect the fact that the rollover is
-          in various states, not the key.
-          <vspace/>
           * Matthijs Mekking added as co-author.
           <vspace/>
           * Changed Lzsk and Kzsk definitions: actual lifetime instead of intended lifetime.
+          <vspace/>
+          * Update diagrams and text to better reflect key states and key lifetimes.
           </t>
 
           <t>
