@@ -765,43 +765,43 @@ Key N+1     Tgen                      Tpub     Trdy Tact
             <preamble/>
             <artwork align="center">
               <![CDATA[
-         |1|       |2|           |3|      |4|      |5|        |6|
-          |         |             |        |        |          |
-Key N     |         |<-Ipub(key)->|        |<-Dreg->|<----Lksk-- - -
-          |         |             |        |        |          |
-Key N+1   |         |             |        |        |          |<- -
-          |         |             |        |        |          |
-      Tgen(key) Tpub(key)    Trdy(key) Tsub(ds) Tact(key) TpubS(key)
-                                                Tpub(ds)
-                        ---- Time ---->
 
-(continued ...)
+                   |0|  |1|      |2|   |3|      |4|
+                    |    |        |     |        |
+        Key N       |    |<-Ipub->|<--->|<-Dreg->|<-----Lksk--- - -
+                    |    |        |     |        |
+        Key N+1     |    |        |     |        |
+                    |    |        |     |        |
+        Key N      Tgen Tpub     Trdy  Tsubds   Tact
+        Key N+1    Tgen
 
-                    |7|        |8|       |9|          |10|      |11|
-                     |          |         |            |         |
-Key N    - -----------Lksk--------------->|<-Iret(key)>|         |
-                     |          |         |            |         |
-Key N+1  -Ipub(key)->|          |<--Dreg->|<------Lzsk----- - - - -
-                     |          |         |            |         |
-                TrdyS(key) TsubS(ds) Tret(key)    Tdea(key) Trem(key)
-                                     Trem(ds)
-                                     TpubS(ds)
-                                     TactS(key)
+                            ---- Time ---->
 
-                        ---- Time ---->]]>
+        (continued ...)
+
+                    |5|      |6|   |7|      |8|      |9|    |10|
+                     |        |     |        |        |       |
+        Key N   - - -------------Lksk------->|<-Iret->|       |
+                     |        |     |        |        |       |
+        Key N+1      |<-Ipub->|<--->|<-Dreg->|<--------Lksk----- - -
+                     |        |     |        |        |       |
+        Key N                               Tret      Tdea   Trem
+        Key N+1     Tpub     Trdy  Tsubds   Tact
+
+                        ---- Time (cont) ---->]]>
             </artwork>
           </figure>
 
-          <t>Event 1: Key N is generated at the generate time
-          Tgen(key). Although there is no reason why the key cannot be
+          <t>Event 0: Key N and N+1 are generated at the generate time
+          (Tgen). Although there is no reason why the key cannot be
           generated immediately prior to its publication in the zone
-          (Event 2), some implementations may find it convenient to
+          (Event 1), some implementations may find it convenient to
           create a pool of keys in one operation and draw from that
           pool as required. For this reason, it is shown as a separate
           event.  Keys that are available for use but not published
           are said to be generated.</t>
 
-          <t>Event 2: Key N is introduced into the zone; it is added
+          <t>Event 1: Key N is introduced into the zone; it is added
           to the DNSKEY RRset, which is then signed by key N and all
           currently active KSKs. (So at this point, the DNSKEY RRset
           is signed by both key N and its predecessor KSK. If other
@@ -809,7 +809,7 @@ Key N+1  -Ipub(key)->|          |<--Dreg->|<------Lzsk----- - - - -
           the publication time Tpub(key); after this the key is said to
           be published.</t>
 
-          <t>Event 3: Before it can be used, the key must be published
+          <t>Event 2: Before it can be used, the key must be published
           for long enough to guarantee that any validating resolver
           that has a copy of the DNSKEY RRset in its
           cache will have a copy of the RRset that includes this key:
@@ -837,11 +837,11 @@ Key N+1  -Ipub(key)->|          |<--Dreg->|<------Lzsk----- - - - -
           <t> (The case of introducing the first KSK into the zone is
           discussed in <xref target="first_key"/>.)</t>
 
-          <t>Event 4: At some later time, the DS record corresponding to
+          <t>Event 3: At some later time, the DS record corresponding to
           the new KSK is submitted to the parent zone for
           publication. This time is the submission time, Tsub(ds). </t>
 
-          <t>Event 5: The DS record is published in the parent zone at
+          <t>Event 4: The DS record is published in the parent zone at
           time Tpub(ds). This is the publication time of the DS record
           Tpub(ds), given by:</t>
 
@@ -863,7 +863,7 @@ Key N+1  -Ipub(key)->|          |<--Dreg->|<------Lzsk----- - - - -
           <t>As the KSK can now be used to authenticate zones, the
           time is also the activation time of the KSK Tact(key).</t>
 
-          <t>Event 6: While key N is active, thought needs to be given
+          <t>Event 5: While key N is active, thought needs to be given
           to its successor (key N+1).  At some time before the
           scheduled end of the KSK lifetime, the successor KSK is
           published in the zone. (As before, this means that the DNSKEY
@@ -878,16 +878,16 @@ Key N+1  -Ipub(key)->|          |<--Dreg->|<------Lzsk----- - - - -
           <t>... where Lksk is the scheduled lifetime of the KSK.</t>
 
 
-          <t>Event 7: After an interval Ipub(key), key N+1
+          <t>Event 6: After an interval Ipub(key), key N+1
           becomes ready (in that all caches that have a
           copy of the DNSKEY RRset have a copy of this key). This time is
           the ready time of the successor TrdyS(key).</t>
 
-          <t>Event 8: At the submission time of the successor TsubS(ds), the DS
+          <t>Event 7: At the submission time of the successor TsubS(ds), the DS
           record corresponding to key N+1 is submitted to
           the parent zone.</t>
 
-          <t>Event 9: The successor DS record is published in the
+          <t>Event 8: The successor DS record is published in the
           parent zone and the current DS record withdrawn. The current
           key is said to be retired and the time at which this occurs
           is Tret(key), given by:</t>
@@ -902,7 +902,7 @@ Key N+1  -Ipub(key)->|          |<--Dreg->|<------Lzsk----- - - - -
           the removal time of the DS record Trem(ds) and the publication time
           of the successor DS record TpubS(ds).</t>
 
-           <t>Event 10: Key N must remain in the zone until any
+           <t>Event 9: Key N must remain in the zone until any
           caches that contain a copy of the DS RRset have a copy containing
           the new DS record. This interval is the
           retire interval, given by:</t>
@@ -922,7 +922,7 @@ Key N+1  -Ipub(key)->|          |<--Dreg->|<------Lzsk----- - - - -
             </list>
           </t>
 
-          <t>Event 11: At some later time, key N is removed from the
+          <t>Event 10: At some later time, key N is removed from the
           zone's DNSKEY RRset (at the remove time Trem(key)); the key is
           now said to be removed.</t>
           <t>
