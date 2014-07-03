@@ -193,15 +193,15 @@
         <xref target="RFC6781"/>.  In contrast,
         this document focuses on the low-level timing detail of
         two classes of operations described there, the rollover
-        of key-signing keys, and the rollover of zone-signing keys.</t>
-
+        of zone-signing keys (ZSKs), and the rollover of key-signing keys
+        (KSKs).</t>
 
       </section>
 
       <section title="Types of Keys">
         <t>Although DNSSEC validation treats all keys equally, <xref
         target="RFC4033"/> recognises the broad classification of
-        zone-signing keys (ZSK) and key-signing keys (KSK). A ZSK is
+        ZSKs and KSKs. A ZSK is
         used to authenticate information within the zone; a KSK is
         used to authenticate the zone's DNSKEY RRset. The main
         implication for this distinction concerns the consistency of
