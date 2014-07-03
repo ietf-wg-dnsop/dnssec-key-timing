@@ -414,7 +414,7 @@
             that the key has been started to be used to sign RRsets.
             In the case of a KSK, it means
             that it is possible to use it to validate a DNSKEY RRset
-            as the DNSKEY and DS record is present in the relevant zone.
+            as the DNSKEY and DS records are present in the relevant zones.
             Note that when this state is entered, it may not be possible
             for validating resolvers to use the data for validation
             in all cases: the zone signing may not have finished, or
@@ -423,12 +423,12 @@
             case, the resolver will have to rely on the predecessor data
             instead. </t>
 
-            <t hangText="Retired">The data is stopped to be used for 
-            validation. In the case of a ZSK, it means that the key has
-            been stopped to be used to sign RRsets. In the case of a KSK,
-            it means that it is no longer needed to validate a DNSKEY RRset
-            with the associated DNSKEY and DS record: the DNSKEY and DS record
-            will be removed as soon
+            <t hangText="Retired">The data has ceased to be used for 
+            validation. In the case of a ZSK, it means that the key 
+            is no longer used to sign RRsets. In the case of a KSK,
+            it means that the successor DNSKEY and DS records
+            are in place:
+            this key and its DS record can be removed as soon
             as it is safe to do so.  However, until this happens, the
             resource records may still available for use in validation.</t>
 
@@ -437,8 +437,8 @@
             requires its presence for use in validation.  Hence it can
             be removed from the zone at any time.</t>
 
-            <t hangText="Removed">The DNSKEY and/or DS record are removed from the
-            zone.</t>
+            <t hangText="Removed">The DNSKEY and/or DS record have been
+            removed from the zone.</t>
           </list>
         </t>
         <t>There is one additional state, used where <xref
@@ -477,18 +477,16 @@
             <preamble/>
             <artwork align="center">
               <![CDATA[
-            |0|  |1|      |2|   |3|   |4|      |5|  |6|      |7|   |8|
-             |    |        |     |     |        |    |        |     |
-     Key N   |    |<-Ipub->|<--->|<-------Lzsk------>|<-Iret->|<--->|
-             |    |        |     |     |        |    |        |     |
-     Key N+1 |    |        |     |     |<-Ipub->|<-->|<---Lzsk-- - -
-             |    |        |     |     |        |    |        |     |
-
-Key N       Tgen Tpub     Trdy  Tact                Tret     Tdea  Trem
-Key N+1     Tgen                      Tpub     Trdy Tact
+         |0|  |1|      |2|   |3|   |4|      |5|  |6|      |7|   |8|
+          |    |        |     |     |        |    |        |     |
+Key N     |    |<-Ipub->|<--->|<-------Lzsk------>|<-Iret->|<--->|
+          |    |        |     |     |        |    |        |     |
+Key N+1   |    |        |     |     |<-Ipub->|<-->|<---Lzsk---- - -
+          |    |        |     |     |        |    |        |     |
+Key N    Tgen Tpub     Trdy  Tact                Tret     Tdea  Trem
+Key N+1  Tgen                      Tpub     Trdy Tact
 
                              ---- Time ---->]]>
-
             </artwork>
           </figure>
           <t>Event 0: Key N and N+1 are generated at the generate time
@@ -563,7 +561,7 @@ Key N+1     Tgen                      Tpub     Trdy Tact
 
           <t>Here, Lzsk is the length of time for which a ZSK will be
           used (the ZSK lifetime). It should be noted that in the diagrams
-          the actual key lifetime is represented, this may differ slightly from
+          the actual key lifetime is represented; this may differ slightly from
           the intended lifetime set by key management policy.</t>
 
           <t>Event 5: While key N is still active, its successor becomes
@@ -650,18 +648,18 @@ Key N+1     Tgen                      Tpub     Trdy Tact
             <preamble/>
             <artwork align="center">
               <![CDATA[
+        |0|  |1|           |2|        |3|   |4|
+         |    |             |          |     |
+Key N    |    |<-------Lzsk----------->|<--->|
+         |    |             |          |     |
+         |    |             |<--Iret-->|     |
+         |    |             |          |     |
+Key N+1  |    |             |<----Lzsk------- - -
+         |    |             |          |     |
+Key N   Tgen Tact                     Tdea  Trem
+Key N+1 Tgen               Tact         
 
-                     |0|  |1|           |2|          |3|  |4|
-                      |    |             |            |    |
-             Key N    |    |<----Lzsk---------------->|    |
-                      |    |             |<---Iret--->|    |
-             Key N+1  |    |             |<-----Lzsk------- - -
-                      |    |             |            |    |
-
-             Key N   Tgen Tact                       Tdea  Trem
-             Key N+1 Tgen               Tact         
-
-                                  ---- Time ---->]]>
+                     ---- Time ---->]]>
             </artwork>
           </figure>
           <t>Event 0: Key N and N+1 are generated at the generate time
@@ -678,7 +676,7 @@ Key N+1     Tgen                      Tpub     Trdy Tact
           not removed. The key is published and active: this is key N's
           activation time (Tact), after which the key is said to be active.</t>
 
-          <t>Event 2: After the current key (key N) has been in use for
+          <t>Event 2: As the current key (key N) approaches the end of
           its actual lifetime (Lzsk), the successor key (key N+1) is
           introduced into the zone and starts being used to sign RRsets:
           neither the current key nor the signatures created with it are
@@ -708,7 +706,9 @@ Key N+1     Tgen                      Tpub     Trdy Tact
 
           <t>As before, Dsgn is the delay needed to ensure that all
           existing RRsets have been signed with the new key and Dprp is
-          the propagation delay.  The final term (the maximum of
+          the propagation delay, required to guarantee that the updated
+          zone information has reached all slave servers.
+          The final term (the maximum of
           TTLkey and TTLsig) is the period to wait for key and
           signature data associated with key N to expire from
           caches. (TTLkey is the TTL of the DNSKEY RRset and TTLsig
@@ -718,7 +718,7 @@ Key N+1     Tgen                      Tpub     Trdy Tact
           associated RRset <xref target="RFC4034"/>, the DNSKEY RRset
           only needs to be signed with the KSK.)</t>
 
-          <t>  At the end of this interval, key N is said to be
+          <t>At the end of this interval, key N is said to be
           dead. This occurs at the dead time (Tdea) so:</t>
 
           <t>
@@ -760,28 +760,27 @@ Key N+1     Tgen                      Tpub     Trdy Tact
             <preamble/>
             <artwork align="center">
               <![CDATA[
-
-                   |0|  |1|      |2|   |3|      |4|
-                    |    |        |     |        |
-        Key N       |    |<-Ipub->|<--->|<-Dreg->|<-----Lksk--- - -
-                    |    |        |     |        |
-        Key N+1     |    |        |     |        |
-                    |    |        |     |        |
-        Key N      Tgen Tpub     Trdy  Tsubds   Tact
-        Key N+1    Tgen
+           |0|  |1|      |2|   |3|      |4|
+            |    |        |     |        |
+Key N       |    |<-Ipub->|<--->|<-Dreg->|<-----Lksk--- - -
+            |    |        |     |        |
+Key N+1     |    |        |     |        |
+            |    |        |     |        |
+Key N      Tgen Tpub     Trdy  Tsubds   Tact
+Key N+1    Tgen
 
                             ---- Time ---->
 
         (continued ...)
 
-                    |5|      |6|   |7|      |8|      |9|    |10|
-                     |        |     |        |        |       |
-        Key N   - - -------------Lksk------->|<-Iret->|       |
-                     |        |     |        |        |       |
-        Key N+1      |<-Ipub->|<--->|<-Dreg->|<--------Lksk----- - -
-                     |        |     |        |        |       |
-        Key N                               Tret      Tdea   Trem
-        Key N+1     Tpub     Trdy  Tsubds   Tact
+            |5|      |6|   |7|      |8|      |9|    |10|
+             |        |     |        |        |       |
+Key N   - - -------------Lksk------->|<-Iret->|<----->|
+             |        |     |        |        |       |
+Key N+1      |<-Ipub->|<--->|<-Dreg->|<--------Lksk----- - -
+             |        |     |        |        |       |
+Key N                               Tret     Tdea    Trem
+Key N+1     Tpub     Trdy  Tsubds   Tact
 
                         ---- Time (cont) ---->]]>
             </artwork>
@@ -883,7 +882,8 @@ Key N+1     Tgen                      Tpub     Trdy Tact
           copy of the DNSKEY RRset have a copy of this key). This time is
           the ready time of the successor key N+1 (Trdy).</t>
 
-          <t>Event 7: At the submission time of the successor key N+1, Tsubds, the DS
+          <t>Event 7: At the submission time of the successor key N+1,
+          Tsubds(N+1), the DS
           record corresponding to key N+1 is submitted to
           the parent zone.</t>
 
@@ -945,26 +945,26 @@ Key N+1     Tgen                      Tpub     Trdy Tact
             <preamble/>
             <artwork align="center">
               <![CDATA[
-              |0|  |1|      |2|       |3|  |4|    |5|
-               |    |        |         |    |      |
-      Key N    |    |<-Dreg->|<-IpubP->|<-->|<---------Lksk------- - -
-               |    |        |         |    |      |
-      Key N+1  |    |        |         |    |<---->|<--Dreg+IpubP- - -
-               |    |        |         |    |      |
-      Key N   Tgen Tsubds   Tpub      Trdy Tact   
-      Key N+1 Tgen                                Tsubds
-                              ---- Time ---->
+        |0|  |1|      |2|       |3|  |4|    |5|
+         |    |        |         |    |      |
+Key N    |    |<-Dreg->|<-IpubP->|<-->|<-------Lksk----- - -
+         |    |        |         |    |      |
+Key N+1  |    |        |         |    |      |<--Dreg-- - -
+         |    |        |         |    |      |
+Key N   Tgen Tsubds   Tpub      Trdy Tact   
+Key N+1 Tgen                                Tsubds
+                        ---- Time ---->
 
        (continued ...)
 
-                          |6|  |7|   |8|      |9|    |10|
-                                |     |        |      |
-      Key N   - - -----Lksk---------->|<-Iret->|      |
-                           |    |     |        |      |
-      Key N+1 - - --Dreg-->|<-IpubP->|<--->|<------Lksk------ - -
-                           |    |     |        |      |
-      Key N                           Tret    Tdea    Trem
-      Key N+1             Tpub Trdy   Tact
+                    |6|  |7|  |8|      |9|    |10|
+                     |    |    |        |      |
+Key N   - - -----Lksk--------->|<-Iret->|<---->|
+                     |    |    |        |      |
+Key N+1 - - --Dreg-->|<-IpubP->|<------>|<------Lksk------ - -
+                     |    |    |        |      |
+Key N                         Tret     Tdea   Trem
+Key N+1             Tpub Trdy Tact
 
                               ---- Time ---->]]>
             </artwork>
@@ -981,7 +981,7 @@ Key N+1     Tgen                      Tpub     Trdy Tact
 
 
           <t>Event 1: The DS RR is submitted to the parent zone for publication.
-          This time is the submission time, Tsub.</t>
+          This time is the submission time, Tsubds.</t>
 
           <t>Event 2: After the registration delay, Dreg, the DS
           record is published in the parent zone. This is the
@@ -1053,7 +1053,7 @@ Key N+1     Tgen                      Tpub     Trdy Tact
               <t>Tsubds(N+1) &lt;= Tact(N) + Lksk - Ipub - Dreg</t>
             </list>
           </t>
-          <t>... where Lksk is the actual lifetime of key N (which may differ slightly from the lifetime set in the key management policy.</t>
+          <t>... where Lksk is the actual lifetime of key N (which may differ slightly from the lifetime set in the key management policy).</t>
 
           <t>Event 6. After an interval Dreg, the successor DS record is
           published in the zone at time Tpub.</t>
@@ -1128,16 +1128,16 @@ Key N+1     Tgen                      Tpub     Trdy Tact
             <preamble/>
             <artwork align="center">
               <![CDATA[
-                     |0|  |1|      |2|     |3|      |4|      |5|
-                      |    |        |       |        |        |
-             Key N    |    |<-Ipub->|<-----Lksk----->|        |
-                      |    |        |       |        |        |
-             Key N+1  |    |        |       |<-Ipub->|        |
-                      |    |        |       |        |        |
-             Key N   Tgen  Tpub    Tact             Tret    Trem
-             Key N+1 Tgen                  Tpub     Tact
+         |0|   |1|      |2|     |3|      |4|      |5|
+          |     |        |       |        |        |
+ Key N    |     |<-Ipub->|<-----Lksk----->|<------>|
+          |     |        |       |        |        |
+ Key N+1  |     |        |       |<-Ipub->|<------Lksk--- - -
+          |     |        |       |        |        |
+ Key N   Tgen  Tpub     Tact             Tret     Trem
+ Key N+1 Tgen                   Tpub     Tact
 
-                                 ---- Time ---->]]>
+                  ---- Time ---->]]>
             </artwork>
           </figure>
           <t>Event 0: Key N and N+1 are generated at the generate time
