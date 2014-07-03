@@ -318,7 +318,7 @@
         of time taken to perform the rollover, the disadvantage of the
         Double-Signature rollover in terms of zone and response sizes,
         and none of the advantages of either. For these reasons, it
-        is unlikely to be used in any real-world situations, and so
+        is unlikely to be used in any real-world situations and so
         will not be considered further in this document.</t>
 
       </section>
