@@ -193,15 +193,14 @@
         <xref target="RFC6781"/>.  In contrast,
         this document focuses on the low-level timing detail of
         two classes of operations described there, the rollover
-        of zone-signing keys, and the rollover of key-signing keys.</t>
-
-
+        of zone-signing keys (ZSKs), and the rollover of key-signing keys
+        (KSKs).</t>
       </section>
 
       <section title="Types of Keys">
         <t>Although DNSSEC validation treats all keys equally, <xref
         target="RFC4033"/> recognises the broad classification of
-        zone-signing keys (ZSK) and key-signing keys (KSK). A ZSK is
+        ZSKs and KSKs. A ZSK is
         used to authenticate information within the zone; a KSK is
         used to authenticate the zone's DNSKEY RRset. The main
         implication for this distinction concerns the consistency of
@@ -874,8 +873,10 @@ Key N+1     Tpub     Trdy  Tsubds   Tact
               <t>Tpub(N+1) &lt;= Tact(N) + Lksk - Dreg - Ipub</t>
             </list>
           </t>
-          <t>... where Lksk is the actual lifetime of the KSK.</t>
-
+          <t>... where Lksk is the actual lifetime of the KSK, and Dreg
+          the registration delay. In practice, Dreg will not be a fixed time:
+          instead, the end of Dreg will be signalled by the appearance of
+          the DS record in the parent zone.</t>
 
           <t>Event 6: After an interval Ipub, key N+1
           becomes ready (in that all caches that have a
@@ -1021,7 +1022,8 @@ Key N+1             Tpub Trdy Tact
 
           <t>Event 4: At some later time, the key rollover takes
           place and the new key (key N) is introduced into the
-          DNSKEY RRset and used to sign that.</t>
+          DNSKEY RRset and used to sign that, while the old key is removed from
+          the DNSKEY RRset.</t>
 
           <t>As both the old and new DS records have been in the
           parent zone long enough to ensure that they are in caches
@@ -1053,7 +1055,12 @@ Key N+1             Tpub Trdy Tact
               <t>Tsubds(N+1) &lt;= Tact(N) + Lksk - Ipub - Dreg</t>
             </list>
           </t>
-          <t>... where Lksk is the actual lifetime of key N (which may differ slightly from the lifetime set in the key management policy).</t>
+          <t>... where Lksk is the actual lifetime of key N (which may differ
+          slightly from the lifetime set in the key management policy) and
+          Dreg is the registration delay. Again, Dreg will not be a fixed
+          time: instead,
+          the end of Dreg will be signalled by the appearance of the DS
+          record in the parent zone.</t>
 
           <t>Event 6. After an interval Dreg, the successor DS record is
           published in the zone at time Tpub.</t>
