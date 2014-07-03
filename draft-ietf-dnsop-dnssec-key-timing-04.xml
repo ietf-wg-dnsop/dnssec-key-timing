@@ -1056,8 +1056,10 @@ Key N+1     Tgen                      Tpub     Trdy Tact
               <t>Tsubds(N+1) &lt;= Tact(N) + Lksk - Ipub - Dreg</t>
             </list>
           </t>
-          <t>... where Lksk is the actual lifetime of key N (which may differ slightly from the lifetime set in the key management policy) and
-          Dreg is the registration delay. Again, Dreg will not be a fixed time: instead,
+          <t>... where Lksk is the actual lifetime of key N (which may differ
+          slightly from the lifetime set in the key management policy) and
+          Dreg is the registration delay. Again, Dreg will not be a fixed
+          time: instead,
           the end of Dreg will be signalled by the appearance of the DS
           record in the parent zone.</t>
 
