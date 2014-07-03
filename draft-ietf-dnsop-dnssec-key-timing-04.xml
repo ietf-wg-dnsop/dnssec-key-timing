@@ -211,7 +211,7 @@
         pieces of information to perform an authentication. At the
         time of authentication, each piece of information may be in
         its cache or may need to be retrieved
-        from the authoritative server. The rollover process needs to
+        from an authoritative server. The rollover process needs to
         happen in such a way that at all times during the rollover
         the information is consistent. With a ZSK, the information is
         the RRSIG (plus associated RRset) and the DNSKEY. These are
