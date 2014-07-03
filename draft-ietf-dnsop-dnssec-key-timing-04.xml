@@ -270,7 +270,7 @@
             retained. During the period in which the zone is being
             signed (again, the signing process may not be atomic),
             validating resolvers are always able to validate RRSIGs: any
-            combination of old and new DNSKEY RRset and RRSIG allows
+            combination of old and new DNSKEY RRset and RRSIGs allows
             at least one signature to be validated.
             <vspace blankLines="1"/>
             Once the signing process is complete and
