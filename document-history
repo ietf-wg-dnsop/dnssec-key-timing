@@ -1,0 +1,18 @@
+
+Initially, the draft draft-ietf-dnsop-dnssec-key-timing-03 had been created and gone through the working group and had 
+made it to Working Group Last Call (WGLC).  While there, the document stalled, more for lack of document shepherding than lack of consensus.    While this draft was in WGLC, Matthjis put together a companion draft draft-mekking-dnsop-dnssec-key-timing-bis, and updated the original document with detailed timelines on key rollovers. 
+
+The consesus was made to bring the old drafts back to life. However, the ADs saw no benefit from moving a document and its updated version forward.  It was decided to make one document which would accurately reflect the two documents, without doing a large-scale rewrite of the draft.
+
+Sectional Changes in the document:
+
+  - addition of IETF Requirements section 1.4
+  
+  - addition of Section 2.3: Rollover Method Summary (with handy chart)
+  
+  - removal of section 3.2.3: Double-RRSIG Method.   Not felt to be applicable 
+  
+  - 'Double-Signature' was renamed to 'Double-KSK' to reflect the type of key
+  
+  
+
