@@ -4,15 +4,23 @@ made it to Working Group Last Call (WGLC).  While there, the document stalled, m
 
 The consesus was made to bring the old drafts back to life. However, the ADs saw no benefit from moving a document and its updated version forward.  It was decided to make one document which would accurately reflect the two documents, without doing a large-scale rewrite of the draft.
 
-Sectional Changes in the document:
+(from the Appendix on changes)
 
-  - addition of IETF Requirements section 1.4
-  
-  - addition of Section 2.3: Rollover Method Summary (with handy chart)
-  
-  - removal of section 3.2.3: Double-RRSIG Method.   Not felt to be applicable 
-  
-  - 'Double-Signature' was renamed to 'Double-KSK' to reflect the type of key
-  
-  
-
+o  draft-ietf-dnsop-dnssec-key-timing-04	
+ 	      * Renamed to "DNSSEC Key Rollover Timing Considerations" to	
+ 	      emphasise that this draft concerns rollover timings.	
+ 	      * Updated 4641bis reference to RFC 6781.	
+ 	      * Add introductory paragraph to each rollover description	
+ 	      summarising its essential features.	
+ 	      * Remove detailed description of double-RRSIG ZSK rollover.  It is	
+ 	      extremely unlikely to be used in any practical situation.	
+ 	      * "Double-Signature" KSK rollover renamed to "Double-KSK" to avoid	
+ 	      confusion with the ZSK rollover of the same name.	
+ 	      * Removed section 2.3 (rollover summary) which just listed the	
+ 	      order in which records are published.	
+ 	      * Matthijs Mekking added as co-author.	
+ 		
+ 	      * Changed Lzsk and Kzsk definitions: actual lifetime instead of	
+ 	      intended lifetime.	
+ 	      * Update diagrams and text to better reflect key states and key	
+ 	      lifetimes.
