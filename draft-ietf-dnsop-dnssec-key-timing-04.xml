@@ -875,8 +875,10 @@ Key N+1     Tgen                      Tpub     Trdy Tact
               <t>Tpub(N+1) &lt;= Tact(N) + Lksk - Dreg - Ipub</t>
             </list>
           </t>
-          <t>... where Lksk is the actual lifetime of the KSK.</t>
-
+          <t>... where Lksk is the actual lifetime of the KSK, and Dreg
+          the registration delay. In practice, Dreg will not be a fixed time:
+          instead, the end of Dreg will be signalled by the appearance of
+          the DS record in the parent zone.</t>
 
           <t>Event 6: After an interval Ipub, key N+1
           becomes ready (in that all caches that have a
@@ -1021,7 +1023,8 @@ Key N+1     Tgen                      Tpub     Trdy Tact
 
           <t>Event 4: At some later time, the key rollover takes
           place and the new key (key N) is introduced into the
-          DNSKEY RRset and used to sign that.</t>
+          DNSKEY RRset and used to sign that, while the old key is removed from
+          the DNSKEY RRset.</t>
 
           <t>As both the old and new DS records have been in the
           parent zone long enough to ensure that they are in caches
@@ -1053,7 +1056,10 @@ Key N+1     Tgen                      Tpub     Trdy Tact
               <t>Tsubds(N+1) &lt;= Tact(N) + Lksk - Ipub - Dreg</t>
             </list>
           </t>
-          <t>... where Lksk is the actual lifetime of key N (which may differ slightly from the lifetime set in the key management policy.</t>
+          <t>... where Lksk is the actual lifetime of key N (which may differ slightly from the lifetime set in the key management policy) and
+          Dreg is the registration delay. Again, Dreg will not be a fixed time: instead,
+          the end of Dreg will be signalled by the appearance of the DS
+          record in the parent zone.</t>
 
           <t>Event 6. After an interval Dreg, the successor DS record is
           published in the zone at time Tpub.</t>
@@ -1224,7 +1230,7 @@ Key N+1     Tgen                      Tpub     Trdy Tact
           <t>... where Lksk is the actual lifetime of the KSK and Ipub is
           as defined above.</t>
 
-          <t> Event 4: Key N+1's DNSKEY and DS records are in any
+          <t> Event 4: Key N+1's DNSKEY and DS records are now in any
           caches that contain the child zone DNSKEY and/or the parent
           zone DS RR, and so the zone can be
           validated with the new key.  This is the activation time (Tact) of
