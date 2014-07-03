@@ -1,8 +1,21 @@
 
-Initially, the draft draft-ietf-dnsop-dnssec-key-timing-03 had been created and gone through the working group and had 
-made it to Working Group Last Call (WGLC).  While there, the document stalled, more for lack of document shepherding than lack of consensus.    While this draft was in WGLC, Matthjis put together a companion draft draft-mekking-dnsop-dnssec-key-timing-bis, and updated the original document with detailed timelines on key rollovers. 
+Initially, the document draft-ietf-dnsop-dnssec-key-timing-03 had 
+gone through the working group and was in Working Group Last Call
+(WGLC).  While there, the document stalled, more for lack of document
+shepherding than lack of consensus.  Soon after, a companion document
+titled draft-mekking-dnsop-dnssec-key-timing-bis appeared, and stalled
+in a similar manner.
 
-The consesus was made to bring the old drafts back to life. However, the ADs saw no benefit from moving a document and its updated version forward.  It was decided to make one document which would accurately reflect the two documents, without doing a large-scale rewrite of the draft.
+This version of the document (which will be published as -04) does
+not reflect two documents. It is more a document driven by the
+consensus of the WG (which was and still is "ship it"). Hence, this
+does not include (m)any updates of the draft
+draft-mekking-dnsop-dnssec-key-timing-bis.
+
+The changes made in draft-ietf-dnsop-dnssec-key-timing are merely small
+changes to make clearer that the states are related to the keys involved
+in the rollover, and the states are not related to the rollover itself.
+
 
 (from the Appendix on changes)
 
