@@ -1,10 +1,9 @@
 
 Initially, the document draft-ietf-dnsop-dnssec-key-timing-03 had 
 gone through the working group and was in Working Group Last Call
-(WGLC).  While there, the document stalled, more for lack of document
-shepherding than lack of consensus.  Soon after, a companion document
-titled draft-mekking-dnsop-dnssec-key-timing-bis appeared, and stalled
-in a similar manner.
+(WGLC).  The document stalled for various administrative reasons.  
+Soon after, a companion document titled draft-mekking-dnsop-dnssec-key-timing-bis 
+appeared, and stalled in a similar manner.
 
 This version of the document (which will be published as -04) does
 not reflect two documents. It is more a document driven by the
