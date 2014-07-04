@@ -327,7 +327,7 @@
 
       <section title="KSK Rollovers">
 
-        <t>In the KSK case, there can never be a problem that a caching
+        <t>In the KSK case, there should not be a problem that a caching
         validator does not have access to a particular signature that
         corresponds to a valid KSK. The KSK is only used for one signature
         (that over the DNSKEY RRset) and both the key and the signature
@@ -396,9 +396,9 @@
         DNSKEY RRset. In Double-Signature there is just one parent
         interaction but there is a larger DNSKEY RRset. In the case
         of Double-DS there are two interactions with the parent
-        (although the second one is not time critical). The Double-RRset
-        is the fastest, but has both the disadvantages of the other
-        two methods.</t>
+        (although the second one does not slow down your rollover).
+        The Double-RRset is the fastest, but has both the disadvantages
+        of the other two methods.</t>
 
       </section>
 
