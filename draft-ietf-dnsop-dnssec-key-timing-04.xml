@@ -488,14 +488,14 @@
             <preamble/>
             <artwork align="center">
               <![CDATA[
-         |0|  |1|      |2|   |3|   |4|      |5|  |6|      |7|   |8|
-          |    |        |     |     |        |    |        |     |
-Key N     |    |<-Ipub->|<--->|<-------Lzsk------>|<-Iret->|<--->|
-          |    |        |     |     |        |    |        |     |
-Key N+1   |    |        |     |     |<-Ipub->|<-->|<---Lzsk---- - -
-          |    |        |     |     |        |    |        |     |
-Key N    Tgen Tpub     Trdy  Tact                Tret     Tdea  Trem
-Key N+1  Tgen                      Tpub     Trdy Tact
+              |1|      |2|   |3|   |4|      |5|  |6|      |7|   |8|
+               |        |     |     |        |    |        |     |
+Key N          |<-Ipub->|<--->|<-------Lzsk------>|<-Iret->|<--->|
+               |        |     |     |        |    |        |     |
+Key N+1        |        |     |     |<-Ipub->|<-->|<---Lzsk---- - -
+               |        |     |     |        |    |        |     |
+Key N         Tpub     Trdy  Tact                Tret     Tdea  Trem
+Key N+1                            Tpub     Trdy Tact
 
                              ---- Time ---->]]>
             </artwork>
@@ -659,16 +659,16 @@ Key N+1  Tgen                      Tpub     Trdy Tact
             <preamble/>
             <artwork align="center">
               <![CDATA[
-        |0|  |1|           |2|        |3|   |4|
-         |    |             |          |     |
-Key N    |    |<-------Lzsk----------->|<--->|
-         |    |             |          |     |
-         |    |             |<--Iret-->|     |
-         |    |             |          |     |
-Key N+1  |    |             |<----Lzsk------- - -
-         |    |             |          |     |
-Key N   Tgen Tact                     Tdea  Trem
-Key N+1 Tgen               Tact
+             |1|           |2|        |3|   |4|
+              |             |          |     |
+Key N         |<-------Lzsk----------->|<--->|
+              |             |          |     |
+              |             |<--Iret-->|     |
+              |             |          |     |
+Key N+1       |             |<----Lzsk------- - -
+              |             |          |     |
+Key N        Tact                     Tdea  Trem
+Key N+1                    Tact
 
                      ---- Time ---->]]>
             </artwork>
@@ -771,14 +771,14 @@ Key N+1 Tgen               Tact
             <preamble/>
             <artwork align="center">
               <![CDATA[
-           |0|  |1|      |2|   |3|      |4|
-            |    |        |     |        |
-Key N       |    |<-Ipub->|<--->|<-Dreg->|<-----Lksk--- - -
-            |    |        |     |        |
-Key N+1     |    |        |     |        |
-            |    |        |     |        |
-Key N      Tgen Tpub     Trdy  Tsubds   Tact
-Key N+1    Tgen
+                |1|      |2|   |3|      |4|
+                 |        |     |        |
+Key N            |<-Ipub->|<--->|<-Dreg->|<-----Lksk--- - -
+                 |        |     |        |
+Key N+1          |        |     |        |
+                 |        |     |        |
+Key N           Tpub     Trdy  Tsubds   Tact
+Key N+1
 
                             ---- Time ---->
 
@@ -958,14 +958,14 @@ Key N+1     Tpub     Trdy  Tsubds   Tact
             <preamble/>
             <artwork align="center">
               <![CDATA[
-        |0|  |1|      |2|       |3|  |4|    |5|
-         |    |        |         |    |      |
-Key N    |    |<-Dreg->|<-IpubP->|<-->|<-------Lksk----- - -
-         |    |        |         |    |      |
-Key N+1  |    |        |         |    |      |<--Dreg-- - -
-         |    |        |         |    |      |
-Key N   Tgen Tsubds   Tpub      Trdy Tact
-Key N+1 Tgen                                Tsubds
+             |1|      |2|       |3|  |4|    |5|
+              |        |         |    |      |
+Key N         |<-Dreg->|<-IpubP->|<-->|<-------Lksk----- - -
+              |        |         |    |      |
+Key N+1       |        |         |    |      |<--Dreg-- - -
+              |        |         |    |      |
+Key N        Tsubds   Tpub      Trdy Tact
+Key N+1                                     Tsubds
                         ---- Time ---->
 
        (continued ...)
@@ -1147,14 +1147,14 @@ Key N+1             Tpub Trdy Tact
             <preamble/>
             <artwork align="center">
               <![CDATA[
-         |0|   |1|      |2|     |3|      |4|      |5|
-          |     |        |       |        |        |
- Key N    |     |<-Ipub->|<-----Lksk----->|<------>|
-          |     |        |       |        |        |
- Key N+1  |     |        |       |<-Ipub->|<------Lksk--- - -
-          |     |        |       |        |        |
- Key N   Tgen  Tpub     Tact             Tret     Trem
- Key N+1 Tgen                   Tpub     Tact
+               |1|      |2|     |3|      |4|      |5|
+                |        |       |        |        |
+ Key N          |<-Ipub->|<-----Lksk----->|<------>|
+                |        |       |        |        |
+ Key N+1        |        |       |<-Ipub->|<------Lksk--- - -
+                |        |       |        |        |
+ Key N         Tpub     Tact             Tret     Trem
+ Key N+1                        Tpub     Tact
 
                   ---- Time ---->]]>
             </artwork>
