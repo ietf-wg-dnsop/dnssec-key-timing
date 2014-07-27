@@ -762,12 +762,12 @@ Key N+1 Tgen               Tact
           After a further interval to allow the old DS record to expire from
           caches, the old DNSKEY is removed from the zone.</t>
 
-          <t>The timeline for a double-signature rollover is shown below.
+          <t>The timeline for a Double-KSK rollover is shown below.
           The diagram follows the convention described in
           <xref target="zsk_prepublication"/>.</t>
 
           <figure align="center" anchor="double_dnskey_ksk_rollover"
-            title="Timeline for a Double-Signature KSK rollover.">
+            title="Timeline for a Double-KSK rollover.">
             <preamble/>
             <artwork align="center">
               <![CDATA[
