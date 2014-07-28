@@ -393,7 +393,7 @@
 
         <t>Of the three methods, the major disadvantages are the number
         of times you have to contact the parent and the size of the
-        DNSKEY RRset. In Double-Signature there is just one parent
+        DNSKEY RRset. In Double-KSK there is just one parent
         interaction but there is a larger DNSKEY RRset. In the case
         of Double-DS there are two interactions with the parent
         (although the second one does not slow down your rollover).
@@ -1283,7 +1283,7 @@ Key N+1             Tpub Trdy Tact
 
           <section title="Addition of KSK">
             <t>When the new key is introduced, the publication
-            interval (Ipub) in the Double-Signature and
+            interval (Ipub) in the Double-KSK and
             Double-RRset methods should also
             be subject to the condition:</t>
 
@@ -1401,7 +1401,7 @@ Key N+1             Tpub Trdy Tact
       two sets of signatures.) </t>
 
       <t>It is also possible to have a standby KSK.
-      The Double-Signature method requires that the standby KSK be
+      The Double-KSK method requires that the standby KSK be
       included in the DNSKEY RRset; rolling the key then requires just
       the introduction of the DS record in the parent.  Note that the
       standby KSK should also be used to sign the DNSKEY RRset. As the
