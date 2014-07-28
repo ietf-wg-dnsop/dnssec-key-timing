@@ -500,8 +500,9 @@ Key N+1  Tgen                      Tpub     Trdy Tact
                              ---- Time ---->]]>
             </artwork>
           </figure>
-          <t>Event 0: Key N and N+1 are generated at the generate time
-          (Tgen). Although there is no reason why the key cannot be
+          <t>Key N and N+1 are generated at the generate time
+          (Tgen, not shown in diagram). Although there is no reason
+          why the key cannot be
           generated immediately prior to its publication in the zone
           (Event 1), some implementations may find it convenient to
           create a pool of keys in one operation and draw from that
@@ -673,8 +674,9 @@ Key N+1 Tgen               Tact
                      ---- Time ---->]]>
             </artwork>
           </figure>
-          <t>Event 0: Key N and N+1 are generated at the generate time
-          (Tgen). Although there is no reason why the key cannot be
+          <t>Key N and N+1 are generated at the generate time
+          (Tgen, not shown in diagram). Although there is no reason why the
+          key cannot be
           generated immediately prior to its publication in the zone
           (Event 1), some implementations may find it convenient to
           create a pool of keys in one operation and draw from that
@@ -797,8 +799,9 @@ Key N+1     Tpub     Trdy  Tsubds   Tact
             </artwork>
           </figure>
 
-          <t>Event 0: Key N and N+1 are generated at the generate time
-          (Tgen). Although there is no reason why the key cannot be
+          <t>Key N and N+1 are generated at the generate time
+          (Tgen, not shown in diagram). Although there is no reason why
+          the key cannot be
           generated immediately prior to its publication in the zone
           (Event 1), some implementations may find it convenient to
           create a pool of keys in one operation and draw from that
@@ -983,8 +986,8 @@ Key N+1             Tpub Trdy Tact
             </artwork>
           </figure>
 
-          <t>Event 0: Key N and N+1 are generated at the generate time
-          Tgen(key). Although there is no reason why the key cannot be
+          <t>Key N and N+1 are generated at the generate time
+          (Tgen, not shown in diagram). Although there is no reason why the key cannot be
           generated immediately prior to its use,
           some implementations may find it convenient to
           create a pool of keys in one operation and draw from that
@@ -1159,8 +1162,8 @@ Key N+1             Tpub Trdy Tact
                   ---- Time ---->]]>
             </artwork>
           </figure>
-          <t>Event 0: Key N and N+1 are generated at the generate time
-          (Tgen). Although there is no reason why the key cannot be
+          <t>Key N and N+1 are generated at the generate time
+          (Tgen, not shown in diagram). Although there is no reason why the key cannot be
           generated immediately prior to its publication in the zone
           (Event 1), some implementations may find it convenient to
           create a pool of keys in one operation and draw from that
