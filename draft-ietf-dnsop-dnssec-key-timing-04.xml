@@ -410,8 +410,11 @@
         The defined states are:</t>
         <t>
           <list style="hanging" hangIndent="12">
-            <t hangText="Generated">The key has been created, but has
-            not yet been used for anything.</t>
+            <t hangText="Generated">Although keys may be created
+            immediately prior to first use, some implementations may find
+            it convenient to create a pool of keys in one operation and
+            draw from it as required. Keys that have been created but
+            not yet used are said to be in the "Generated" state.</t>
 
             <t hangText="Published">The DNSKEY and/or DS
             record is published in the zone.</t>
@@ -500,16 +503,6 @@ Key N+1                            Tpub     Trdy Tact
                              ---- Time ---->]]>
             </artwork>
           </figure>
-          <t>Key N and N+1 are generated at the generate time
-          (Tgen, not shown in diagram). Although there is no reason
-          why the key cannot be
-          generated immediately prior to its publication in the zone
-          (Event 1), some implementations may find it convenient to
-          create a pool of keys in one operation and draw from that
-          pool as required. For this reason, it is shown as a separate
-          event.  Keys that are available for use but not published
-          are said to be generated.</t>
-
           <t>Event 1: Key N's DNSKEY record is put into the zone,
           i.e., it is added to the DNSKEY RRset which is then re-signed
           with the current active key-signing keys. The time at which this
@@ -674,16 +667,6 @@ Key N+1                    Tact
                      ---- Time ---->]]>
             </artwork>
           </figure>
-          <t>Key N and N+1 are generated at the generate time
-          (Tgen, not shown in diagram). Although there is no reason why the
-          key cannot be
-          generated immediately prior to its publication in the zone
-          (Event 1), some implementations may find it convenient to
-          create a pool of keys in one operation and draw from that
-          pool as required. For this reason, it is shown as a separate
-          event.  Keys that are available for use but not published
-          are said to be generated.</t>
-
           <t>Event 1: Key N is added to the DNSKEY RRset and is then
           used to sign the zone; existing signatures in the zone are
           not removed. The key is published and active: this is key N's
@@ -798,16 +781,6 @@ Key N+1     Tpub     Trdy  Tsubds   Tact
                         ---- Time (cont) ---->]]>
             </artwork>
           </figure>
-
-          <t>Key N and N+1 are generated at the generate time
-          (Tgen, not shown in diagram). Although there is no reason why
-          the key cannot be
-          generated immediately prior to its publication in the zone
-          (Event 1), some implementations may find it convenient to
-          create a pool of keys in one operation and draw from that
-          pool as required. For this reason, it is shown as a separate
-          event.  Keys that are available for use but not published
-          are said to be generated.</t>
 
           <t>Event 1: Key N is introduced into the zone; it is added
           to the DNSKEY RRset, which is then signed by all
@@ -986,16 +959,6 @@ Key N+1             Tpub Trdy Tact
             </artwork>
           </figure>
 
-          <t>Key N and N+1 are generated at the generate time
-          (Tgen, not shown in diagram). Although there is no reason why the key cannot be
-          generated immediately prior to its use,
-          some implementations may find it convenient to
-          create a pool of keys in one operation and draw from that
-          pool as required. For this reason, it is shown as a separate
-          event.  Keys that are available for use but not published
-          are said to be generated.</t>
-
-
           <t>Event 1: The DS RR is submitted to the parent zone for publication.
           This time is the submission time, Tsubds.</t>
 
@@ -1162,16 +1125,6 @@ Key N+1             Tpub Trdy Tact
                   ---- Time ---->]]>
             </artwork>
           </figure>
-          <t>Key N and N+1 are generated at the generate time
-          (Tgen, not shown in diagram). Although there is no reason why the key cannot be
-          generated immediately prior to its publication in the zone
-          (Event 1), some implementations may find it convenient to
-          create a pool of keys in one operation and draw from that
-          pool as required. For this reason, it is shown as a separate
-          event.  Keys that are available for use but not published
-          are said to be generated.</t>
-
-
           <t>Event 1: The key is added to and used for signing the
           DNSKEY RRset and is thereby published in the zone. At the
           same time the corresponding DS record is submitted to the
