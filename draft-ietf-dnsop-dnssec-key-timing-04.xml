@@ -413,7 +413,9 @@
             <t hangText="Generated">Although keys may be created
             immediately prior to first use, some implementations may find
             it convenient to create a pool of keys in one operation and
-            draw from it as required. Keys that have been created but
+            draw from it as required. (Note: such a pre-generated pool
+            must be properly secured against surreptitious use.)
+            Keys that have been created but
             not yet used are said to be in the "Generated" state.</t>
 
             <t hangText="Published">The DNSKEY and/or DS
@@ -736,9 +738,11 @@ Key N+1                    Tact
       </section>
 
       <section title="Key-Signing Key Rollover Timelines" anchor="ksk">
-            <t>The following sections describe the rolling of a KSK.  They show the
-      events in the lifetime of a key (referred to as "key N") and cover it
-      replacement by its successor (key N+1).</t>
+        <t>The following sections describe the rolling of a KSK.
+        They show the events in the lifetime of a key (referred to as
+        "key N") and cover it replacement by its successor (key N+1).
+        (The case of introducing the first KSK into the zone is discussed
+        in <xref target="first_key"/>.)</t>
 
         <section title="Double-KSK Method">
           <t>In this rollover, The new DNSKEY is added to the zone.  After an
@@ -815,9 +819,6 @@ Key N+1     Tpub     Trdy  Tsubds   Tact
             </list>
           </t>
 
-          <t> (The case of introducing the first KSK into the zone is
-          discussed in <xref target="first_key"/>.)</t>
-
           <t>Event 3: At some later time, the DS record corresponding to
           the new KSK is submitted to the parent zone for
           publication. This time is the submission time, Tsubds: </t>
@@ -854,7 +855,7 @@ Key N+1     Tpub     Trdy  Tsubds   Tact
           scheduled end of the KSK lifetime, the successor KSK is
           published in the zone. (As before, this means that the DNSKEY
           RRset is
-          signed by all active KSKs.) This time is the
+          signed by all KSKs.) This time is the
           publication time of the successor key N+1, given by:</t>
          <t>
             <list hangIndent="10" style="empty">
