@@ -479,7 +479,7 @@
         <section title="Pre-Publication Method" anchor="zsk_prepublication">
           <t>In this method, the new key is introduced into the DNSKEY RRset.
           After enough time to ensure that any cached DNSKEY RRsets contain
-          both keys, the the zone is signed using the new key and the old
+          both keys, the zone is signed using the new key and the old
           signatures are removed.  Finally, when all signatures created with the
           old key have expired from caches, the old key is removed.</t>
 
@@ -1533,7 +1533,7 @@ Key N+1             Tpub Trdy Tact
       </t>
 
       <t>Within the rollover descriptions, times are suffixed the
-      a number in brackets indicating the the key to which they apply, e.g.
+      a number in brackets indicating the key to which they apply, e.g.
       Tact(N) is the activation time of key N, Tpub(N+1) the publication
       time of key N+1 etc.</t>
 
