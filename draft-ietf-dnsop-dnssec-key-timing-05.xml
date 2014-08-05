@@ -385,20 +385,20 @@
           </list>
         </t>
 
-        <t>In essence, "Double-KSK" means that the new KSK is
-        introduced first and used to sign the DNSKEY RRset. The DS
-        record is changed, and finally the old KSK removed. With
-        "Double-DS" it is the other way around. Finally, Double-RRset
-        does both updates more or less in parallel.</t>
+        <t>In essence, Double-KSK means that the new KSK is introduced
+        first and used to sign the DNSKEY RRset. The DS record is changed,
+        and finally the old KSK removed. It limits interactions with
+        the parent to a minimum, but for the duration of the rollover,
+        the size of the DNSKEY RRset is increased.</t>
 
-        <t>Of the three methods, the major disadvantages are the number
-        of times you have to contact the parent and the size of the
-        DNSKEY RRset. In Double-KSK there is just one parent
-        interaction but there is a larger DNSKEY RRset. In the case
-        of Double-DS there are two interactions with the parent
-        (although the second one does not slow down your rollover).
-        The Double-RRset is the fastest, but has both the disadvantages
-        of the other two methods.</t>
+        <t>With Double-DS, the order of operations in the other way
+        round: introduce the new DS, change the DNSKEY, then remove
+        the old DS. The size of the DNSKEY RRset is kept to a minimum,
+        but two interactions are required with the parent.</t>
+
+        <t>Finally, Double-RRset is the fastest way to roll the KSK,
+        but has the drawbacks of both of the other methods: a larger
+        DNSKEY RRset and two interactions with the parent.</t>
 
       </section>
 
