@@ -1629,6 +1629,18 @@ Key N+1             Tpub Trdy Tact
       <t>
         <list style="symbols">
           <t>
+          draft-ietf-dnsop-dnssec-key-timing-05
+          <vspace/>
+          * Some more renamings of "Double-Signature" KSK rollover to "Double-KSK".
+          <vspace/>
+	  * Remove Tgen from diagrams.
+          <vspace/>
+	  * Review by Richard Lamb.
+          <vspace/>
+	  * Updated KSK rollover summary text.
+	  </t>
+
+          <t>
           draft-ietf-dnsop-dnssec-key-timing-04
           <vspace/>
           * Renamed to "DNSSEC Key Rollover Timing Considerations" to emphasise
