@@ -406,8 +406,9 @@
 
     <section title="Key Rollover Timelines" anchor="rollover_timelines">
       <section title="Key States">
-        <t>DNSSEC validation requires two pieces of information:
-        the DNSKEY and the data created from it.  In the case of the
+        <t>A DNSSEC key contributes two pieces of information to the
+        validation process:
+        the DNSKEY itself and the data created from it.  In the case of the
         validation of an RR, the data created from the DNSKEY is the
         RRSIG.  Where there is a need to validate a chain or trust,
         the data created from the DNSKEY is the DS.  In this section,
