@@ -406,6 +406,16 @@
 
     <section title="Key Rollover Timelines" anchor="rollover_timelines">
       <section title="Key States">
+        <t>A DNSSEC key contributes two pieces of information to the
+        validation process:
+        the DNSKEY itself and the data created from it.  In the case of the
+        validation of an RR, the data created from the DNSKEY is the
+        RRSIG.  Where there is a need to validate a chain or trust,
+        the data created from the DNSKEY is the DS.  In this section,
+        the term "associated data" refers to the RRSIGs created from a
+        DNSKEY when discussing a ZSK, or to the DNSKEY's corresponding
+        DS record when referring to a KSK.</t>
+
         <t>During the rolling process, keys move through different states.
         The defined states are:</t>
         <t>
@@ -413,48 +423,50 @@
             <t hangText="Generated">Although keys may be created
             immediately prior to first use, some implementations may find
             it convenient to create a pool of keys in one operation and
-            draw from it as required. (Note: such a pre-generated pool
-            must be properly secured against surreptitious use.)
-            Keys that have been created but
+            draw from it as required.  Keys that have been created but
             not yet used are said to be in the "Generated" state.</t>
 
-            <t hangText="Published">The DNSKEY and/or DS
-            record is published in the zone.</t>
+            <t hangText="Published">A key enters the published state when
+            either it or its associated data first appears in the
+            appropriate zone.</t>
 
-            <t hangText="Ready">The DNSKEY and/or DS record have been
-            published for long enough to guarantee that any previous
-            versions of the DNSKEY RRset have expired from caches.</t>
+            <t hangText="Ready">The DNSKEY or its associated data
+            have been published for long enough to guarantee that any
+            previous versions of the DNSKEY/associated data have expired
+            from caches.</t>
 
             <t hangText="Active">The data is starting to be used for
-            validation.  In the case of a ZSK, it means
-            that the key has been started to be used to sign RRsets.
-            In the case of a KSK, it means
-            that it is possible to use it to validate a DNSKEY RRset
-            as the DNSKEY and DS records are present in the relevant zones.
-            Note that when this state is entered, it may not be possible
-            for validating resolvers to use the data for validation
-            in all cases: the zone signing may not have finished, or
-            the data might not have reached the resolver because of
-            propagation delays and/or caching issues. If this is the
-            case, the resolver will have to rely on the predecessor data
-            instead. </t>
+            validation.  In the case of a ZSK, it means that the key has
+            been started to be used to sign RRsets and that both it and
+            the created RRSIGs appear in the zone.  In the case of a KSK,
+            it means that it is possible to use it to validate a DNSKEY
+            RRset as both the DNSKEY and DS records are present in their
+            relevant zones.  Note that when this state is entered, it
+            may not be possible for validating resolvers to use the data
+            for validation in all cases: the zone signing may not have
+            finished, or the data might not have reached the resolver
+            because of propagation delays and/or caching issues. If
+            this is the case, the resolver will have to rely on the
+            predecessor data instead. </t>
 
             <t hangText="Retired">The data has ceased to be used for
             validation. In the case of a ZSK, it means that the key
             is no longer used to sign RRsets. In the case of a KSK,
-            it means that the successor DNSKEY and DS records
-            are in place:
-            this key and its DS record can be removed as soon
-            as it is safe to do so.  However, until this happens, the
-            resource records may still available for use in validation.</t>
+            it means that the successor DNSKEY and DS records are
+            in place.  In both cases, the key (and its associated
+            data) can be removed as soon as it is safe to do so, i.e.
+            when all validating resolvers are able to use the new key and
+            associated data to validate the zone.  However, until this
+            happens, the current key and associated data must remain in
+            their zones.</t>
 
-            <t hangText="Dead">The DNSKEY and/or DS record are present in
-            the zone but there is no longer information anywhere that
-            requires its presence for use in validation.  Hence it can
-            be removed from the zone at any time.</t>
+            <t hangText="Dead">The key and is associated data are present
+            in their respective zones, but there is no longer information
+            anywhere that require their presence for use in validation.
+            Hence they can be removed at any time.</t>
 
-            <t hangText="Removed">The DNSKEY and/or DS record have been
-            removed from the zone.</t>
+            <t hangText="Removed">Both the DNSKEY and its associated
+            data have been removed from their respective zones.</t>
           </list>
         </t>
         <t>There is one additional state, used where <xref
