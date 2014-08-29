@@ -423,16 +423,18 @@
             <t hangText="Generated">Although keys may be created
             immediately prior to first use, some implementations may find
             it convenient to create a pool of keys in one operation and
-            draw from it as required.  Keys that have been created but
-            not yet used are said to be in the "Generated" state.</t>
+            draw from it as required.  (Note: such a pre-generated pool
+            must be secured against surreptitious use.) Keys that have
+            been created but not yet used are said to be in the "Generated"
+            state.</t>
 
             <t hangText="Published">A key enters the published state when
             either it or its associated data first appears in the
             appropriate zone.</t>
 
-            <t hangText="Ready">The DNSKEY or its associated data
-            have been published for long enough to guarantee that any
-            previous versions of the DNSKEY/associated data have expired
+            <t hangText="Ready">The DNSKEY or its associated data have
+            been published for long enough to guarantee that any previous
+            versions of the DNSKEY and/or associated data have expired
             from caches.</t>
 
             <t hangText="Active">The data is starting to be used for
