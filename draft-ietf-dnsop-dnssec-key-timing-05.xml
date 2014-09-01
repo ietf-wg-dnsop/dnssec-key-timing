@@ -45,7 +45,7 @@
   <!-- Revision: 03-3 -->
 
   <front>
-    <title>DNSSEC Key Rollover Timing Considerations</title>
+    <title abbrev="Key Timing">DNSSEC Key Rollover Timing Considerations</title>
 
     <author fullname="Stephen Morris" initials="S." surname="Morris">
       <organization abbrev="ISC">Internet Systems Consortium</organization>
