@@ -144,7 +144,7 @@
           <list style="symbols">
 
             <t>DNSKEY records and associated information (such as the
-            associated DS records or RRSIG records created with the key)
+            DS records or RRSIG records created with the key)
             are not only held at the authoritative
             nameserver, they are also cached by resolvers. The
             data on these systems can be interlinked, e.g., a
@@ -183,11 +183,7 @@
         do so ("safe" in this context meaning that at no time during
         the rollover process does any part of the zone ever go
         bogus). In other words, although key management logic enforces
-        policy, it may not enforce it strictly.
-	In <xref target="rollover_timelines"/>, the lifetime
-        of a key reflects the actual lifetime of a key, which may be
-        longer or shorter than the intended amount of time.
-	</t>
+        policy, it may not enforce it strictly.</t>
 
         <t>A high-level overview of key rollover can be found in
         <xref target="RFC6781"/>.  In contrast,
@@ -277,7 +273,7 @@
             <vspace blankLines="1"/>
             Once the signing process is complete and
             enough time has elapsed to make sure that all validators that
-            have the DNSKEY and signatures in cache, have both the old
+            have the DNSKEY and signatures in cache have both the old
             and new information, the old key and signatures can be
             removed from the zone. As before, during this period any
             combination of DNSKEY RRset and RRSIGs will allow
@@ -388,7 +384,7 @@
         <t>In essence, Double-KSK means that the new KSK is introduced
         first and used to sign the DNSKEY RRset. The DS record is changed,
         and finally the old KSK removed. It limits interactions with
-        the parent to a minimum, but for the duration of the rollover,
+        the parent to a minimum but, for the duration of the rollover,
         the size of the DNSKEY RRset is increased.</t>
 
         <t>With Double-DS, the order of operations in the other way
@@ -438,8 +434,8 @@
             from caches.</t>
 
             <t hangText="Active">The data is starting to be used for
-            validation.  In the case of a ZSK, it means that the key has
-            been started to be used to sign RRsets and that both it and
+            validation.  In the case of a ZSK, it means that the key is
+            now being be used to sign RRsets and that both it and
             the created RRSIGs appear in the zone.  In the case of a KSK,
             it means that it is possible to use it to validate a DNSKEY
             RRset as both the DNSKEY and DS records are present in their
@@ -460,7 +456,7 @@
             when all validating resolvers are able to use the new key and
             associated data to validate the zone.  However, until this
             happens, the current key and associated data must remain in
-            their zones.</t>
+            their respective zones.</t>
 
             <t hangText="Dead">The key and is associated data are present
             in their respective zones, but there is no longer information
@@ -520,9 +516,9 @@ Key N+1                            Tpub     Trdy Tact
             </artwork>
           </figure>
           <t>Event 1: Key N's DNSKEY record is put into the zone,
-          i.e., it is added to the DNSKEY RRset which is then re-signed
-          with the current active key-signing keys. The time at which this
-          occurs is the key's publication time (Tpub), and the key is
+          i.e. it is added to the DNSKEY RRset which is then re-signed
+          with the currently active key-signing keys. The time at which this
+          occurs is the publication time (Tpub), and the key is
           now said to be published.  Note that the key is not yet used
           to sign records. </t>
 
@@ -590,7 +586,7 @@ Key N+1                            Tpub     Trdy Tact
           sign the zone.</t>
 
           <t>Event 6: When key N has been in use for an interval equal to
-          the ZSK lifetime, it is retired (i.e., it will never again be
+          the ZSK lifetime, it is retired (i.e. it will never again be
           used to generate new signatures) and key N+1 activated and used
           to sign the zone.  This is the retire time of key N (Tret), and is
           given by:</t>
@@ -602,8 +598,9 @@ Key N+1                            Tpub     Trdy Tact
           </t>
 
           <t>It is also the activation time of the successor key N+1.
-          Note that operational considerations may cause key N to remain in use
-          for longer than the lifetime set by the key management policy. </t>
+          Note that operational considerations may cause key N to remain
+          in use for a longer (or shorter) time than the lifetime set
+          by the key management policy. </t>
 
           <t>Event 7: The retired key needs to be retained in the zone
           whilst any RRSIG records created using this key are still
@@ -914,7 +911,7 @@ Key N+1     Tpub     Trdy  Tsubds   Tact
           <t>... where DprpP is the propagation delay in the parent
           zone and TTLds the TTL of a DS record in the parent zone.</t>
 
-          <t>As the key is no longer used for anything, is said to be dead.
+          <t>As the key is no longer used for anything, it is said to be dead.
           This point is the dead time (Tdea), given by:</t>
           <t>
             <list hangIndent="10" style="empty">
@@ -987,11 +984,15 @@ Key N+1             Tpub Trdy Tact
             </list>
           </t>
 
+          <t>As before, in practice Dreg will not be a fixed time. Instead,
+          the end of Dreg will be signalled by the appearance of the DS
+          record in the parent zone.</t>
+
           <t>Event 3: At some later time, any cache that
           has a copy of the DS RRset will have a copy of
           the DS record for key N. At this point, key N, if introduced
           into the DNSKEY RRset, could be used to validate the
-          zone. For this reason, this time is known as the key's ready
+          zone. For this reason, this time is known as the ready
           time, Trdy, and is given by:</t>
 
           <t>
@@ -1001,7 +1002,7 @@ Key N+1             Tpub Trdy Tact
           </t>
 
           <t>IpubP is the publication interval of the DS record
-          and is given by the expression:</t>
+          (in the parent zone) and is given by the expression:</t>
 
           <t>
             <list hangIndent="10" style="empty">
@@ -1015,18 +1016,8 @@ Key N+1             Tpub Trdy Tact
 
           <t>Event 4: At some later time, the key rollover takes
           place and the new key (key N) is introduced into the
-          DNSKEY RRset and used to sign that, while the old key is removed from
-          the DNSKEY RRset.</t>
-
-          <t>As both the old and new DS records have been in the
-          parent zone long enough to ensure that they are in caches
-          that contain the DS RRset, the zone can be authenticated
-          throughout the rollover - the validating resolver either
-          has a copy of the DNSKEY RRset authenticated by the
-          predecessor key, or it has a copy of the updated RRset
-          authenticated with the new key.</t>
-
-          <t>This time is key N's activation time (Tact) and at this
+          DNSKEY RRset and used to sign it.
+          This time is key N's activation time (Tact) and at this
           point key N is said to be active:</t>
 
           <t>
@@ -1050,22 +1041,24 @@ Key N+1             Tpub Trdy Tact
           </t>
           <t>... where Lksk is the actual lifetime of key N (which may differ
           slightly from the lifetime set in the key management policy) and
-          Dreg is the registration delay. Again, Dreg will not be a fixed
-          time: instead,
-          the end of Dreg will be signalled by the appearance of the DS
-          record in the parent zone.</t>
+          Dreg is the registration delay.</t>
 
           <t>Event 6. After an interval Dreg, the successor DS record is
-          published in the zone at time Tpub.</t>
+          published in the zone.</t>
 
           <t> Event 7: The successor key (key N+1) enters the ready
-          state, i.e., its DS record is now in caches that contain the parent
-          DS RRset. This is the ready time of the successor key N+1, Trdy.</t>
+          state, i.e. its DS record is now in caches that contain the parent
+          DS RRset.</t>
 
           <t>Event 8: When key N has been active for its lifetime (Lksk),
           it is replaced in the DNSKEY RRset by key N+1; the RRset is
-          then signed with the new key. This is the retire time (Tret)
-          of key N, given by:</t>
+          then signed with the new key. At this point, as both the old and
+          new DS records have been in the parent zone long enough to ensure
+          that they are in caches that contain the DS RRset, the zone
+          can be authenticated throughout the rollover. A validating
+          resolver can authenticate either the old or new KSK.</t>
+
+          <t>This time is the retire time (Tret) of key N, given by:</t>
 
           <t>
             <list hangIndent="10" style="empty">
@@ -1336,7 +1329,7 @@ Key N+1             Tpub Trdy Tact
           parent zone until there is no possibility that a validating
           resolver can obtain the record yet is not able to obtain the
           corresponding DNSKEY. In the case of an insecure parent,
-          i.e., the initial creation of a new security apex,
+          i.e. the initial creation of a new security apex,
           it is not possible to guarantee this.  It is up to the
           operator of the validating resolver to wait for the new
           KSK to appear at all servers for the zone before configuring
@@ -1425,7 +1418,7 @@ Key N+1             Tpub Trdy Tact
       considering differ from this those described in this document.
       Of particular interest are alternatives to the strict split into
       KSK and ZSK key roles and the consequences for rollover logic from
-      partial signing (i.e., when the new key initially only signs a
+      partial signing (i.e. when the new key initially only signs a
       fraction of the zone while leaving other signatures generated by
       the old key in place).</t>
 
@@ -1502,7 +1495,7 @@ Key N+1             Tpub Trdy Tact
 
       <t>
         <list hangIndent="10" style="empty">
-          <t>&lt;TYPE&gt;&lt;id&gt;&lt;INST&gt;</t>
+          <t>&lt;TYPE&gt;&lt;id&gt;&lt;ZONE&gt;</t>
         </list>
       </t>
 
@@ -1536,8 +1529,8 @@ Key N+1             Tpub Trdy Tact
         </list>
       </t>
 
-      <t>&lt;INST&gt; is a capital letter that distinguishes between the same
-        variable applying to different instances of an object and is one of:</t>
+      <t>&lt;ZONE&gt; is an optional capital letter that distinguishes between the same
+        variable applied to different zones and is one of:</t>
 
       <t>
         <list hangIndent="10" style="hanging">
@@ -1546,8 +1539,8 @@ Key N+1             Tpub Trdy Tact
         </list>
       </t>
 
-      <t>Within the rollover descriptions, times are suffixed the
-      a number in brackets indicating the key to which they apply, e.g.
+      <t>Within the rollover descriptions, times may be suffixed by
+      a number in brackets indicating the instance of the key to which they apply, e.g.
       Tact(N) is the activation time of key N, Tpub(N+1) the publication
       time of key N+1 etc.</t>
 
@@ -1570,17 +1563,19 @@ Key N+1             Tpub Trdy Tact
           <t hangText="Dsgn">Signing delay. After the introduction of a new ZSK, the amount of time
             taken for all the RRs in the zone to be signed with it.</t>
 
-          <t hangText="Ipub">Publication interval. The amount of time that must elapse after the
-            publication of a record before it can be assumed that any resolvers that have the relevant
-            RRset cached have a copy of the new information.</t>
+          <t hangText="Ipub">Publication interval. The amount of time
+            that must elapse after the publication of a DNSKEY and/or its
+            associated data before it can be assumed that any resolvers
+            that have the relevant RRset cached have a copy of the new
+            information.</t>
 
           <t hangText="IpubC">Publication interval in the child zone.</t>
 
           <t hangText="IpubP">Publication interval in the parent zone.</t>
 
           <t hangText="Iret">Retire interval. The amount of time that must elapse after a DNSKEY
-            or DS record enters the retire state for any dependent information (e.g. RRSIG for a
-            DNSKEY) to be purged from validating resolver caches.</t>
+            or associated data enters the retire state for any dependent information (e.g. RRSIG for a
+            ZSK) to be purged from validating resolver caches.</t>
 
           <t hangText="Irev">Revoke interval. The amount of time that a KSK must remain published
             with the revoke bit set to satisfy <xref target="RFC5011"/> considerations.</t>
@@ -1593,7 +1588,7 @@ Key N+1             Tpub Trdy Tact
           <t hangText="Lksk">Lifetime of a key-signing key. This is the actual amount of time for
             which this particular KSK is regarded as the active KSK. Depending on when the key is
             rolled-over, the actual lifetime may be longer or shorter than the intended key
-	    lifetime indicated by management policy.</t>
+	        lifetime indicated by management policy.</t>
 
           <t hangText="Lzsk">Lifetime of a zone-signing key. This is the actual amount of time for
             which the ZSK is used to sign the zone. Depending on when the key is rolled-over, the
@@ -1603,26 +1598,23 @@ Key N+1             Tpub Trdy Tact
           <t hangText="Tact">Activation time of the rollover; the time at which the key is regarded
             as the principal key for the zone.</t>
 
-          <t hangText="Tdea">Dead time of a key. Applicable only to ZSKs, this is the time at which
-            any record signatures held in validating resolver caches are guaranteed to be created
-            with the successor key.</t>
+          <t hangText="Tdea">Dead time of a key. The time at which any information
+            held in validating resolver caches is guaranteed to contain information related
+            to the successor key. At this point, the current key and its associated information
+            are not longed required for validation purposes.</t>
 
-          <t hangText="Tgen">Generation time of a rollover. The time that a key is created.</t>
+          <t hangText="Tpub">Publication time of a rollover. The time
+          that the DNSKEY or associated data appears in the zone for the first time.</t>
 
-          <t hangText="Tpub">Publication time of a rollover. The time that information such as the
-            DNSKEY or DS record appears in the zone for the first time.</t>
-
-          <t hangText="Trem">Removal time of a rollover. The time at which information is removed from
-            the zone.</t>
+          <t hangText="Trem">Removal time of a rollover. The time at which the DNSKEY and
+            its associated information starts being removed from their respective zones.</t>
 
           <t hangText="Tret">Retire time of a rollover. The time at which successor information starts
             being used.</t>
 
           <t hangText="Trdy">Ready time of a rollover. The time at which it can be guaranteed that
-            validating resolvers that have information from this zone cached have a copy of the new
-            information in their cache. (In the case of KSKs, should the validating resolvers also have DS
-            information from the parent zone cached, the cache must include information about the DS
-            record corresponding to the key.) </t>
+            validating resolvers that have information about the DNSKEY and/or associated data cached have a
+            copy of the new information.</t>
 
           <t hangText="Tsubds">Submission time. The time at which the DS record of a KSK is submitted to
             the parent zone.</t>
@@ -1647,12 +1639,14 @@ Key N+1             Tpub Trdy Tact
           <vspace/>
           * Some more renamings of "Double-Signature" KSK rollover to "Double-KSK".
           <vspace/>
-	  * Remove Tgen from diagrams.
+          * Remove Tgen from diagrams.
           <vspace/>
-	  * Review by Richard Lamb.
+          * Review by Richard Lamb.
           <vspace/>
-	  * Updated KSK rollover summary text.
-	  </t>
+          * Updated KSK rollover summary text.
+          <vspace/>
+          * Updated variable descriptions in the appendix.
+          </t>
 
           <t>
           draft-ietf-dnsop-dnssec-key-timing-04
