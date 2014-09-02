@@ -777,7 +777,7 @@ Key N            |<-Ipub->|<--->|<-Dreg->|<-----Lksk--- - -
                  |        |     |        |
 Key N+1          |        |     |        |
                  |        |     |        |
-Key N           Tpub     Trdy  Tsubds   Tact
+Key N           Tpub     Trdy  Tsbm     Tact
 Key N+1
 
                             ---- Time ---->
@@ -791,7 +791,7 @@ Key N   - - -------------Lksk------->|<-Iret->|<----->|
 Key N+1      |<-Ipub->|<--->|<-Dreg->|<--------Lksk----- - -
              |        |     |        |        |       |
 Key N                               Tret     Tdea    Trem
-Key N+1     Tpub     Trdy  Tsubds   Tact
+Key N+1     Tpub     Trdy  Tsbm     Tact
 
                         ---- Time (cont) ---->]]>
             </artwork>
@@ -832,11 +832,11 @@ Key N+1     Tpub     Trdy  Tsubds   Tact
 
           <t>Event 3: At some later time, the DS record corresponding to
           the new KSK is submitted to the parent zone for
-          publication. This time is the submission time, Tsubds: </t>
+          publication. This time is the submission time, Tsbm: </t>
 
           <t>
             <list hangIndent="10" style="empty">
-              <t>Tsubds(N) &gt;= Trdy(N)</t>
+              <t>Tsbm(N) &gt;= Trdy(N)</t>
             </list>
           </t>
 
@@ -848,7 +848,7 @@ Key N+1     Tpub     Trdy  Tsubds   Tact
 
           <t>
             <list hangIndent="10" style="empty">
-              <t>Tact(N) = Tsubds(N) + Dreg</t>
+              <t>Tact(N) = Tsbm(N) + Dreg</t>
             </list>
           </t>
 
@@ -884,7 +884,7 @@ Key N+1     Tpub     Trdy  Tsubds   Tact
           the ready time of the successor key N+1 (Trdy).</t>
 
           <t>Event 7: At the submission time of the successor key N+1,
-          Tsubds(N+1), the DS
+          Tsbm(N+1), the DS
           record corresponding to key N+1 is submitted to
           the parent zone.</t>
 
@@ -895,7 +895,7 @@ Key N+1     Tpub     Trdy  Tsubds   Tact
 
           <t>
             <list hangIndent="10" style="empty">
-              <t>Tret(N) = Tsubds(N+1) + Dreg</t>
+              <t>Tret(N) = Tsbm(N+1) + Dreg</t>
             </list>
           </t>
 
@@ -952,8 +952,8 @@ Key N         |<-Dreg->|<-IpubP->|<-->|<-------Lksk----- - -
               |        |         |    |      |
 Key N+1       |        |         |    |      |<--Dreg-- - -
               |        |         |    |      |
-Key N        Tsubds   Tpub      Trdy Tact
-Key N+1                                     Tsubds
+Key N        Tsbm     Tpub      Trdy Tact
+Key N+1                                     Tsbm
                         ---- Time ---->
 
        (continued ...)
@@ -972,7 +972,7 @@ Key N+1             Tpub Trdy Tact
           </figure>
 
           <t>Event 1: The DS RR is submitted to the parent zone for publication.
-          This time is the submission time, Tsubds.</t>
+          This time is the submission time, Tsbm.</t>
 
           <t>Event 2: After the registration delay, Dreg, the DS
           record is published in the parent zone. This is the
@@ -980,7 +980,7 @@ Key N+1             Tpub Trdy Tact
 
           <t>
             <list hangIndent="10" style="empty">
-              <t>Tpub(N) = Tsubds(N) + Dreg</t>
+              <t>Tpub(N) = Tsbm(N) + Dreg</t>
             </list>
           </t>
 
@@ -1036,7 +1036,7 @@ Key N+1             Tpub Trdy Tact
 
           <t>
             <list hangIndent="10" style="empty">
-              <t>Tsubds(N+1) &lt;= Tact(N) + Lksk - Ipub - Dreg</t>
+              <t>Tsbm(N+1) &lt;= Tact(N) + Lksk - Ipub - Dreg</t>
             </list>
           </t>
           <t>... where Lksk is the actual lifetime of key N (which may differ
@@ -1616,7 +1616,7 @@ Key N+1             Tpub Trdy Tact
             validating resolvers that have information about the DNSKEY and/or associated data cached have a
             copy of the new information.</t>
 
-          <t hangText="Tsubds">Submission time. The time at which the DS record of a KSK is submitted to
+          <t hangText="Tsbm">Submission time. The time at which the DS record of a KSK is submitted to
             the parent zone.</t>
 
           <t hangText="TTLds">Time to live of a DS record.</t>
