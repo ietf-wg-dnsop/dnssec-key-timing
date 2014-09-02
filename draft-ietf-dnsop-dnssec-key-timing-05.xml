@@ -771,27 +771,27 @@ Key N+1                    Tact
             <preamble/>
             <artwork align="center">
               <![CDATA[
-                |1|      |2|   |3|      |4|
-                 |        |     |        |
-Key N            |<-Ipub->|<--->|<-Dreg->|<-----Lksk--- - -
-                 |        |     |        |
-Key N+1          |        |     |        |
-                 |        |     |        |
-Key N           Tpub     Trdy  Tsbm     Tact
+                |1|       |2|   |3|      |4|
+                 |         |     |        |
+Key N            |<-IpubC->|<--->|<-Dreg->|<-----Lksk--- - -
+                 |         |     |        |
+Key N+1          |         |     |        |
+                 |         |     |        |
+Key N           Tpub      Trdy  Tsbm     Tact
 Key N+1
 
                             ---- Time ---->
 
         (continued ...)
 
-            |5|      |6|   |7|      |8|      |9|    |10|
-             |        |     |        |        |       |
-Key N   - - -------------Lksk------->|<-Iret->|<----->|
-             |        |     |        |        |       |
-Key N+1      |<-Ipub->|<--->|<-Dreg->|<--------Lksk----- - -
-             |        |     |        |        |       |
-Key N                               Tret     Tdea    Trem
-Key N+1     Tpub     Trdy  Tsbm     Tact
+            |5|       |6|   |7|      |8|      |9|    |10|
+             |         |     |        |        |       |
+Key N   - - --------------Lksk------->|<-Iret->|<----->|
+             |         |     |        |        |       |
+Key N+1      |<-IpubC->|<--->|<-Dreg->|<--------Lksk----- - -
+             |         |     |        |        |       |
+Key N                                Tret     Tdea    Trem
+Key N+1     Tpub      Trdy  Tsbm     Tact
 
                         ---- Time (cont) ---->]]>
             </artwork>
@@ -812,11 +812,11 @@ Key N+1     Tpub     Trdy  Tsbm     Tact
           in other words, that any prior cached information about the
           DNSKEY RRset has expired.</t>
 
-          <t>The interval is the publication interval (Ipub) and, for
-          the second or subsequent KSKs in the zone, is given by:</t>
+          <t>The interval is the publication interval in the child zone (IpubC)
+          and is given by:</t>
           <t>
             <list hangIndent="10" style="empty">
-              <t>Ipub = DprpC + TTLkey</t>
+              <t>IpubC = DprpC + TTLkey</t>
             </list>
           </t>
 
@@ -826,7 +826,7 @@ Key N+1     Tpub     Trdy  Tsbm     Tact
           occurs is the key N's ready time, Trdy, given by:</t>
           <t>
             <list hangIndent="10" style="empty">
-              <t>Trdy(N) = Tpub(N) + Ipub</t>
+              <t>Trdy(N) = Tpub(N) + IpubC</t>
             </list>
           </t>
 
@@ -861,7 +861,7 @@ Key N+1     Tpub     Trdy  Tsbm     Tact
           the end of Dreg will be signalled by the appearance of the DS
           record in the parent zone.)</t>
 
-          <t>Event 5: While key N is active, thought needs to be given
+          <t>Event 5: While key N is active, thought needs to be givendid consider Tsub
           to its successor (key N+1).  At some time before the
           scheduled end of the KSK lifetime, the successor KSK is
           published in the zone. (As before, this means that the DNSKEY
@@ -870,7 +870,7 @@ Key N+1     Tpub     Trdy  Tsbm     Tact
           publication time of the successor key N+1, given by:</t>
          <t>
             <list hangIndent="10" style="empty">
-              <t>Tpub(N+1) &lt;= Tact(N) + Lksk - Dreg - Ipub</t>
+              <t>Tpub(N+1) &lt;= Tact(N) + Lksk - Dreg - IpubC</t>
             </list>
           </t>
           <t>... where Lksk is the actual lifetime of the KSK, and Dreg
@@ -878,7 +878,7 @@ Key N+1     Tpub     Trdy  Tsbm     Tact
           instead, the end of Dreg will be signalled by the appearance of
           the DS record in the parent zone.</t>
 
-          <t>Event 6: After an interval Ipub, key N+1
+          <t>Event 6: After an interval IpubC, key N+1
           becomes ready (in that all caches that have a
           copy of the DNSKEY RRset have a copy of this key). This time is
           the ready time of the successor key N+1 (Trdy).</t>
@@ -1036,7 +1036,7 @@ Key N+1             Tpub Trdy Tact
 
           <t>
             <list hangIndent="10" style="empty">
-              <t>Tsbm(N+1) &lt;= Tact(N) + Lksk - Ipub - Dreg</t>
+              <t>Tsbm(N+1) &lt;= Tact(N) + Lksk - IpubP - Dreg</t>
             </list>
           </t>
           <t>... where Lksk is the actual lifetime of key N (which may differ
