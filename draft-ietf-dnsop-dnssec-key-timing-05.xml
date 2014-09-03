@@ -937,7 +937,7 @@ Key N+1     Tpub      Trdy  Tsbm     Tact
           to expire from caches, the old DS record is removed from the
           parent.</t>
 
-           <t>The timeline for a double-DS rollover is shown below.
+           <t>The timeline for a Double-DS rollover is shown below.
           The diagram follows the convention described in
           <xref target="zsk_prepublication"/></t>
 
@@ -1106,7 +1106,7 @@ Key N+1             Tpub Trdy Tact
         </section>
 
         <section title="Double-RRset Method">
-           <t>In the double-RRset rollover, the new DNSKEY and DS
+           <t>In the Double-RRset rollover, the new DNSKEY and DS
            records are published simultaneously in the appropriate
            zones.  Once enough time has elapsed for the old DNSKEY
            and DS RRsets to expire from caches, the old DNSKEY and
