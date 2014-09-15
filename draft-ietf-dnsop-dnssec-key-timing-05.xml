@@ -387,7 +387,7 @@
         the parent to a minimum but, for the duration of the rollover,
         the size of the DNSKEY RRset is increased.</t>
 
-        <t>With Double-DS, the order of operations in the other way
+        <t>With Double-DS, the order of operations is the other way
         round: introduce the new DS, change the DNSKEY, then remove
         the old DS. The size of the DNSKEY RRset is kept to a minimum,
         but two interactions are required with the parent.</t>
@@ -861,7 +861,7 @@ Key N+1     Tpub      Trdy  Tsbm     Tact
           the end of Dreg will be signalled by the appearance of the DS
           record in the parent zone.)</t>
 
-          <t>Event 5: While key N is active, thought needs to be givendid consider Tsub
+          <t>Event 5: While key N is active, thought needs to be given
           to its successor (key N+1).  At some time before the
           scheduled end of the KSK lifetime, the successor KSK is
           published in the zone. (As before, this means that the DNSKEY
@@ -874,9 +874,7 @@ Key N+1     Tpub      Trdy  Tsbm     Tact
             </list>
           </t>
           <t>... where Lksk is the actual lifetime of the KSK, and Dreg
-          the registration delay. In practice, Dreg will not be a fixed time:
-          instead, the end of Dreg will be signalled by the appearance of
-          the DS record in the parent zone.</t>
+          the registration delay.</t>
 
           <t>Event 6: After an interval IpubC, key N+1
           becomes ready (in that all caches that have a
@@ -1246,20 +1244,18 @@ Key N+1             Tpub Trdy Tact
           some time after use.</t>
 
           <section title="Addition of KSK">
-            <t>When the new key is introduced, the publication
-            interval (Ipub) in the Double-KSK and
-            Double-RRset methods should also
-            be subject to the condition:</t>
+            <t>When the new key is introduced, the expression for the
+            publication interval of the DNSKEY(IpubC) in the Double-KSK and
+            Double-RRset methods is modified to:</t>
 
             <t>
               <list hangIndent="10" style="empty">
-                <t>Ipub &gt;= Dprp + max(Itrp, TTLkey)</t>
+                <t>IpubC &gt;= DprpC + max(Itrp, TTLkey)</t>
               </list>
             </t>
 
-            <t>... where the right hand side of the expression is the
-            time taken for the change to propagate to all nameservers
-            for the zone plus the "trust point" interval.  This latter
+            <t>... where the right hand side of the expression now
+            includes the "trust point" interval.  This
             term is the interval required to guarantee that
             a resolver configured for the automatic update of keys from
             a particular trust point will see at least two validated
@@ -1283,7 +1279,6 @@ Key N+1             Tpub Trdy Tact
             The second term (n * retryTime) is a safety margin, with
             the value of "n" reflecting the degree of confidence in the communication
             between a resolver and the trust point.</t>
-
 
             <t>In the Double-DS method, instead of swapping the KSK RRs
                in a single step, there must now be a period of overlap.
@@ -1512,7 +1507,7 @@ Key N+1             Tpub Trdy Tact
           <t hangText="TTL">TTL of a record</t>
         </list>
       </t>
-      <t>I and T and TTL are self-explanatory. Like I, both D and L are time periods, but whereas I values are
+      <t>I, T and TTL are self-explanatory. Like I, both D and L are time periods, but whereas I values are
         intervals between two events (even if the events are defined in terms of the interval, e.g.,
         the dead time occurs "retire interval" after the retire time), D and L are fixed intervals:
         a "D" interval (delay) is a feature of the process, probably outside control of the zone manager,
@@ -1558,7 +1553,7 @@ Key N+1             Tpub Trdy Tact
           <t hangText="Dreg">Registration delay: the time taken for a DS record
             submitted to a parent zone to appear in it. As a parent zone is often managed by a different
             organisation to that managing the child zone, the delays associated with passing data
-            between zones is captured by this term.</t>
+            between organisations is captured by this term.</t>
 
           <t hangText="Dsgn">Signing delay. After the introduction of a new ZSK, the amount of time
             taken for all the RRs in the zone to be signed with it.</t>
@@ -1598,7 +1593,7 @@ Key N+1             Tpub Trdy Tact
           <t hangText="Tact">Activation time of the rollover; the time at which the key is regarded
             as the principal key for the zone.</t>
 
-          <t hangText="Tdea">Dead time of a key. The time at which any information
+          <t hangText="Tdea">Dead time of the rollover. The time at which any information
             held in validating resolver caches is guaranteed to contain information related
             to the successor key. At this point, the current key and its associated information
             are not longed required for validation purposes.</t>
