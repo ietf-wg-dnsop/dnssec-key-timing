@@ -1590,25 +1590,25 @@ Key N+1             Tpub Trdy Tact
             actual lifetime may be longer or shorter than the intended key lifetime indicated by
             management policy.</t>
 
-          <t hangText="Tact">Activation time of the rollover; the time at which the key is regarded
+          <t hangText="Tact">Activation time. The time at which the key is regarded
             as the principal key for the zone.</t>
 
-          <t hangText="Tdea">Dead time of the rollover. The time at which any information
+          <t hangText="Tdea">Dead time. The time at which any information
             held in validating resolver caches is guaranteed to contain information related
             to the successor key. At this point, the current key and its associated information
             are not longed required for validation purposes.</t>
 
-          <t hangText="Tpub">Publication time of a rollover. The time
-          that the DNSKEY or associated data appears in the zone for the first time.</t>
+          <t hangText="Tpub">Publication time. The time
+          that the key or associated data appears in the zone for the first time.</t>
 
-          <t hangText="Trem">Removal time of a rollover. The time at which the DNSKEY and
+          <t hangText="Trem">Removal time. The time at which the key and
             its associated information starts being removed from their respective zones.</t>
 
-          <t hangText="Tret">Retire time of a rollover. The time at which successor information starts
+          <t hangText="Tret">Retire time. The time at which successor information starts
             being used.</t>
 
-          <t hangText="Trdy">Ready time of a rollover. The time at which it can be guaranteed that
-            validating resolvers that have information about the DNSKEY and/or associated data cached have a
+          <t hangText="Trdy">Ready time. The time at which it can be guaranteed that
+            validating resolvers that have information about the key and/or associated data cached have a
             copy of the new information.</t>
 
           <t hangText="Tsbm">Submission time. The time at which the DS record of a KSK is submitted to
