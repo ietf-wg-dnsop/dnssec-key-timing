@@ -345,7 +345,8 @@
         process so as to cope with the possibility that the key has also
         been explicitly configured as a trust anchor.)</t>
 
-        <t>It is important to note that this does not preclude the
+        <t>It is important to note that the need to interact with the
+        parent does not preclude the
         development of key rollover logic; in accordance with the goal
         of the rollover logic being able to determine when a state
         change is "safe", the only effect of being dependent on the
