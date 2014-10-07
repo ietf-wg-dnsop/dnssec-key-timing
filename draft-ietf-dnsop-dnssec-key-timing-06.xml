@@ -191,6 +191,10 @@
         two classes of operations described there, the rollover
         of zone-signing keys (ZSKs), and the rollover of key-signing keys
         (KSKs).</t>
+
+        <t>Note that the process for the introduction of keys into
+        a zone is different to that of rolling a key; see <xref
+        target="first_key"/> for more information about that topic.</t>
       </section>
 
       <section title="Types of Keys">
