@@ -432,9 +432,9 @@
             appropriate zone.</t>
 
             <t hangText="Ready">The DNSKEY or its associated data have
-            been published for long enough to guarantee that any previous
-            versions of the DNSKEY and/or associated data have expired
-            from caches.</t>
+            been published for long enough to guarantee that copies of
+            the key(s) it is replacing (or associated data related to
+            that key) have expired from caches.</t>
 
             <t hangText="Active">The data is starting to be used for
             validation.  In the case of a ZSK, it means that the key is
