@@ -235,9 +235,11 @@
     <section title="Rollover Methods">
 
       <section title="ZSK Rollovers">
-        <t>For ZSKs, the issue for the zone operator/signer is to
-        ensure that any caching validator has access to a particular
-        signature that corresponds to a valid ZSK.</t>
+
+        <t>For ZSKs, the issue for the zone operator/signer is to ensure
+        that any caching validator which has access to a particular
+        signature also has access to the corresponding valid ZSK.</t>
+
         <t>A ZSK can be rolled in one of three ways:</t>
         <t>
           <list style="symbols">
