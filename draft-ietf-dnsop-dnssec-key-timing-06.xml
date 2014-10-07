@@ -1389,7 +1389,7 @@ Key N+1             Tpub Trdy Tact
     <section title="Algorithm Considerations">
       <t>The preceding sections have implicitly assumed that all keys
       and signatures are created using a single algorithm. However,
-      <xref target="RFC4035"/> (section 2.4) requires that there
+      <xref target="RFC4035"/> (section 2.2) requires that there
       be an RRSIG for each RRset using at least one DNSKEY of each
       algorithm in the zone apex DNSKEY RRset.</t>
 
