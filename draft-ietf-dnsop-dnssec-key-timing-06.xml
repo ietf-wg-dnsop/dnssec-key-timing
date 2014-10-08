@@ -409,15 +409,12 @@
 
     <section title="Key Rollover Timelines" anchor="rollover_timelines">
       <section title="Key States">
-        <t>A DNSSEC key contributes two pieces of information to the
-        validation process:
-        the DNSKEY itself and the data created from it.  In the case of the
-        validation of an RR, the data created from the DNSKEY is the
-        RRSIG.  Where there is a need to validate a chain or trust,
-        the data created from the DNSKEY is the DS.  In this section,
-        the term "associated data" refers to the RRSIGs created from a
-        DNSKEY when discussing a ZSK, or to the DNSKEY's corresponding
-        DS record when referring to a KSK.</t>
+        <t>DNSSEC validation requires both the DNSKEY and information
+        created from it, referred to as "associated data" in
+        this section.  In the case of validation of an RR, the data
+        associated with the the key is the corresponding RRSIG.  Where there
+        is a need to validate a chain of trust, the associated data is
+        the DS record.</t>
 
         <t>During the rolling process, keys move through different states.
         The defined states are:</t>
