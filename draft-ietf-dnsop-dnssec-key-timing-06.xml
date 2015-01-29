@@ -959,7 +959,7 @@ Key N+1     Tpub      Trdy  Tsbm     Tact
               <![CDATA[
              |1|      |2|       |3|  |4|    |5|
               |        |         |    |      |
-Key N         |<-Dreg->|<-IpubP->|<-->|<-------Lksk----- - -
+Key N         |<-Dreg->|<-IpubP->|<-->|<-------Lksk---- - -
               |        |         |    |      |
 Key N+1       |        |         |    |      |<--Dreg-- - -
               |        |         |    |      |
@@ -973,7 +973,7 @@ Key N+1                                     Tsbm
                      |    |    |        |      |
 Key N   - - -----Lksk--------->|<-Iret->|<---->|
                      |    |    |        |      |
-Key N+1 - - --Dreg-->|<-IpubP->|<------>|<------Lksk------ - -
+Key N+1 - - --Dreg-->|<-IpubP->|<---------Lksk------- - -
                      |    |    |        |      |
 Key N                         Tret     Tdea   Trem
 Key N+1             Tpub Trdy Tact
@@ -1138,7 +1138,7 @@ Key N+1             Tpub Trdy Tact
                 |        |       |        |        |
  Key N+1        |        |       |<-Ipub->|<------Lksk--- - -
                 |        |       |        |        |
- Key N         Tpub     Tact             Tret     Trem
+ Key N         Tpub     Tact             Tdea     Trem
  Key N+1                        Tpub     Tact
 
                   ---- Time ---->]]>
@@ -1626,6 +1626,10 @@ Key N+1             Tpub Trdy Tact
           * Addressed comments of Secdir review by Tina Tsou.
           <vspace/>
           * Added Tim Wicinski to list of people acknowledged.
+          <vspace/>
+          * Corrected diagrams 3.3.2 and 3.3.3.  (This addresses an error caught by
+          the Gen-Art reviewer, and one subsequently caught by the authors when
+          discussing that error.)
           </t>
 
           <t>
