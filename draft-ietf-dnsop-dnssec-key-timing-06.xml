@@ -243,8 +243,16 @@
           same algorithm are described here, not transitions between
           algorithms.</t>
         </list>
+        </t>
+        <t>(Algorithm rollover is excluded from the document owing to the
+        need for there to be an RRSIG for at least one DNSKEY of
+        each algorithm in the DNKEY RRset <xref target="RFC4035"/>. This
+        introduces additional constraints on rollovers that are not considered
+        here. However, the restriction does not apply where other properties
+        of the key, such as key length, are changed during the rollover: the
+        DNSSEC protocol does not impose any restrictions in these cases.)</t>
 
-        The reader is therefore reminded that DNSSEC is, as of date
+        <t>The reader is therefore reminded that DNSSEC is, as of date
         of publication, in the early stages of deployment, and best practices
         may further develop over time.</t>
       </section>
@@ -1621,7 +1629,7 @@ Key N+1             Tpub Trdy Tact
         <list style="symbols">
 
           <t>
-          Post-IESG Review
+          Post-IESG Approval Changes
           <vspace/>
           * Addressed comments of Secdir review by Tina Tsou.
           <vspace/>
@@ -1630,6 +1638,10 @@ Key N+1             Tpub Trdy Tact
           * Corrected diagrams 3.3.2 and 3.3.3.  (This addresses an error caught by
           the Gen-Art reviewer, and one subsequently caught by the authors when
           discussing that error.)
+          <vspace/>
+          * Added paragraph concerning exclusion of algorithm rollover in the document
+          and why the exclusion does not apply to a change of key size. (Comment by
+          Kathleen Moriarty: http://www.ietf.org/mail-archive/web/dnsop/current/msg13200.html.)
           </t>
 
           <t>
