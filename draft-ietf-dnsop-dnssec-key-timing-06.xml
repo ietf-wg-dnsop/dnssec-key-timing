@@ -1453,7 +1453,7 @@ Key N+1             Tpub Trdy Tact
 
     <section title="Acknowledgements">
       <t>The authors gratefully acknowledge help and contributions
-      from Roy Arends and Wouter Wijngaards.
+      from Roy Arends, Tim Wicinski and Wouter Wijngaards.
       </t>
     </section>
 
@@ -1619,6 +1619,14 @@ Key N+1             Tpub Trdy Tact
     <section title="Change History (To be removed on publication)">
       <t>
         <list style="symbols">
+
+          <t>
+          Post-IESG Review
+          <vspace/>
+          * Addressed comments of Secdir review by Tina Tsou.
+          <vspace/>
+          * Added Tim Wicinski to list of people acknowledged.
+          </t>
 
           <t>
           draft-ietf-dnsop-dnssec-key-timing-06
