@@ -477,25 +477,19 @@
             happens, the current key and associated data must remain in
             their respective zones.</t>
 
-            <t hangText="Dead">The key and is associated data are present
+            <t hangText="Dead">The key and its associated data are present
             in their respective zones, but there is no longer information
             anywhere that require their presence for use in validation.
             Hence they can be removed at any time.</t>
 
             <t hangText="Removed">Both the DNSKEY and its associated
             data have been removed from their respective zones.</t>
-          </list>
-        </t>
-        <t>There is one additional state, used where <xref
-        target="RFC5011"/> considerations are in effect (see <xref
-        target="trust_anchors"/>):</t>
-        <t>
-          <list style="hanging" hangIndent="12">
+
             <t hangText="Revoked">The DNSKEY is published for a period
             with the "revoke" bit set as a way of notifying validating
             resolvers that have configured it as an <xref
             target="RFC5011"/> trust anchor that
-            it is about to be removed from the zone.</t>
+            it is about to be removed from the zone. This state is used when <xref target="RFC5011"/> considerations are in effect (see <xref target="trust_anchors"/>)</t>
           </list>
         </t>
       </section>
@@ -1343,7 +1337,7 @@ Key N+1             Tpub Trdy Tact
           parent zone until there is no possibility that a validating
           resolver can obtain the record yet is not able to obtain the
           corresponding DNSKEY. In the case of an insecure parent,
-          i.e. the initial creation of a new security apex,
+          i.e. the initial creation of a chain of trust or "security apex",
           it is not possible to guarantee this.  It is up to the
           operator of the validating resolver to wait for the new
           KSK to appear at all servers for the zone before configuring
@@ -1358,7 +1352,7 @@ Key N+1             Tpub Trdy Tact
       regular schedule, there may be occasions when an emergency
       rollover is required, e.g., if the active key is suspected of
       being compromised. The aim of the emergency rollover is to allow
-      the zone to be re- signed with a new key as soon as possible. As
+      the zone to be re-signed with a new key as soon as possible. As
       a key must be in the ready state to sign the zone, having at
       least one additional key (a standby key) in this state at all
       times will minimise delay. </t>
