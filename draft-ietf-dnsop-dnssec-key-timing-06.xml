@@ -244,13 +244,14 @@
           algorithms.</t>
         </list>
         </t>
-        <t>(Algorithm rollover is excluded from the document owing to the
-        need for there to be an RRSIG for at least one DNSKEY of
-        each algorithm in the DNKEY RRset <xref target="RFC4035"/>. This
-        introduces additional constraints on rollovers that are not considered
-        here. However, the restriction does not apply where other properties
-        of the key, such as key length, are changed during the rollover: the
-        DNSSEC protocol does not impose any restrictions in these cases.)</t>
+
+        <t>Algorithm rollover is excluded from the document owing to the need
+        for there to be an RRSIG for at least one DNSKEY of each algorithm in
+        the DNKEY RRset [RFC4035].  This introduces additional constraints
+        on rollovers that are not considered here.  Such considerations do
+        not apply where other properties of the key, such as key length,
+        are changed during the rollover: the DNSSEC protocol does not impose
+        any restrictions in these cases.</t>
 
         <t>The reader is therefore reminded that DNSSEC is, as of date
         of publication, in the early stages of deployment, and best practices
