@@ -978,14 +978,14 @@ Key N+1                                     Tsbm
 
        (continued ...)
 
-                    |6|  |7|  |8|      |9|    |10|
-                     |    |    |        |      |
-Key N   - - -----Lksk--------->|<-Iret->|<---->|
-                     |    |    |        |      |
-Key N+1 - - --Dreg-->|<-IpubP->|<---------Lksk------- - -
-                     |    |    |        |      |
-Key N                         Tret     Tdea   Trem
-Key N+1             Tpub Trdy Tact
+                  |6|       |7|  |8|      |9|    |10|
+                   |         |    |        |      |
+Key N   - ----------Lksk--------->|<-Iret->|<---->|
+                   |         |    |        |      |
+Key N+1 - --Dreg-->|<-IpubP->|<-->|<---Lksk------- - -
+                   |         |    |        |      |
+Key N                            Tret     Tdea   Trem
+Key N+1           Tpub      Trdy Tact
 
                               ---- Time ---->]]>
             </artwork>
