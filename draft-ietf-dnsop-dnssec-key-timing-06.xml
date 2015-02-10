@@ -1485,8 +1485,6 @@ Key N+1           Tpub      Trdy Tact
       <t> The document defines a number of symbols, all of which are listed here. All are of the
         form:</t>
 
-      <t>All symbols used in the text are of the form:</t>
-
       <t>
         <list hangIndent="10" style="empty">
           <t>&lt;TYPE&gt;&lt;id&gt;&lt;ZONE&gt;</t>
@@ -1636,13 +1634,15 @@ Key N+1           Tpub      Trdy Tact
           <vspace/>
           * Added Tim Wicinski to list of people acknowledged.
           <vspace/>
-          * Corrected diagrams 3.3.2 and 3.3.3.  (This addresses an error caught by
-          the Gen-Art reviewer, and one subsequently caught by the authors when
+          * Corrected figures 4 and 5  (This addresses an error caught by
+          the Gen-Art reviewer, and two subsequently caught by the authors when
           discussing that error.)
           <vspace/>
           * Added paragraph concerning exclusion of algorithm rollover in the document
           and why the exclusion does not apply to a change of key size. (Comment by
           Kathleen Moriarty: http://www.ietf.org/mail-archive/web/dnsop/current/msg13200.html.)
+          <vspace/>
+          * Removed repeated sentence at start of appendix A.
           </t>
 
           <t>
