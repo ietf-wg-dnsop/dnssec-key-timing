@@ -1141,110 +1141,141 @@ Key N+1           Tpub      Trdy Tact
             <preamble/>
             <artwork align="center">
               <![CDATA[
-               |1|      |2|     |3|      |4|      |5|
-                |        |       |        |        |
- Key N          |<-Ipub->|<-----Lksk----->|<------>|
-                |        |       |        |        |
- Key N+1        |        |       |<-Ipub->|<------Lksk--- - -
-                |        |       |        |        |
- Key N         Tpub     Tact             Tdea     Trem
- Key N+1                        Tpub     Tact
+              |1|       |2|      |3|      |4|    |5|
+               |         |        |        |      |
+ Key N         |<-----------Lksk---------->|<---->|
+               |         |        |        |      |
+               |         |<------Ipub----->|      |
+               |         |        |        |      |
+               |         |<-Dreg->|<-Iret->|      |
+               |         |        |        |      |
+ Key N+1       |         |        |<----Lksk-------- - -
+               |         |        |        |      |
+ Key N        Tact               Tret     Tdea   Trem
+ Key N+1                Tpub     Tact
 
                   ---- Time ---->]]>
             </artwork>
           </figure>
-          <t>Event 1: The key is added to and used for signing the
-          DNSKEY RRset and is thereby published in the zone. At the
-          same time the corresponding DS record is submitted to the
-          parent zone for publication. This time is the publish time
-          for key N (Tpub) and the key is said to be published.</t>
+          <t>
+          Event 1: The DS and DNSKEY records have appeared in their respective
+          zones and the latter has been used to sign the DNSKEY RRset. The
+          key is published and active: this is key N's activation  time (Tact).
+          </t>
 
-          <t>Event 2: At some later time, the DS record is published
-          in the parent zone and at some time after that, the updated
-          information has reached all caches: any cache
-          that holds a DNSKEY RRset from the child zone will
-          have a copy that includes the new KSK, and any cache that has
-          a copy
-          of the parent DS RRset will have a copy that includes the new DS
-          record.</t>
-
-          <t>The time at which this occurs is called the activation time of
-          key N (Tact), given by:</t>
+          <t>
+          Event 2: As the current key (key N) approaches the end of its
+          actual lifetime (Lksk), the successor key (key N+1) is introduced
+          into the zone and is used to sign the DNSKEY RRset. At the same
+          same time, the successor DS record is submitted to the parent zone.
+          This is the publication time of the successor key (Tpub):
+          </t>
 
           <t>
             <list hangIndent="10" style="empty">
-              <t>Tact(N) = Tpub(N) + Ipub</t>
+              <t>Tpub(N+1) = Tact(N) + Lksk - Ipub</t>
             </list>
           </t>
 
-         <t>... where Ipub is the composite publication interval for
-         the DNSKEY and DS records, given by:</t>
+          <t>... where Ipub is defined below.</t>
+
+          <t>
+          Event 3: After the registration delay (Dreg), the DS record appears
+          in the parent zone. The DNSKEY record is already in the child zone,
+          so with both the new key and its associated data now visible, this is
+          the key's activation time (Tact) and the key is now said to be
+          active.
+          </t>
 
           <t>
             <list hangIndent="10" style="empty">
-              <t>Ipub = max(IpubP, IpubC),</t>
+              <t>Tact(N+1) = Tpub(N+1) + Dreg</t>
             </list>
           </t>
 
+          <t>
+          Event 4: Before key N and its associated data can be withdrawn, all
+          RRsets in the caches of validating resolvers must contain the new DS
+          and/or DNSKEY. The time at which this occurs is the dead time of
+          key N (Tdea), given by:
+          </t>
 
-         <t>IpubP being the publication interval of the DS
-         record in the parent zone and
-         IpubC the publication interval of the DNSKEY in the child zone.
-         The parent zone's publication interval is given by:</t>
           <t>
             <list hangIndent="10" style="empty">
-              <t>IpubP = Dreg + DprpP + TTLds</t>
+              <t>Tdea(N) = Tpub(N+1) + Ipub</t>
             </list>
           </t>
-        <t>where Dreg is the registration delay, the time taken for the DS
-        record to be published in the parent zone. DprpP is the parent zone's
-        propagation delay and TTLds is the TTL of the DS record in that zone.
-        </t>
-        <t>The child zone's publication interval is given by a similar equation:
-        </t>
+
+          <t>
+          Ipub is the time it takes to guarantee that any prior cached
+          information about the DNSKEY and the DS RRsets have expired. For the
+          DNSKEY, this is the publication interval of the child (IpubC). For
+          the DS, the publication interval (IpubP) starts once the record
+          appears in the parent zone, which is Dreg after it has been
+          submitted. Hence:
+          </t>
+
+          <t>
+            <list hangIndent="10" style="empty">
+              <t>Ipub = max(Dreg + IpubP, IpubC)</t>
+            </list>
+          </t>
+
+          <t>
+          The parent zone's publication interval is given by:
+          </t>
+
+          <t>
+            <list hangIndent="10" style="empty">
+              <t>IpubP = DprpP + TTLds</t>
+            </list>
+          </t>
+
+          <t>
+          where DprpP is the parent zone's propagation delay and TTLds is the
+          TTL of the DS record in that zone.
+          </t>
+
+          <t>
+          The child zone's publication interval is given by a similar equation:
+          </t>
+
           <t>
             <list hangIndent="10" style="empty">
               <t>IpubC = DprpC + TTLkey</t>
             </list>
           </t>
-          <t>... where DprpC is the propagation delay in the child zone and
-          TTLkey the TTL of a DNSKEY record.
+
+          <t>
+          where DprpC is the propagation delay in the child zone and TTLkey
+          the TTL of a DNSKEY record.
           </t>
 
-          <t>Event 3: At some point we need to give thought to key
-          replacement. The successor key (key N+1) must be introduced into the
-          zone (and its DS record submitted to the parent) at a time
-          such that it becomes active when the current key has been
-          active for its actual lifetime, Lksk.  This is the
-          publication time (Tpub) of the successor key, and is given by:</t>
+          <t>
+          In analogy with other rollovers, we can also define a retire
+          interval - the interval between a key becoming active and the time
+          at which its predecessor is considered dead.  In this case, Iret is
+          given by:
+          </t>
 
           <t>
             <list hangIndent="10" style="empty">
-              <t>Tpub(N+1) &lt;= Tact(N) + Lksk - Ipub</t>
+              <t>Iret = Ipub - Dreg</t>
             </list>
           </t>
-
-          <t>... where Lksk is the actual lifetime of the KSK and Ipub is
-          as defined above.</t>
-
-          <t> Event 4: Key N+1's DNSKEY and DS records are now in
-          caches that contain the child zone DNSKEY and/or the parent
-          zone DS RR, and so the zone can be
-          validated with the new key.  This is the activation time (Tact) of
-          the successor key N+1 and by analogy with other rollover
-          methods, it is also the dead time of key N:</t>
 
           <t>
-            <list hangIndent="10" style="empty">
-              <t>Tdea(N) = Tact(N) + Lksk</t>
-            </list>
+          In other words, the retire interval of the predecessor key is the
+          greater of the publication interval of the parent, or the publication
+          interval of the child minus the registration delay.
           </t>
 
-          <t>Event 5: At some later time, the key N's DS and DNSKEY
-          records are removed from their respective zones.  In
-          analogy with other rollover methods,
-          this is the removal time (Trem), given
-          by:</t>
+          <t>
+          Event 5: At some later time, the key N's DS and DNSKEY records are
+          removed from their respective zones. In analogy with other rollover
+          methods, this is the removal time (Trem), given by:
+          </t>
+
           <t>
             <list hangIndent="10" style="empty">
               <t>Trem(N) &gt;= Tdea(N)</t>
