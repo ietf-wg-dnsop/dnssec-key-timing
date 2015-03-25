@@ -1674,6 +1674,8 @@ Key N+1           Tpub      Trdy Tact
           Kathleen Moriarty: http://www.ietf.org/mail-archive/web/dnsop/current/msg13200.html.)
           <vspace/>
           * Removed repeated sentence at start of appendix A.
+          <vspace/>
+          * Changed KSK Double-RRset Issue to text as proposed to the DNSOP mailing list.
           </t>
 
           <t>
