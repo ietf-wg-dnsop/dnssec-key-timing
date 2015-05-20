@@ -252,10 +252,6 @@
         not apply where other properties of the key, such as key length,
         are changed during the rollover: the DNSSEC protocol does not impose
         any restrictions in these cases.</t>
-
-        <t>The reader is therefore reminded that DNSSEC is, as of date
-        of publication, in the early stages of deployment, and best practices
-        may further develop over time.</t>
       </section>
 
     </section>
@@ -1173,7 +1169,7 @@ Key N+1           Tpub      Trdy Tact
 
           <t>
             <list hangIndent="10" style="empty">
-              <t>Tpub(N+1) = Tact(N) + Lksk - Ipub</t>
+              <t>Tpub(N+1) &lt;= Tact(N) + Lksk - Ipub</t>
             </list>
           </t>
 
