@@ -242,6 +242,7 @@
           <t>Algorithm rollovers. Only the rolling of keys of the
           same algorithm are described here, not transitions between
           algorithms.</t>
+          <t>Altering TTLs before or during a rollover.</t>
         </list>
         </t>
 
@@ -252,6 +253,13 @@
         not apply where other properties of the key, such as key length,
         are changed during the rollover: the DNSSEC protocol does not impose
         any restrictions in these cases.</t>
+
+        <t>
+        Also excluded from consideration is the effect of changing the TTLs of
+        records in a zone. TTLs can be changed at any time, but doing so before
+        or during a key rollover may have an impact on event timings.
+        In the timelines below, it is assumed that TTLs are constant.
+        </t>
       </section>
 
     </section>
