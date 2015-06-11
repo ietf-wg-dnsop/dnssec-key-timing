@@ -242,7 +242,7 @@
           <t>Algorithm rollovers. Only the rolling of keys of the
           same algorithm are described here, not transitions between
           algorithms.</t>
-          <t>Altering TTLs before or during a rollover.</t>
+          <t>Changing TTLs.</t>
         </list>
         </t>
 
@@ -256,8 +256,8 @@
 
         <t>
         Also excluded from consideration is the effect of changing the TTLs of
-        records in a zone. TTLs can be changed at any time, but doing so before
-        or during a key rollover may have an impact on event timings.
+        records in a zone. TTLs can be changed at any time, but doing so around
+        the time of a key rollover may have an impact on event timings.
         In the timelines below, it is assumed that TTLs are constant.
         </t>
       </section>
