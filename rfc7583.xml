@@ -69,16 +69,16 @@
     </author>
 
     <author fullname="W. (Matthijs) Mekking" initials="W." surname="Mekking">
-      <organization abbrev="NLnet Labs">NLnet Labs</organization>
+      <organization abbrev="Dyn">Dyn, Inc.</organization>
       <address>
         <postal>
-          <street>Science Park 400</street>
-          <city>Amsterdam</city>
-          <code>1098 XH</code>
-          <country>The Netherlands</country>
+          <street>150 Dow St</street>
+          <city>Manchester</city>
+          <code>NH 03101</code>
+          <country>U.S.A.</country>
         </postal>
-        <email>matthijs@nlnetlabs.nl</email>
-        <uri>http://www.nlnetlabs.nl</uri>
+        <email>mmekking@dyn.com</email>
+        <uri>https://www.dyn.com</uri>
       </address>
     </author>
 
@@ -247,8 +247,9 @@
         any restrictions in these cases.</t>
 
         <t>
-        Also excluded from consideration is the effect of changing the TTLs of
-        records in a zone. TTLs can be changed at any time, but doing so around
+        Also excluded from consideration is the effect of changing the Time to
+        Live (TTL) of records in a zone.  TTLs can be changed at any time,
+        but doing so around
         the time of a key rollover may have an impact on event timings.
         In the timelines below, it is assumed that TTLs are constant.
         </t>
@@ -276,8 +277,7 @@
             the old key can be replaced by those created with the new
             key. 
 
-
-During the re-signing
+            During the re-signing
             process (which may or may not be atomic depending on how
             the zone is managed), it doesn't matter with which key an RRSIG
             record retrieved by a resolver was created; cached copies
@@ -328,7 +328,7 @@ During the re-signing
 
         <t>Of the three methods, Double-Signature is conceptually the simplest:
         introduce the new key and new signatures, then approximately one
-        Time to Live (TTL) later remove the old key and old signatures.  It is also the
+        TTL later remove the old key and old signatures.  It is also the
         fastest, but suffers from increasing the size of the zone and
         the size of responses.</t>
 
@@ -352,9 +352,9 @@ During the re-signing
 
       <section title="KSK Rollovers">
 
-        <t>In the KSK case, there should not be a problem that a caching
-        validator does not have access to a particular signature that
-        corresponds to a valid KSK. The KSK is only used for one signature
+        <t>In the KSK case, there should be no problem with a caching
+        validator not having access to a signature created with a valid KSK.
+        The KSK is only used for one signature
         (that over the DNSKEY RRset) and both the key and the signature
         travel together.  Instead, the issue is to ensure that the KSK is
         trusted.</t>
@@ -407,7 +407,7 @@ During the re-signing
             the new DS record is added to the parent zone. After waiting
             a suitable interval for the old DS and DNSKEY RRsets to
             expire from caches, the old DNSKEY and
-            DS record are removed.</t>
+            DS records are removed.</t>
           </list>
         </t>
 
@@ -463,11 +463,11 @@ During the re-signing
 
             <t hangText="Active">The data is starting to be used for
             validation.  In the case of a ZSK, it means that the key is
-            now going to be used to sign RRsets and that both it and
+            now being used to sign RRsets and that both it and
             the created RRSIGs appear in the zone.  In the case of a KSK,
             it means that it is possible to use it to validate a DNSKEY
             RRset as both the DNSKEY and DS records are present in their
-            relevant zones.  Note that when this state is entered, it
+            respective zones.  Note that when this state is entered, it
             may not be possible for validating resolvers to use the data
             for validation in all cases: the zone signing may not have
             finished or the data might not have reached the resolver
@@ -503,7 +503,7 @@ During the re-signing
         </t>
       </section>
 
-      <section title="Zone Signing Key Timelines" anchor="zsk">
+      <section title="ZSK Rollover Timelines" anchor="zsk">
       <t>The following sections describe the rolling of a ZSK.  They show the
       events in the lifetime of a key (referred to as "key N") and cover its
       replacement by its successor (key N+1).
@@ -1372,7 +1372,7 @@ Key N+1           Tpub      Trdy Tact
           be introduced and the zone validly signed before a chain of trust
           to the zone is created.</t>
 
-          <t>N.B.: in the case of a secure parent, it
+          <t>In the case of a secure parent, it
           means ensuring that the DS record is not published in the
           parent zone until there is no possibility that a validating
           resolver can obtain the record yet is not able to obtain the
