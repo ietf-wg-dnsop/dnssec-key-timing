@@ -1527,11 +1527,11 @@ Key N+1           Tpub      Trdy Tact
           <t hangText="TTL">TTL of a record</t>
         </list>
       </t>
+
       <t>I, T, and TTL are self-explanatory. Like I, both D and L are time periods, but whereas I values are
-        intervals between two events (even if the events are defined in terms of the interval, e.g.,
-        the dead time occurs "retire interval" after the retire time), D and L are fixed intervals.
-        A "D" interval (delay) is a feature of the process, probably outside control of the zone manager,
-        whereas an "L" interval (lifetime) is chosen by the zone manager and is a feature of policy. </t>
+        intervals between two events, A "D" interval (delay) is a feature of the process, probably outside
+        control of the zone manager, and an "L" interval (lifetime) is chosen by the zone manager and is a
+        feature of policy. </t>
 
       <t>&lt;id&gt; is lowercase and defines what object or event the variable is related
         to, e.g.,</t>
