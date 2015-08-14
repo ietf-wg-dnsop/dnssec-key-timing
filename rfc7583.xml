@@ -447,9 +447,10 @@ During the re-signing
             immediately prior to first use, some implementations may find
             it convenient to create a pool of keys in one operation and
             draw from it as required.  (Note: such a pre-generated pool
-            must be secured against surreptitious use.) Keys that have
-            been created but not yet used are said to be in the "Generated"
-            state.</t>
+            must be secured against surreptitious use.) In the timelines
+            below, before the first event, the keys are considered to be
+            be created but not yet used: they are said to be in the
+            "Generated" state.</t>
 
             <t hangText="Published">A key enters the published state when
             either it or its associated data first appears in the
