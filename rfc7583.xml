@@ -1353,17 +1353,27 @@ Key N+1           Tpub      Trdy Tact
             the key reaches its dead time, instead of being declared
             "dead", it is revoked; the "revoke" bit is set in the published
             DNSKEY RR, and the DNSKEY RRset re-signed with the current
-            and revoked keys. The key is maintained in this state for the
-            revoke interval, Irev, given by:</t>
+            and revoked keys.  The key is maintained in this state for the
+            revoke interval, Irev, given by:
+            </t>
 
             <t>
               <list hangIndent="10" style="empty">
-                <t>Irev &gt;= 30 days</t>
+                <t>Irev &gt; DprpC + modifiedQueryInterval
               </list>
             </t>
 
-            <t>... 30 days being the remove hold-down time of <xref target="RFC5011"/>. After this time, the key is dead and can
-            be removed from the zone.</t>
+            <t>As before, DprpC is the time taken for the revoked DNSKEY
+            to propagate to all slave zones and modifiedQueryInterval is
+            the time after which it can be guaranteed that all validating
+            resolvers that adhere to RFC 5011 have retrieved a copy of the
+            DNSKEY RRset containing the revoked key.
+            </t>
+
+            <t>After this time, the key is dead and can be removed from the
+            zone.
+            </t>
+
           </section>
         </section>
         <section title="Introduction of First Keys" anchor="first_key">
