@@ -1299,8 +1299,8 @@ Key N+1           Tpub      Trdy Tact
 
           <section title="Addition of KSK">
             <t>When the new key is introduced, the expression for the
-            publication interval of the DNSKEY(IpubC) in the Double-KSK and
-            Double-RRset methods is modified to:</t>
+            publication interval of the DNSKEY(IpubC) in the Double-KSK
+            and Double-RRset methods is modified to:</t>
 
             <t>
               <list hangIndent="10" style="empty">
@@ -1311,28 +1311,54 @@ Key N+1           Tpub      Trdy Tact
             <t>... where the right-hand side of the expression now
             includes the "trust point" interval.  This
             term is the interval required to guarantee that
-            a resolver configured for the automatic update of keys from
-            a particular trust point will see at least two validated
-            DNSKEY RRsets containing the new key
-            (a requirement from <xref target="RFC5011"/>, Section 2.4.1).
-            It is defined by the expression:
+            a resolver configured for the automatic update of keys
+            according to <xref target="RFC5011"/> will accept the
+            new key as a new trust point.
+            That interval is given by:
             </t>
+
             <t>
               <list hangIndent="10" style="empty">
-                <t>Itrp &gt;= (2 * queryInterval) + (n * retryTime)</t>
+                <t>Itrp &gt; queryInterval + AddHoldDownTime + queryInterval
               </list>
             </t>
 
-            <t>... where queryInterval and retryTime are as defined in
-            Section 2.3 of <xref target="RFC5011"/>.  "n" is the total
-            number of retries needed by the resolver during the two
-            attempts to get the DNSKEY RRset.</t>
+            <t>... where queryInterval is as defined in Section 2.3 of
+            <xref target="RFC5011"/> and AddHoldDownTime is the Add Hold-Down
+            Time defined in section 2.4.1 of the same document.</t>
 
-            <t>The first term of the expression (2 * queryInterval)
-            represents the time to obtain two validated DNSKEY RRsets.
-            The second term (n * retryTime) is a safety margin, with
-            the value of "n" reflecting the degree of confidence in the communication
-            between a resolver and the trust point.</t>
+            <t>The first term of the expression (queryInterval) represents
+            the time after which all validating resolvers can be guaranteed
+            to have obtained a copy of the DNSKEY RRset containing the new key.
+            Once retrieved, a validating resolver needs to wait for
+            AddHoldDownTime. Providing it does not see a validly signed DNSKEY
+            RRset without the new key in that period, it will treat it as a trust
+            anchor the next time it retrieves the RRset, a process that can take
+            up to another queryInterval (the third term).</t>
+
+            <t>However, the expression for queryInterval given in
+            <xref target="RFC5011"/> contains the DNSKEY's RRSIG
+            expiration interval, a parameter that only the validating resolver
+            can really calculate.  In practice, a modified
+            query interval that depends only on TTLkey can be used:</t>
+
+            <t>
+              <list hangIndent="10" style="empty">
+                <t>modifiedQueryInterval = MAX(1hr, MIN(15 days, TTLkey / 2))</t>
+              </list>
+            </t>
+
+            <t>(This is obtained by taking the expression for queryInterval
+            in <xref target="RFC5011"/> and setting the RRsigExpirationInterval
+            to a very high value. It is greater than or equal to queryInterval
+            for all values of the expiration time.)  The expression above then
+            becomes (after collecting terms):
+
+            <t>
+              <list hangIndent="10" style="empty">
+                  <t>Itrp &gt; AddHoldDownTime + 2 * modifiedQueryInterval</t>
+              </list>
+            </t>
 
             <t>In the Double-DS method, instead of swapping the KSK RRs
                in a single step, there must now be a period of overlap.
