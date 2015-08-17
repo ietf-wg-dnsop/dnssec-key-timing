@@ -1319,7 +1319,7 @@ Key N+1           Tpub      Trdy Tact
 
             <t>
               <list hangIndent="10" style="empty">
-                <t>Itrp &gt; queryInterval + AddHoldDownTime + queryInterval
+                <t>Itrp &gt; queryInterval + AddHoldDownTime + queryInterval</t>
               </list>
             </t>
 
@@ -1352,7 +1352,7 @@ Key N+1           Tpub      Trdy Tact
             in <xref target="RFC5011"/> and setting the RRsigExpirationInterval
             to a very high value. It is greater than or equal to queryInterval
             for all values of the expiration time.)  The expression above then
-            becomes (after collecting terms):
+            becomes (after collecting terms):</t>
 
             <t>
               <list hangIndent="10" style="empty">
@@ -1385,7 +1385,7 @@ Key N+1           Tpub      Trdy Tact
 
             <t>
               <list hangIndent="10" style="empty">
-                <t>Irev &gt; DprpC + modifiedQueryInterval
+                <t>Irev &gt; DprpC + modifiedQueryInterval</t>
               </list>
             </t>
 
@@ -1682,7 +1682,7 @@ Key N+1           Tpub      Trdy Tact
       </t>
     </section>
 
-    <section title="Acknowledgements" numbered="no">
+    <section title="Acknowledgements">
       <t>The authors gratefully acknowledge help and contributions
       from Roy Arends, Tim Wicinski, and Wouter Wijngaards.
       </t>
