@@ -1504,9 +1504,9 @@ Key N+1           Tpub      Trdy Tact
       DNSKEY RRsets propagate in parallel. The time taken to roll KSKs
       may depend on factors related to the parent zone if the parent
       is signed. For zones that intend to comply with the
-      recommendations of <xref target="RFC5011"/>, in virtually all
-      cases, the rollover time will be determined by the  "add
-      hold-down" and "remove hold-down" times defined by RFC 5011. It should be emphasized
+      recommendations of <xref target="RFC5011"/>, in many
+      cases, the rollover time will be determined by the
+      times defined by RFC 5011. It should be emphasized
       that this delay is a policy choice and not a function of timing
       values and that it also requires changes to the rollover process
       due to the need to manage revocation of trust anchors.</t>
