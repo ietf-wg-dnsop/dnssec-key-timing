@@ -1299,7 +1299,7 @@ Key N+1           Tpub      Trdy Tact
 
           <section title="Addition of KSK">
             <t>When the new key is introduced, the expression for the
-            publication interval of the DNSKEY(IpubC) in the Double-KSK
+            publication interval of the DNSKEY (IpubC) in the Double-KSK
             and Double-RRset methods is modified to:</t>
 
             <t>
@@ -1349,8 +1349,8 @@ Key N+1           Tpub      Trdy Tact
             </t>
 
             <t>(This is obtained by taking the expression for queryInterval
-            in <xref target="RFC5011"/> and setting the RRsigExpirationInterval
-            to a very high value. It is greater than or equal to queryInterval
+            in <xref target="RFC5011"/> and assuming a worst case for
+            RRsigExpirationInterval. It is greater than or equal to queryInterval
             for all values of the expiration time.)  The expression above then
             becomes (after collecting terms):</t>
 
