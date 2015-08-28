@@ -69,16 +69,16 @@
     </author>
 
     <author fullname="W. (Matthijs) Mekking" initials="W." surname="Mekking">
-      <organization abbrev="NLnet Labs">NLnet Labs</organization>
+      <organization abbrev="Dyn">Dyn, Inc.</organization>
       <address>
         <postal>
-          <street>Science Park 400</street>
-          <city>Amsterdam</city>
-          <code>1098 XH</code>
-          <country>The Netherlands</country>
+          <street>150 Dow St</street>
+          <city>Manchester</city>
+          <code>NH 03101</code>
+          <country>U.S.A.</country>
         </postal>
-        <email>matthijs@nlnetlabs.nl</email>
-        <uri>http://www.nlnetlabs.nl</uri>
+        <email>mmekking@dyn.com</email>
+        <uri>https://www.dyn.com</uri>
       </address>
     </author>
 
@@ -247,8 +247,9 @@
         any restrictions in these cases.</t>
 
         <t>
-        Also excluded from consideration is the effect of changing the TTLs of
-        records in a zone. TTLs can be changed at any time, but doing so around
+        Also excluded from consideration is the effect of changing the Time to
+        Live (TTL) of records in a zone.  TTLs can be changed at any time,
+        but doing so around
         the time of a key rollover may have an impact on event timings.
         In the timelines below, it is assumed that TTLs are constant.
         </t>
@@ -276,8 +277,7 @@
             the old key can be replaced by those created with the new
             key. 
 
-
-During the re-signing
+            During the re-signing
             process (which may or may not be atomic depending on how
             the zone is managed), it doesn't matter with which key an RRSIG
             record retrieved by a resolver was created; cached copies
@@ -328,7 +328,7 @@ During the re-signing
 
         <t>Of the three methods, Double-Signature is conceptually the simplest:
         introduce the new key and new signatures, then approximately one
-        Time to Live (TTL) later remove the old key and old signatures.  It is also the
+        TTL later remove the old key and old signatures.  It is also the
         fastest, but suffers from increasing the size of the zone and
         the size of responses.</t>
 
@@ -352,9 +352,9 @@ During the re-signing
 
       <section title="KSK Rollovers">
 
-        <t>In the KSK case, there should not be a problem that a caching
-        validator does not have access to a particular signature that
-        corresponds to a valid KSK. The KSK is only used for one signature
+        <t>In the KSK case, there should be no problem with a caching
+        validator not having access to a signature created with a valid KSK.
+        The KSK is only used for one signature
         (that over the DNSKEY RRset) and both the key and the signature
         travel together.  Instead, the issue is to ensure that the KSK is
         trusted.</t>
@@ -407,7 +407,7 @@ During the re-signing
             the new DS record is added to the parent zone. After waiting
             a suitable interval for the old DS and DNSKEY RRsets to
             expire from caches, the old DNSKEY and
-            DS record are removed.</t>
+            DS records are removed.</t>
           </list>
         </t>
 
@@ -447,9 +447,10 @@ During the re-signing
             immediately prior to first use, some implementations may find
             it convenient to create a pool of keys in one operation and
             draw from it as required.  (Note: such a pre-generated pool
-            must be secured against surreptitious use.) Keys that have
-            been created but not yet used are said to be in the "Generated"
-            state.</t>
+            must be secured against surreptitious use.) In the timelines
+            below, before the first event, the keys are considered to be
+            be created but not yet used: they are said to be in the
+            "Generated" state.</t>
 
             <t hangText="Published">A key enters the published state when
             either it or its associated data first appears in the
@@ -462,11 +463,11 @@ During the re-signing
 
             <t hangText="Active">The data is starting to be used for
             validation.  In the case of a ZSK, it means that the key is
-            now going to be used to sign RRsets and that both it and
+            now being used to sign RRsets and that both it and
             the created RRSIGs appear in the zone.  In the case of a KSK,
             it means that it is possible to use it to validate a DNSKEY
             RRset as both the DNSKEY and DS records are present in their
-            relevant zones.  Note that when this state is entered, it
+            respective zones.  Note that when this state is entered, it
             may not be possible for validating resolvers to use the data
             for validation in all cases: the zone signing may not have
             finished or the data might not have reached the resolver
@@ -502,7 +503,7 @@ During the re-signing
         </t>
       </section>
 
-      <section title="Zone Signing Key Timelines" anchor="zsk">
+      <section title="ZSK Rollover Timelines" anchor="zsk">
       <t>The following sections describe the rolling of a ZSK.  They show the
       events in the lifetime of a key (referred to as "key N") and cover its
       replacement by its successor (key N+1).
@@ -1298,8 +1299,8 @@ Key N+1           Tpub      Trdy Tact
 
           <section title="Addition of KSK">
             <t>When the new key is introduced, the expression for the
-            publication interval of the DNSKEY(IpubC) in the Double-KSK and
-            Double-RRset methods is modified to:</t>
+            publication interval of the DNSKEY (IpubC) in the Double-KSK
+            and Double-RRset methods is modified to:</t>
 
             <t>
               <list hangIndent="10" style="empty">
@@ -1310,28 +1311,54 @@ Key N+1           Tpub      Trdy Tact
             <t>... where the right-hand side of the expression now
             includes the "trust point" interval.  This
             term is the interval required to guarantee that
-            a resolver configured for the automatic update of keys from
-            a particular trust point will see at least two validated
-            DNSKEY RRsets containing the new key
-            (a requirement from <xref target="RFC5011"/>, Section 2.4.1).
-            It is defined by the expression:
+            a resolver configured for the automatic update of keys
+            according to <xref target="RFC5011"/> will accept the
+            new key as a new trust point.
+            That interval is given by:
             </t>
+
             <t>
               <list hangIndent="10" style="empty">
-                <t>Itrp &gt;= (2 * queryInterval) + (n * retryTime)</t>
+                <t>Itrp &gt;= queryInterval + AddHoldDownTime + queryInterval</t>
               </list>
             </t>
 
-            <t>... where queryInterval and retryTime are as defined in
-            Section 2.3 of <xref target="RFC5011"/>.  "n" is the total
-            number of retries needed by the resolver during the two
-            attempts to get the DNSKEY RRset.</t>
+            <t>... where queryInterval is as defined in Section 2.3 of
+            <xref target="RFC5011"/> and AddHoldDownTime is the Add Hold-Down
+            Time defined in section 2.4.1 of the same document.</t>
 
-            <t>The first term of the expression (2 * queryInterval)
-            represents the time to obtain two validated DNSKEY RRsets.
-            The second term (n * retryTime) is a safety margin, with
-            the value of "n" reflecting the degree of confidence in the communication
-            between a resolver and the trust point.</t>
+            <t>The first term of the expression (queryInterval) represents
+            the time after which all validating resolvers can be guaranteed
+            to have obtained a copy of the DNSKEY RRset containing the new key.
+            Once retrieved, a validating resolver needs to wait for
+            AddHoldDownTime. Providing it does not see a validly signed DNSKEY
+            RRset without the new key in that period, it will treat it as a trust
+            anchor the next time it retrieves the RRset, a process that can take
+            up to another queryInterval (the third term).</t>
+
+            <t>However, the expression for queryInterval given in
+            <xref target="RFC5011"/> contains the DNSKEY's RRSIG
+            expiration interval, a parameter that only the validating resolver
+            can really calculate.  In practice, a modified
+            query interval that depends only on TTLkey can be used:</t>
+
+            <t>
+              <list hangIndent="10" style="empty">
+                <t>modifiedQueryInterval = MAX(1hr, MIN(15 days, TTLkey / 2))</t>
+              </list>
+            </t>
+
+            <t>(This is obtained by taking the expression for queryInterval
+            in <xref target="RFC5011"/> and assuming a worst case for
+            RRsigExpirationInterval. It is greater than or equal to queryInterval
+            for all values of the expiration time.)  The expression above then
+            becomes (after collecting terms):</t>
+
+            <t>
+              <list hangIndent="10" style="empty">
+                  <t>Itrp &gt;= AddHoldDownTime + 2 * modifiedQueryInterval</t>
+              </list>
+            </t>
 
             <t>In the Double-DS method, instead of swapping the KSK RRs
                in a single step, there must now be a period of overlap.
@@ -1352,17 +1379,27 @@ Key N+1           Tpub      Trdy Tact
             the key reaches its dead time, instead of being declared
             "dead", it is revoked; the "revoke" bit is set in the published
             DNSKEY RR, and the DNSKEY RRset re-signed with the current
-            and revoked keys. The key is maintained in this state for the
-            revoke interval, Irev, given by:</t>
+            and revoked keys.  The key is maintained in this state for the
+            revoke interval, Irev, given by:
+            </t>
 
             <t>
               <list hangIndent="10" style="empty">
-                <t>Irev &gt;= 30 days</t>
+                <t>Irev &gt;= DprpC + modifiedQueryInterval</t>
               </list>
             </t>
 
-            <t>... 30 days being the remove hold-down time of <xref target="RFC5011"/>. After this time, the key is dead and can
-            be removed from the zone.</t>
+            <t>As before, DprpC is the time taken for the revoked DNSKEY
+            to propagate to all slave zones and modifiedQueryInterval is
+            the time after which it can be guaranteed that all validating
+            resolvers that adhere to RFC 5011 have retrieved a copy of the
+            DNSKEY RRset containing the revoked key.
+            </t>
+
+            <t>After this time, the key is dead and can be removed from the
+            zone.
+            </t>
+
           </section>
         </section>
         <section title="Introduction of First Keys" anchor="first_key">
@@ -1371,7 +1408,7 @@ Key N+1           Tpub      Trdy Tact
           be introduced and the zone validly signed before a chain of trust
           to the zone is created.</t>
 
-          <t>N.B.: in the case of a secure parent, it
+          <t>In the case of a secure parent, it
           means ensuring that the DS record is not published in the
           parent zone until there is no possibility that a validating
           resolver can obtain the record yet is not able to obtain the
@@ -1467,9 +1504,9 @@ Key N+1           Tpub      Trdy Tact
       DNSKEY RRsets propagate in parallel. The time taken to roll KSKs
       may depend on factors related to the parent zone if the parent
       is signed. For zones that intend to comply with the
-      recommendations of <xref target="RFC5011"/>, in virtually all
-      cases, the rollover time will be determined by the  "add
-      hold-down" and "remove hold-down" times defined by RFC 5011. It should be emphasized
+      recommendations of <xref target="RFC5011"/>, in many
+      cases, the rollover time will be determined by the
+      times defined by RFC 5011. It should be emphasized
       that this delay is a policy choice and not a function of timing
       values and that it also requires changes to the rollover process
       due to the need to manage revocation of trust anchors.</t>
@@ -1526,11 +1563,11 @@ Key N+1           Tpub      Trdy Tact
           <t hangText="TTL">TTL of a record</t>
         </list>
       </t>
+
       <t>I, T, and TTL are self-explanatory. Like I, both D and L are time periods, but whereas I values are
-        intervals between two events (even if the events are defined in terms of the interval, e.g.,
-        the dead time occurs "retire interval" after the retire time), D and L are fixed intervals.
-        A "D" interval (delay) is a feature of the process, probably outside control of the zone manager,
-        whereas an "L" interval (lifetime) is chosen by the zone manager and is a feature of policy. </t>
+        intervals between two events, A "D" interval (delay) is a feature of the process, probably outside
+        control of the zone manager, and an "L" interval (lifetime) is chosen by the zone manager and is a
+        feature of policy. </t>
 
       <t>&lt;id&gt; is lowercase and defines what object or event the variable is related
         to, e.g.,</t>
@@ -1645,7 +1682,7 @@ Key N+1           Tpub      Trdy Tact
       </t>
     </section>
 
-    <section title="Acknowledgements" numbered="no">
+    <section title="Acknowledgements">
       <t>The authors gratefully acknowledge help and contributions
       from Roy Arends, Tim Wicinski, and Wouter Wijngaards.
       </t>
